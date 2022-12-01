@@ -5,4 +5,7 @@ urlpatterns = [
     path("",adminpage),
     path("addinstitute/",addinstitute),
     path("doaddinstitute/",doaddinstitute),
+    path("editinstitute/",editinstitute),
+    path("doeditinstitute/",doeditinstitute),
+    path("findinstitute/",findinstitute),
 ]

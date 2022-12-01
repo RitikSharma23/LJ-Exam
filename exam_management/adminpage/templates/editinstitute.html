@@ -22,37 +22,37 @@
             
         <div class="form-group form-row">
           <label for="institute_code">Institute Code</label>
-          <input type="number" class="form-control" name="institute_code" id="institute_code" placeholder="e.g. 004" required>
+          <input type="number" class="form-control" name="institute_code" id="institute_code" placeholder="e.g. 004" required value="{{institute_code}}" >
         </div><br><br>
         
         <div class="form-group">
           <label for="institute_name">Institute Name</label>
-          <input type="text" class="form-control" name="institute_name" id="institute_name" placeholder="e.g. LJ Institute of Computer Applications " required>
+          <input type="text" class="form-control" name="institute_name" id="institute_name" placeholder="e.g. LJ Institute of Computer Applications " required value="{{institute_name}}" >
         </div><br><br>
 
         <div class="form-group">
             <label for="program_code">Program Code</label>
-            <input type="number" class="form-control" name="program_code" id="program_code" placeholder="e.g. 704" required>
+            <input type="number" class="form-control" name="program_code" id="program_code" placeholder="e.g. 704" required value="{{program_code}}" >
         </div><br><br>
 
         <div class="form-group">
             <label for="degree_name">Degree Name</label>
-            <input type="text" class="form-control" name="degree_name" id="degree_name" placeholder="e.g. LJ Institute of Computer Applications " required>
+            <input type="text" class="form-control" name="degree_name" id="degree_name" placeholder="e.g. LJ Institute of Computer Applications " required value="{{degree_name}}" >
           </div><br><br>
 
         <div class="form-group">
             <label for="program type">Program Type</label>
-            <input type="number" class="form-control" name="program_type" id="program_type" placeholder="e.g. 5" required>
+            <input type="number" class="form-control" name="program_type" id="program_type" placeholder="e.g. 5" required value="{{program_type}}" >
         </div><br><br>
 
         <div class="form-group">
             <label for="program_category">Program Category</label>
-            <input type="text" class="form-control" name="program_category" id="program_category" placeholder="e.g. 5-Integrated Degree Programme " required>
+            <input type="text" class="form-control" name="program_category" id="program_category" placeholder="e.g. 5-Integrated Degree Programme " required value="{{program_category}}" >
           </div><br><br>
 
           <div class="form-group">
             <label for="branch_name">Branch Name  ( Optional )</label>
-            <input type="text" class="form-control" name="branch_name" id="branch_name" placeholder="e.g. Information Technology">
+            <input type="text" class="form-control" name="branch_name" id="branch_name" placeholder="e.g. Information Technology" value="{{branch_name}}" >
           </div><br><br>
 
           <div class="form-group">
@@ -75,6 +75,7 @@
 form=document.querySelector("form")
 form.addEventListener("submit",async(e)=>{
   e.preventDefault()
+uid="{{id}}"
 institute_code=document.getElementById("institute_code").value
 institute_name=document.getElementById("institute_name").value
 program_code=document.getElementById("program_code").value
@@ -85,6 +86,7 @@ branch_name=document.getElementById("branch_name").value
 csrf=document.getElementsByName("csrfmiddlewaretoken")[0].value
 console.log(csrf)
 newform=new FormData();
+newform.append("uid",uid)
 newform.append("institute_code",institute_code)
 newform.append("institute_name",institute_name)
 newform.append("program_code",program_code)
@@ -94,12 +96,12 @@ newform.append("program_category",program_category)
 newform.append("branch_name",branch_name)
 newform.append("csrfmiddlewaretoken",csrf)
 try{
-  let d=await fetch("{{ current_path }}/adminpage/doaddinstitute/",{
+  let d=await fetch("{{ current_path }}/adminpage/doeditinstitute/",{
   method:"POST",
   body:newform,    
 })
 x=await d.json()
-if(x.status=="success"){alert("Institute Added Successfully");location.reload()}else{alert("Something went wrong \n record not added")}
+if(x.status=="success"){alert("Institute Added Successfully");history.back()}else{alert("Something went wrong \n record not added")}
 }catch{
   alert("Something went wrong \n record not added")
 }

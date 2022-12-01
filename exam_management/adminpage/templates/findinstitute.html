@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="Description" content="Enter your description here"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<title>Edit Institute</title>
+</head>
+<body>
+
+    
+    <div class="container" style="width: 50%;margin-top:30px">
+        <form action="{{ current_path }}/adminpage/editinstitute/" method="post">
+            {% csrf_token %}
+            {{ form }}
+            
+        <div class="form-group form-row">
+          <label for="institute_code">Institute Code</label>
+          <input type="number" class="form-control" name="institute_code" id="institute_code" placeholder="e.g. 004" required>
+        </div><br><br>
+        
+
+        <div class="form-group">
+            <label for="program_code">Program Code</label>
+            <input type="number" class="form-control" name="program_code" id="program_code" placeholder="e.g. 704" required>
+        </div><br><br>
+
+          <div class="form-group">
+            <input type="submit" class="form-control" value="submit" >
+          </div>
+
+        </form>
+    </div>
+
+
+</body>
+</html>
