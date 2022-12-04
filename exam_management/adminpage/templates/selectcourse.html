@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="Description" content="Enter your description here"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.1.0/sandstone/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<title>SELECT COURSE</title>
+</head>
+<body>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"> 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+{% if ins %}
+<div class="container">
+    <div class="col-6" style="margin: auto;margin-top: 10%;">
+        <div class="row">
+    <form method="POST" action="{{ current_path }}/adminpage/addcourse/" >
+        {% csrf_token %} 
+        <div class="form-group row">
+          <label for="institute_code" class="col-4 col-form-label">Select Institute Code</label> 
+          <div class="col-8">
+            <select id="institute_code" name="institute_code" aria-describedby="institute_codeHelpBlock" required="required" class="custom-select">
+              {% for i in institute %}
+              <option value="{{i.0}}">{{i.0}}</option>
+              {%endfor%}
+            </select> 
+            <span id="institute_codeHelpBlock" class="form-text text-muted">Select Institute Code</span>
+          </div>
+        </div> 
+        <div class="form-group row">
+          <div class="offset-4 col-8">
+            <button  type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+      </form>
+      </div>
+    </div>
+</div>
+
+
+
+<script>
+
+form=document.querySelector("form")
+form.addEventListener("submit",async(e)=>{
+  e.preventDefault()
+newform=new FormData();
+newform.append("institute_code",document.getElementById("institute_code").value)
+newform.append("csrfmiddlewaretoken",document.getElementsByName("csrfmiddlewaretoken")[0].value)
+try{
+  let d=await fetch("{{ current_path }}/adminpage/addcourse/",{
+  method:"POST",
+  body:newform,    
+})
+}catch{
+  alert("Something went wrong \n record not added")
+}
+location.reload()
+})
+</script>
+
+
+{%endif%}
+
+
+{% if pro %}
+<div class="container">
+    <div class="col-6" style="margin: auto;margin-top: 10%;">
+        <div class="row">
+    <form method="POST" action="{{ current_path }}/adminpage/addcourse/" >
+        {% csrf_token %} 
+        <div class="form-group row">
+            <label for="institute_code" class="col-4 col-form-label">Select Institute Code</label> 
+            <div class="col-8">
+              <select id="institute_code" name="institute_code" aria-describedby="institute_codeHelpBlock" required="required" class="custom-select">
+                <option value="{{institute}}">{{institute}}</option>
+              </select> 
+              <span id="institute_codeHelpBlock" class="form-text text-muted">Select Institute Code</span>
+            </div>
+          </div> 
+        <div class="form-group row">
+          <label for="program_code" class="col-4 col-form-label">Select program Code</label> 
+          <div class="col-8">
+            <select id="program_code" name="program_code" aria-describedby="program_codeHelpBlock" required="required" class="custom-select">
+              {% for i in institut %}
+              <option value="{{i.0}}">{{i.0}}</option>
+              {%endfor%}
+            </select> 
+            <span id="program_codeHelpBlock" class="form-text text-muted">Select program Code</span>
+          </div>
+        </div> 
+        <div class="form-group row">
+          <div class="offset-4 col-8">
+            <button name="submit" type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+      </form>
+      </div>
+    </div>
+</div>
+
+
+
+<script>
+    form=document.querySelector("form")
+form.addEventListener("submit",async(e)=>{
+  e.preventDefault()
+newform=new FormData();
+newform.append("institute_code",document.getElementById("institute_code").value)
+newform.append("program_code",document.getElementById("program_code").value)
+newform.append("csrfmiddlewaretoken",document.getElementsByName("csrfmiddlewaretoken")[0].value)
+try{
+  let d=await fetch("{{ current_path }}/adminpage/addcourse/",{
+  method:"POST",
+  body:newform,    
+})
+}catch{
+  alert("Something went wrong \n record not added")
+}
+location.reload()
+})
+</script>
+
+
+{%endif%}
+
+</body>
+</html>
