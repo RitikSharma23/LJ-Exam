@@ -1,8 +1,12 @@
-from django.shortcuts import render,HttpResponse,HttpResponseRedirect
+from django.shortcuts import render,HttpResponse,HttpResponseRedirect,HttpResponsePermanentRedirect
 from adminpage.models import *
 from django.contrib import messages
+from openpyxl import Workbook
 import mysql.connector
+import os
+from django.http import FileResponse
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 institute=""
 program=""
@@ -93,6 +97,7 @@ def editinstitute(request):
     else:
         return HttpResponse("NO Data Found")
 
+# ================  STUDENT PROFILE ==========================
 
 def doeditinstitute(request):
     data=request.POST
@@ -128,7 +133,32 @@ def doaddstudent(request):
     else: return HttpResponse('{"status":"fail"}')
 
 
+#================== EXCEL =========================================
 
 
+def selectexcel(request):
+    data={}
+    return selectcourse(request,"excelupload.html",data)
 
+def generateexcel(request):
+    data=request.POST
+    print(data)
+    
+    wb = Workbook()
+    # dest_filename = 'adminpage/templates/addstudent.xlsx'
+    dest_filename = os.path.join(BASE_DIR,'addstudent.xlsx')
+    ws1 = wb.active
+    ws1.title = "range names"
+    ws1['A1'] = "ritik"
+
+    wb.save(filename = dest_filename) 
+
+    # print(open((dest_filename), 'rb'))
+    
+    # with open((dest_filename), 'rb') as f:
+    #     data = f.read()     
+    # response = HttpResponse(data, content_type='application/vnd.mp4')
+    # response['Content-Disposition'] = 'attachment; filename="video.mp4"'
+    # return response
+    return HttpResponse("ihhii")
     

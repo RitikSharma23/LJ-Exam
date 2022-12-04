@@ -14,4 +14,6 @@ urlpatterns = [
     path("addstudent/",addstudent),
     path("addcourse/",addcourse),
     path("clear/",clear),
+    path("selectexcel/",selectexcel),
+    path("generateexcel/",generateexcel),
 ]
