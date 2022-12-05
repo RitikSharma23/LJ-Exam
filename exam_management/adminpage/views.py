@@ -2,8 +2,8 @@ from django.shortcuts import render,HttpResponse,HttpResponseRedirect,HttpRespon
 from adminpage.models import *
 from django.urls import reverse
 from django.contrib import messages
+from openpyxl import Workbook
 import openpyxl
-from openpyxl import *
 import mysql.connector
 import os
 from django.http import FileResponse
@@ -157,9 +157,24 @@ def selectexcel(request):
     data={}
     return selectcourse(request,"excelupload.html",data)
 
+def downloadexcel(request):
+    file_location = 'addstudent.xlsx'
+
+    try:    
+        with open(file_location, 'rb') as f:
+           file_data = f.read() 
+        response = HttpResponse(file_data, content_type='application/vnd.ms-excel')
+        response['Content-Disposition'] = 'attachment; filename="addstudent.xlsx"'
+
+    except IOError:
+        response = HttpResponse('<h1>File not exist</h1>')
+
+    return response
+
+
 def generateexcel(request):
+
     data=request.POST
-    
     wb = Workbook()
     dest_filename = 'addstudent.xlsx'
     ws1 = wb.active
@@ -172,16 +187,12 @@ def generateexcel(request):
     for i in range(0,len(x)-1):
         ws1.cell(1,i+1).value=x[i]
     wb.save(filename = dest_filename) 
+    wb.close()
     return HttpResponse("success")
     
    
 
-def downloadexcel(request):
-    with open(('addstudent.xlsx'), 'rb') as f:
-        data = f.read()     
-    response = HttpResponse(data, content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = 'attachment; filename="addstudent.xlsx"'
-    return response
+
 
 def uploadexcel(request):
     global fields
