@@ -82,6 +82,11 @@
         <label for="gender_2" class="custom-control-label">Other</label>
       </div>
     </div>
+  </div>  <div class="form-group row">
+    <label for="dob" class="col-4 col-form-label">Date Of Birth</label> 
+    <div class="col-8">
+      <input id="dob" name="dob" placeholder="Date Of Birth" type="date" class="form-control" required>
+    </div>
   </div><br>
   <hr>
 
@@ -99,12 +104,7 @@
       <input id="oldenrollment" name="oldenrollment" placeholder="Old Enrollment" type="text" class="form-control">
     </div>
   </div>
-  <div class="form-group row">
-    <label for="dob" class="col-4 col-form-label">Date Of Birth</label> 
-    <div class="col-8">
-      <input id="dob" name="dob" placeholder="Date Of Birth" type="date" class="form-control">
-    </div>
-  </div>
+
   <div class="form-group row">
     <label for="email" class="col-4 col-form-label">Email</label> 
     <div class="col-8">
@@ -173,19 +173,19 @@
   <div class="form-group row">
     <label for="total_credits" class="col-4 col-form-label">Total Credit</label> 
     <div class="col-8">
-      <input id="total_credits" name="total_credits" placeholder="Total Credit" type="text" class="form-control">
+      <input id="total_credits" name="total_credits" placeholder="Total Credit" type="number" value="0" class="form-control">
     </div>
   </div>
   <div class="form-group row">
     <label for="total_grade_points" class="col-4 col-form-label">Total Grade Points</label> 
     <div class="col-8">
-      <input id="total_grade_points" name="total_grade_points" placeholder="Total Grade Points" type="text" class="form-control">
+      <input id="total_grade_points" name="total_grade_points" placeholder="Total Grade Points" type="number" value="0" class="form-control">
     </div>
   </div>
   <div class="form-group row">
     <label for="total_backlog" class="col-4 col-form-label">Total Backlog</label> 
     <div class="col-8">
-      <input id="total_backlog" name="total_backlog" placeholder="Total Backlog" type="text" class="form-control">
+      <input id="total_backlog" name="total_backlog" placeholder="Total Backlog" type="number" value="0" class="form-control">
     </div>
   </div>
   <div class="form-group row">
@@ -268,7 +268,7 @@ total_backlog=document.getElementById("total_backlog").value;
   newform.append("caste",caste);
   newform.append("subcast",subcast);
   newform.append("category",category);
-  newform.append("password",password);
+  newform.append("password",phone);
   newform.append("photo",photo);
   newform.append("institute_code",institute_code);
   newform.append("program_code",program_code);

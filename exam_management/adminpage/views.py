@@ -1,7 +1,9 @@
 from django.shortcuts import render,HttpResponse,HttpResponseRedirect,HttpResponsePermanentRedirect
 from adminpage.models import *
+from django.urls import reverse
 from django.contrib import messages
-from openpyxl import Workbook
+import openpyxl
+from openpyxl import *
 import mysql.connector
 import os
 from django.http import FileResponse
@@ -19,6 +21,8 @@ database="python"
 )
 mycursor = mydb.cursor()
 
+fields=['enrollment','sem','roll','oldenrollment','name','phone','email','gender','dob','caste','subcast','category','password','photo','institute_code','program_code','parent_contact','emergency_contact','userid','address','aadhaar','finalsem','term_end','total_credits','total_grade_points','total_backlog']
+
 
 
 def clear(request):
@@ -32,28 +36,28 @@ def addcourse(request):
     data=request.POST
     institute=data['institute_code']
     program=data['program_code']
+    print(institute)
     return HttpResponse(data['institute_code'])
 
 def selectcourse(request,page,data):
-    global institute,program    
-
-    if(institute==""):
-        mycursor.execute("SELECT Institute_Code FROM course")
-        inst = mycursor.fetchall()
-        details={'institute':[*set(inst)],'pro':False,'ins':True}
-        return render(request,"selectcourse.html",details)
-    elif(program==""):
-        mycursor.execute("SELECT program_Code FROM course where Institute_Code='"+institute+"'")
-        inst = mycursor.fetchall()
-        details={'institut':inst,'pro':True,'ins':False,'institute':institute}
-        return render(request,"selectcourse.html",details)
+    global institute,program   
+    db=Course.objects.values_list('institute_Code')
+    if not db:
+        return render(request,"addinstitute.html",{})
     else:
-        mycursor.execute("SELECT institute_Code,program_code,type,institute_Name,degree_Name,category,branch FROM course where Institute_Code='"+institute+"' and program_Code='"+program+"'")
-        c=mycursor.fetchall()
-        for i in c:
-            c=i
-        data['course']=c
-        return render(request,page,data)
+        if(Course.objects.values_list('institute_Code')):
+            if(institute==""):
+                mydata = Course.objects.values_list('institute_Code')
+                details={'institute':[*set(mydata)],'pro':False,'ins':True}
+                return render(request,"selectcourse.html",details)
+            elif(program==""):
+                mydata = Course.objects.values_list('program_code').filter(institute_Code=institute)
+                details={'institut':mydata,'pro':True,'ins':False,'institute':institute}
+                return render(request,"selectcourse.html",details)
+            else:
+                db=Course.objects.values_list('institute_Code','program_code','type','institute_Name','degree_Name','category','branch').filter(institute_Code=institute,program_code=program)
+                data['course']=db[0]
+                return render(request,page,data)
 
 def adminpage(request):  
     data={}
@@ -65,72 +69,66 @@ def addinstitute(request):
 
 def doaddinstitute(request):
     data=request.POST
-    val=data['institute_code'],data['institute_name'],data['program_code'],data['degree_name'],data['program_type'],data['program_category'],data['branch_name']
-    sql = "INSERT INTO course (institute_code,institute_name,program_code,degree_name,type,category,branch) VALUES (%s,%s,%s,%s,%s,%s,%s)"
-    mycursor.execute(sql,val)
-    x=mycursor.rowcount
-    mydb.commit()
-    if(x==1):
-         return HttpResponse('{"status":"success"}')
-    else: return HttpResponse('{"status":"fail"}')
+    db=Course(institute_Code=data['institute_code'],program_code=data['program_code'],type=data['program_type'],institute_Name=data['institute_name'],degree_Name=data['degree_name'],category=data['program_category'],branch=data['branch_name'])
+    x=db.save()
+    return HttpResponse('{"status":"success"}')
 
-def findinstitute(request):    
-    data={}
+def findinstitute(request): 
+    mymembers = Course.objects.all().values()   
+    data={'courselist':mymembers}
     return selectcourse(request,"findinstitute.html",data)
 
 def editinstitute(request):
     data=request.POST
-    mycursor.execute("SELECT * FROM course where institute_code='"+data['institute_code']+"' and program_code='"+data['program_code']+"'")
-    myresult = mycursor.fetchall()
-    if len(myresult)==1:
-        data={
-        "id":myresult[0][0],
-        "institute_code":myresult[0][1],
-        "program_code":myresult[0][2],
-        "program_type":myresult[0][3],
-        "institute_name":myresult[0][4],
-        "degree_name":myresult[0][5],
-        "program_category":myresult[0][6],
-        "branch_name":myresult[0][7],
-        }
-        return selectcourse(request,"editinstitute.html",data)
-    else:
-        return HttpResponse("NO Data Found")
+    db=Course.objects.values_list('id','institute_Code','program_code','type','institute_Name','degree_Name','category','branch').filter(id=data['uid'])
+    print(db[0])
+    data={
+    'courselist':db[0]}
+    return selectcourse(request,"editinstitute.html",data)
+
+def deleteinstitute(request):
+    data=request.POST
+    member = Course.objects.get(id=data['uid'])
+    member.delete()
+    print(member)
+    return HttpResponse('{"status":"success"}')
+
 
 # ================  STUDENT PROFILE ==========================
 
 def doeditinstitute(request):
     data=request.POST
-    val=data['institute_code'],data['institute_name'],data['program_code'],data['degree_name'],data['program_type'],data['program_category'],data['branch_name'],data['uid']
-    sql = "UPDATE course set institute_code=%s,institute_name=%s,program_code=%s,degree_name=%s,type=%s,category=%s,branch=%s where id=%s"
-    mycursor.execute(sql,val)
-    x=mycursor.rowcount
     mydb.commit()
-    if(x==1):
-         return HttpResponse('{"status":"success"}')
+
+    v=Course.objects.filter(id=data['uid']).update(institute_Code=data['institute_code'],program_code=data['program_code'],type=data['program_type'],institute_Name=data['institute_name'],degree_Name=data['degree_name'],category=data['program_category'],branch=data['branch_name'])
+    if(v==1):
+        return HttpResponse('{"status":"success"}')
     else: return HttpResponse('{"status":"fail"}')
 
 
 def addstudent(request):
     data={}
+    mydata = StudentDetails.objects.all().values()
+    print(mydata)
+
     return selectcourse(request,"addstudent.html",data)
 
 def doaddstudent(request):
     data=request.POST
 
-    val=data['enrollment'],data['sem'],data['roll'],data['oldenrollment'],data['name'],data['phone'],data['email'],data['gender'],data['dob'],data['caste'],data['subcast'],data['category'],data['photo'],data['institute_code'],data['program_code'],data['parent_contact'],data['emergency_contact'],data['userid'],data['address'],data['aadhaar'],data['finalsem'],data['term_end'],data['total_credits'],data['total_grade_points'],data['total_backlog']   
-    sql = "INSERT INTO student_details (enrollment,sem,roll,oldenrollment,name,phone,email,gender,dob,caste,subcast,category,photo,institute_code,program_code,parent_contact,emergency_contact,userid,address,aadhaar,finalsem,term_end,total_credits,total_grade_points,total_backlog)VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-    mycursor.execute(sql,val)
-    mydb.commit()
-
     sql1 = "INSERT INTO student_marks (enrollment) VALUES ('"+data['enrollment']+"')"
     mycursor.execute(sql1)
     mydb.commit()
     x=mycursor.rowcount
-    
+
+    d=StudentDetails(enrollment=data['enrollment'],sem=data['sem'],roll=data['roll'],oldenrollment=data['oldenrollment'],name=data['name'],phone=data['phone'],email=data['email'],gender=data['gender'],dob=data['dob'],caste=data['caste'],subcast=data['subcast'],category=data['category'],password=data['password'],photo=data['photo'],institute_code=data['institute_code'],program_code=data['program_code'],parent_contact=data['parent_contact'],emergency_contact=data['emergency_contact'],userid=data['userid'],address=data['address'],aadhaar=data['aadhaar'],finalsem=data['finalsem'],term_end=data['term_end'],total_credits=data['total_credits'],total_grade_points=data['total_grade_points'],total_backlog=data['total_backlog'])
+    d.save()
+
     if(x==1):
          return HttpResponse('{"status":"success"}')
     else: return HttpResponse('{"status":"fail"}')
+
+    
 
 
 #================== EXCEL =========================================
@@ -142,23 +140,62 @@ def selectexcel(request):
 
 def generateexcel(request):
     data=request.POST
-    print(data)
     
     wb = Workbook()
-    # dest_filename = 'adminpage/templates/addstudent.xlsx'
-    dest_filename = os.path.join(BASE_DIR,'addstudent.xlsx')
+    dest_filename = 'addstudent.xlsx'
     ws1 = wb.active
-    ws1.title = "range names"
-    ws1['A1'] = "ritik"
-
-    wb.save(filename = dest_filename) 
-
-    # print(open((dest_filename), 'rb'))
+    ws1.title = "Students Detail"
+    i=1
+    x=[]
+    for d in data:
+        x.append(data[d])
     
-    # with open((dest_filename), 'rb') as f:
-    #     data = f.read()     
-    # response = HttpResponse(data, content_type='application/vnd.mp4')
-    # response['Content-Disposition'] = 'attachment; filename="video.mp4"'
-    # return response
-    return HttpResponse("ihhii")
+    for i in range(0,len(x)-1):
+        ws1.cell(1,i+1).value=x[i]
+    wb.save(filename = dest_filename) 
+    return HttpResponse("success")
+    
+   
+
+def downloadexcel(request):
+    with open(('addstudent.xlsx'), 'rb') as f:
+        data = f.read()     
+    response = HttpResponse(data, content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="addstudent.xlsx"'
+    return response
+
+def uploadexcel(request):
+    global fields
+    if "GET" == request.method:
+        return render(request, 'myapp/index.html', {})
+    else:
+        excel_file = request.FILES["excel_file"]
+
+        wb = openpyxl.load_workbook(excel_file)
+
+        worksheet = wb["Students Detail"]
+        print(worksheet)
+
+        excel_data = list()
+
+        for row in worksheet.iter_rows():
+            row_data = list()
+            for cell in row:
+                row_data.append(str(cell.value))
+            excel_data.append(row_data)
+        
+        for i in fields:
+            if (i not in excel_data[0]):
+                print("not exists")
+            else:
+                print("exists")
+        
+        
+        for i in excel_data:
+            print(i)
+
+        # return render(request, 'myapp/index.html', {"excel_data":excel_data})
+        return HttpResponse("successs")
+
+
     

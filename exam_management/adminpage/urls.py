@@ -11,9 +11,12 @@ urlpatterns = [
     path("doeditinstitute/",doeditinstitute),
     path("doaddstudent/",doaddstudent),
     path("findinstitute/",findinstitute),
+    path("deleteinstitute/",deleteinstitute),
     path("addstudent/",addstudent),
     path("addcourse/",addcourse),
     path("clear/",clear),
     path("selectexcel/",selectexcel),
     path("generateexcel/",generateexcel),
+    path("downloadexcel/",downloadexcel),
+    path("uploadexcel/",uploadexcel),
 ]

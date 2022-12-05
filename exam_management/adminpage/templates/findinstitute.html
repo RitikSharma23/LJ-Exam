@@ -15,29 +15,48 @@
 
 
     
-    <div class="container" style="width: 50%;margin-top:30px">
-        <form action="{{ current_path }}/adminpage/editinstitute/" method="post">
-            {% csrf_token %}
-            {{ form }}
-            
-        <div class="form-group form-row">
-          <label for="institute_code">Institute Code</label>
-          <input type="number" class="form-control" name="institute_code" id="institute_code" placeholder="e.g. 004" required>
-        </div><br><br>
-        
+   
 
-        <div class="form-group">
-            <label for="program_code">Program Code</label>
-            <input type="number" class="form-control" name="program_code" id="program_code" placeholder="e.g. 704" required>
-        </div><br><br>
-
-          <div class="form-group">
-            <input type="submit" class="form-control" value="submit" >
-          </div>
-
-        </form>
-    </div>
+<div class="container">
 
 
+   <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Institute Code</th>
+        <th scope="col">Program Code</th>
+        <th scope="col">Program Type</th>
+        <th scope="col">Institute Name</th>
+        <th scope="col">Degree Name</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      {% for i in courselist %}
+      <tr>
+        <td>{{i.institute_Code}}</td>
+        <td>{{i.program_code}}</td>
+        <td>{{i.type}}</td>
+        <td>{{i.institute_Name}}</td>
+        <td>{{i.degree_Name}}</td>
+        <td>
+          <form action="{{ current_path }}/adminpage/editinstitute/" method="post">{% csrf_token %}
+            <input type="number" name="uid" value="{{i.id}}" style="display: none;">
+            <button type="submit" class="btn btn-success">Update</button>
+          </form>
+        </td>
+      </tr>
+      
+      {%endfor%}
+    </tbody>
+  </table>
+</div>
+
+<script>
+
+
+</script>
 </body>
 </html>
