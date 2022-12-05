@@ -22,30 +22,31 @@
   <table id="myTable">
     <tr class="header">
       
+        <td>Enrollment ID</td>
+        <td>Name</td>
+        <td>Sem</td>
+        <td>Roll No.</td>
         <td>Institute Code</td>
         <td>Program Code</td>
-        <td>Program Type</td>
-        <td>Institute Name</td>
-        <td>Degree Name</td>
         <td>Action</td>
       </tr>      
   
 
     {% for i in courselist %}
     <tr>
-      <td>{{i.institute_Code}}</td>
+      <td>{{i.enrollment}}</td>
+      <td>{{i.name}}</td>
+      <td>{{i.sem}}</td>
+      <td>{{i.roll}}</td>
+      <td>{{i.institute_code}}</td>
       <td>{{i.program_code}}</td>
-      <td>{{i.type}}</td>
-      <td>{{i.institute_Name}}</td>
-      <td>{{i.degree_Name}}</td>
       <td>
-        <form action="{{ current_path }}/adminpage/editinstitute/" method="post">{% csrf_token %}
-          <input type="number" name="uid" value="{{i.id}}" style="display: none;">
+        <form action="{{current_path }}/adminpage/editstudent/" method="post">{% csrf_token %}
+          <input type="number" name="enrollment" value="{{i.enrollment}}" style="display: none;">
           <button type="submit" class="btn btn-success">Update</button>
         </form>
       </td>
     </tr>
-    
     {%endfor%}
   </table>
 

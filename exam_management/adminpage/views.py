@@ -93,9 +93,6 @@ def deleteinstitute(request):
     print(member)
     return HttpResponse('{"status":"success"}')
 
-
-# ================  STUDENT PROFILE ==========================
-
 def doeditinstitute(request):
     data=request.POST
     mydb.commit()
@@ -104,6 +101,17 @@ def doeditinstitute(request):
     if(v==1):
         return HttpResponse('{"status":"success"}')
     else: return HttpResponse('{"status":"fail"}')
+
+
+# ================  STUDENT PROFILE ==========================
+
+
+
+def findstudent(request): 
+    mymembers = StudentDetails.objects.all().values()   
+    data={'courselist':mymembers}
+    return selectcourse(request,"findstudent.html",data)
+
 
 
 def addstudent(request):
@@ -128,6 +136,17 @@ def doaddstudent(request):
          return HttpResponse('{"status":"success"}')
     else: return HttpResponse('{"status":"fail"}')
 
+def editstudent(request):
+    data=request.POST
+    db = StudentDetails.objects.get(enrollment=data['enrollment'])
+    data={
+    'studentlist':db}
+    return selectcourse(request,"editstudent.html",data)
+
+def doeditstudent(request):
+    data=request.POST
+    d=StudentDetails.objects.filter(enrollment=data['enrollment']).update(sem=data['sem'],roll=data['roll'],oldenrollment=data['oldenrollment'],name=data['name'],phone=data['phone'],email=data['email'],gender=data['gender'],dob=data['dob'],caste=data['caste'],subcast=data['subcast'],category=data['category'],password=data['password'],photo=data['photo'],institute_code=data['institute_code'],program_code=data['program_code'],parent_contact=data['parent_contact'],emergency_contact=data['emergency_contact'],userid=data['userid'],address=data['address'],aadhaar=data['aadhaar'],finalsem=data['finalsem'],term_end=data['term_end'],total_credits=data['total_credits'],total_grade_points=data['total_grade_points'],total_backlog=data['total_backlog'])
+    return HttpResponse('{"status":"success"}')
     
 
 

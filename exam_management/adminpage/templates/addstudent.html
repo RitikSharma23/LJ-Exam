@@ -92,12 +92,12 @@
 
 <!-- ------------------ -->
 <br><br>
-  <div class="form-group row">
+  <!-- <div class="form-group row">
     <label for="roll" class="col-4 col-form-label">Roll No</label> 
     <div class="col-8">
       <input id="roll" name="roll" placeholder="Roll Number" type="text" class="form-control" >
     </div>
-  </div>
+  </div> -->
   <div class="form-group row">
     <label for="oldenrollment" class="col-4 col-form-label">Old Enrollment</label> 
     <div class="col-8">
@@ -189,12 +189,6 @@
     </div>
   </div>
   <div class="form-group row">
-    <label for="photo" class="col-4 col-form-label">Photo</label> 
-    <div class="col-8">
-      <input id="photo" name="photo" placeholder="Photo" type="file" class="form-control">
-    </div>
-  </div>
-  <div class="form-group row">
     <label for="address" class="col-4 col-form-label">Address</label> 
     <div class="col-8">
       <textarea id="address" name="address" cols="40" rows="4" class="form-control" aria-describedby="addressHelpBlock"></textarea> 
@@ -221,7 +215,7 @@
 
 enrollment=document.getElementById("enrollment").value;
 sem=document.getElementById("sem").value;
-roll=document.getElementById("roll").value;
+// roll=document.getElementById("roll").value;
 oldenrollment=document.getElementById("oldenrollment").value;
 name=document.getElementById("name").value;
 phone=document.getElementById("phone").value;
@@ -233,7 +227,6 @@ caste=document.getElementById("caste").value;
 subcast=document.getElementById("subcaste").value;
 category=document.getElementById("category").value;
 // password=document.getElementById("password").value;
-photo=document.getElementById("photo").value;
 institute_code=document.getElementById("institute_code").value;
 program_code=document.getElementById("program_code").value;
 parent_contact=document.getElementById("parent_contact").value;
@@ -258,7 +251,7 @@ total_backlog=document.getElementById("total_backlog").value;
 
   newform.append("enrollment",enrollment);
   newform.append("sem",sem);
-  newform.append("roll",roll);
+  newform.append("roll",enrollment.substr(enrollment.length - 4));
   newform.append("oldenrollment",oldenrollment);
   newform.append("name",name);
   newform.append("phone",phone);
@@ -269,7 +262,7 @@ total_backlog=document.getElementById("total_backlog").value;
   newform.append("subcast",subcast);
   newform.append("category",category);
   newform.append("password",phone);
-  newform.append("photo",photo);
+  newform.append("photo",enrollment+".jpg");
   newform.append("institute_code",institute_code);
   newform.append("program_code",program_code);
   newform.append("parent_contact",parent_contact);
