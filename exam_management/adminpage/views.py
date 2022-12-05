@@ -214,11 +214,19 @@ def uploadexcel(request):
         
 
         column=list()
+        query=list()
         
-        for i in fields:
-            if (i in excel_data[0]):
-                column.append(i)
-
+        for i in range(1,len(excel_data)):
+            query=[]
+            for j in range(0,len(excel_data[0])):
+                print(excel_data[0][j]+"="+excel_data[i][j])
+                # query.append(excel_data[0][j]+""+excel_data[i][j])
+            # d.save()
+        
+        # print(query)
+        d=StudentDetails(enrollment="21004500210143")
+        # d.save()
+        print(d)
         # for r in range(0,len(column)):
 
         #     print(column[r])
