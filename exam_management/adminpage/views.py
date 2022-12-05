@@ -124,17 +124,17 @@ def addstudent(request):
 def doaddstudent(request):
     data=request.POST
 
-    sql1 = "INSERT INTO student_marks (enrollment) VALUES ('"+data['enrollment']+"')"
-    mycursor.execute(sql1)
-    mydb.commit()
-    x=mycursor.rowcount
+    # sql1 = "INSERT INTO student_marks (enrollment) VALUES ('"+data['enrollment']+"')"
+    # mycursor.execute(sql1)
+    # mydb.commit()
+    # x=mycursor.rowcount
 
     d=StudentDetails(enrollment=data['enrollment'],sem=data['sem'],roll=data['roll'],oldenrollment=data['oldenrollment'],name=data['name'],phone=data['phone'],email=data['email'],gender=data['gender'],dob=data['dob'],caste=data['caste'],subcast=data['subcast'],category=data['category'],password=data['password'],photo=data['photo'],institute_code=data['institute_code'],program_code=data['program_code'],parent_contact=data['parent_contact'],emergency_contact=data['emergency_contact'],userid=data['userid'],address=data['address'],aadhaar=data['aadhaar'],finalsem=data['finalsem'],term_end=data['term_end'],total_credits=data['total_credits'],total_grade_points=data['total_grade_points'],total_backlog=data['total_backlog'])
     d.save()
 
-    if(x==1):
-         return HttpResponse('{"status":"success"}')
-    else: return HttpResponse('{"status":"fail"}')
+    # if(x==1):
+    return HttpResponse('{"status":"success"}')
+    # else: return HttpResponse('{"status":"fail"}')
 
 def editstudent(request):
     data=request.POST
@@ -183,16 +183,15 @@ def generateexcel(request):
     x=[]
     for d in data:
         x.append(data[d])
-    
+
     for i in range(0,len(x)-1):
         ws1.cell(1,i+1).value=x[i]
     wb.save(filename = dest_filename) 
+
     wb.close()
     return HttpResponse("success")
     
    
-
-
 
 def uploadexcel(request):
     global fields
@@ -204,7 +203,6 @@ def uploadexcel(request):
         wb = openpyxl.load_workbook(excel_file)
 
         worksheet = wb["Students Detail"]
-        print(worksheet)
 
         excel_data = list()
 
@@ -214,18 +212,29 @@ def uploadexcel(request):
                 row_data.append(str(cell.value))
             excel_data.append(row_data)
         
+
+        column=list()
+        
         for i in fields:
-            if (i not in excel_data[0]):
-                print("not exists")
-            else:
-                print("exists")
+            if (i in excel_data[0]):
+                column.append(i)
+
+        # for r in range(0,len(column)):
+
+        #     print(column[r])
+
+        # for c in range(0,)
+                        
+
         
+        # d.save()
+
         
-        for i in excel_data:
-            print(i)
+        # for i in excel_data:
+        #     print(i)
 
         # return render(request, 'myapp/index.html', {"excel_data":excel_data})
-        return HttpResponse("successs")
+        return HttpResponse(fields)
 
 
     
