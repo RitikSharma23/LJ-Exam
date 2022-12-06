@@ -194,7 +194,7 @@ def generateexcel(request):
    
 
 def uploadexcel(request):
-    global fields
+    global fields,institute,program
     if "GET" == request.method:
         return render(request, 'myapp/index.html', {})
     else:
@@ -215,33 +215,27 @@ def uploadexcel(request):
 
         column=list()
         query=list()
+        a=dict()
         
         for i in range(1,len(excel_data)):
-            query=[]
+            a.clear()
             for j in range(0,len(excel_data[0])):
-                print(excel_data[0][j]+"="+excel_data[i][j])
-                # query.append(excel_data[0][j]+""+excel_data[i][j])
-            # d.save()
+                a[excel_data[0][j]]=excel_data[i][j]
+                if(excel_data[0][j]=='phone'):a['password']=excel_data[i][j]
+                if(excel_data[0][j]=='enrollment'):
+                    a['photo']=excel_data[i][j]+".jpg"
+                    a['roll']=excel_data[i][j][-4:]
+
+            a['institute_code']=institute
+            a['program_code']=program
+            a['total_credits']=0
+            a['total_grade_points']=0
+            a['total_backlog']=0
+            d=StudentDetails(**a)
+            d.save()
         
-        # print(query)
-        d=StudentDetails(enrollment="21004500210143")
-        # d.save()
-        print(d)
-        # for r in range(0,len(column)):
-
-        #     print(column[r])
-
-        # for c in range(0,)
-                        
-
-        
-        # d.save()
-
-        
-        # for i in excel_data:
-        #     print(i)
-
-        # return render(request, 'myapp/index.html', {"excel_data":excel_data})
+        print(a)
+ 
         return HttpResponse(fields)
 
 

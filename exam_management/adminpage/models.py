@@ -9,7 +9,7 @@ class StudentDetails(models.Model):
     oldenrollment=models.CharField(max_length=16,null=True)
     email=models.CharField(max_length=70,null=True)
     gender=models.CharField(max_length=1,null=True)
-    dob=models.DateField(null=True)
+    dob=models.DateTimeField(null=True)
     caste=models.CharField(max_length=20,null=True)
     subcast=models.CharField(max_length=20,null=True)
     category=models.CharField(max_length=10,null=True)
