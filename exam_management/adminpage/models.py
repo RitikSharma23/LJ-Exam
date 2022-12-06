@@ -44,16 +44,15 @@ class StudentMarks(models.Model):
 
     
 class Subject(models.Model):
-    id=models.AutoField(primary_key=True)
-    subjectcode=models.CharField(max_length=10)
+    subjectcode=models.CharField(max_length=10,primary_key=True)
     sem=models.IntegerField()
     subjectname=models.CharField(max_length=20)
-    throry=models.BooleanField()
-    throry_marks=models.IntegerField()
-    practical=models.BooleanField()
-    practical_marks=models.IntegerField()
-    mid=models.BooleanField()
-    mid_marks=models.IntegerField()
+    theory=models.BooleanField(default=False)
+    theory_marks=models.IntegerField(default=0)
+    practical=models.BooleanField(default=False)
+    practical_marks=models.IntegerField(default=0)
+    mid=models.BooleanField(default=False)
+    mid_marks=models.IntegerField(default=0)
     institute_code=models.CharField(max_length=6,null=True)
     program_code=models.CharField(max_length=6,null=True)
     

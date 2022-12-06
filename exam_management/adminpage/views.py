@@ -241,7 +241,43 @@ def addsubject(request):
     data={}
     return selectcourse(request,"addsubject.html",data)
 
+def doaddsubject(request):
+    data=request.POST
 
+    print(data)
+    d=Subject(
+        subjectcode=data['subjectcode'],
+        sem=data['sem'],
+        subjectname=data['subjectname'],
+        institute_code=data['institute_code'],
+        program_code=data['program_code'],
+        theory=data['theory'],
+        theory_marks=data['theory_marks'],
+        practical=data['practical'],
+        practical_marks=data['practical_marks'],
+        mid=data['mid'],
+        mid_marks=data['mid_marks'],
+    )
+    d.save()
+
+    if(data['theory']=="True"):
+        val="ALTER TABLE adminpage_studentmarks ADD "+ data['sem']+"_"+data['subjectcode']+"_t"+" VARCHAR(2000) NOT NULL DEFAULT 'n' AFTER enrollment;"
+        mycursor.execute(val)
+        mydb.commit()
+    if(data['practical']=="True"):
+        val="ALTER TABLE adminpage_studentmarks ADD "+data['sem']+"_"+data['subjectcode']+"_p"+" VARCHAR(2000) NOT NULL DEFAULT 'n' AFTER enrollment;"
+        mycursor.execute(val)
+        mydb.commit()
+    if(data['mid']=="True"):
+        val="ALTER TABLE adminpage_studentmarks ADD "+data['sem']+"_"+data['subjectcode']+"_m"+" VARCHAR(2000) NOT NULL DEFAULT 'n' AFTER enrollment;"
+        mycursor.execute(val)
+        mydb.commit()
+
+    
+    return HttpResponse('{"status":"success"}')
+
+
+    
 
 def viewsubject(request):
     mymembers = Subject.objects.all().filter(institute_code=institute,program_code=program).values()  

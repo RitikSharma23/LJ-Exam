@@ -24,4 +24,5 @@ urlpatterns = [
     path("uploadexcel/",uploadexcel),
     path("addsubject/",addsubject),
     path("viewsubject/",viewsubject),
+    path("doaddsubject/",doaddsubject),
 ]

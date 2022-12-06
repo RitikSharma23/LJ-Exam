@@ -7,7 +7,7 @@
 <meta name="Description" content="Enter your description here"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<link rel="stylesheet" href="assets/css/style.css">
+<!-- <link rel="stylesheet" href="assets/css/style.css"> -->
 <title>Add Subject</title>
 </head>
 <body>
@@ -18,11 +18,11 @@
 <div class="container">
 
 
-<form>
+<form>{% csrf_token %} 
   <div class="form-group row">
     <label for="subjectcode" class="col-4 col-form-label">Subject Code</label> 
     <div class="col-8">
-      <input id="subjectcode" name="subjectcode" placeholder="e.g. 050020301" type="text" class="form-control" required="required">
+      <input id="subjectcode" name="subjectcode" placeholder="e.g. 050020301" type="number" class="form-control" required="required">
     </div>
   </div>
   <div class="form-group row">
@@ -41,15 +41,15 @@
     <label class="col-4">Checkboxes</label> 
     <div class="col-8">
       <div class="custom-control custom-checkbox custom-control-inline">
-        <input name="checkbox" id="checkbox_0" type="checkbox" class="custom-control-input" value="theory" required="required"> 
+        <input name="checkbox" id="checkbox_0" type="checkbox" class="custom-control-input" value="theory"> 
         <label for="checkbox_0" class="custom-control-label">Theory</label>
       </div>
       <div class="custom-control custom-checkbox custom-control-inline">
-        <input name="checkbox" id="checkbox_1" type="checkbox" class="custom-control-input" value="practical" required="required"> 
+        <input name="checkbox" id="checkbox_1" type="checkbox" class="custom-control-input" value="practical"> 
         <label for="checkbox_1" class="custom-control-label">Practical</label>
       </div>
       <div class="custom-control custom-checkbox custom-control-inline">
-        <input name="checkbox" id="checkbox_2" type="checkbox" class="custom-control-input" value="mid" required="required"> 
+        <input name="checkbox" id="checkbox_2" type="checkbox" class="custom-control-input" value="mid"> 
         <label for="checkbox_2" class="custom-control-label">Mid</label>
       </div>
     </div>
@@ -73,17 +73,18 @@
     </div>
   </div>
   <div class="form-group row">
-    <label for="program_code" class="col-4 col-form-label">Program Code</label> 
-    <div class="col-8">
-      <input id="program_code" name="program_code" type="text" class="form-control">
-    </div>
-  </div>
-  <div class="form-group row">
     <label for="institute_code" class="col-4 col-form-label">Institute Code</label> 
     <div class="col-8">
-      <input id="institute_code" name="institute_code" type="text" class="form-control">
+      <input id="institute_code" name="institute_code" type="text" class="form-control"  value="{{course.0}}" readonly>
     </div>
   </div> 
+  <div class="form-group row">
+    <label for="program_code" class="col-4 col-form-label">Program Code</label> 
+    <div class="col-8">
+      <input id="program_code" name="program_code" type="text" class="form-control"  value="{{course.1}}" readonly>
+    </div>
+  </div>
+  
   <div class="form-group row">
     <div class="offset-4 col-8">
       <button name="submit" type="submit" class="btn btn-primary">Submit</button>
@@ -98,39 +99,90 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
 
 <script>
+theory=document.getElementById("checkbox_0")
+practical=document.getElementById("checkbox_1")
+mid=document.getElementById("checkbox_2")
 
     document.getElementById("checkbox_0").addEventListener("click",()=>{
-        practical=document.getElementById("checkbox_0")
-
-        if(practical.checked==true){
+        if(theory.checked==true){
             document.getElementById("theory").style.display="block"
+            document.getElementById("theory_marks").setAttribute('required','')
+
         }else{
             document.getElementById("theory").style.display="none"
-
+            document.getElementById("theory_marks").removeAttribute('required')
         }
     })
 
     document.getElementById("checkbox_1").addEventListener("click",()=>{
-        practical=document.getElementById("checkbox_1")
 
         if(practical.checked==true){
             document.getElementById("practical").style.display="block"
+            document.getElementById("practical_marks").setAttribute('required','')
+
         }else{
             document.getElementById("practical").style.display="none"
-
+            document.getElementById("mid_marks").removeAttribute('required')
         }
     })
 
     document.getElementById("checkbox_2").addEventListener("click",()=>{
-        practical=document.getElementById("checkbox_2")
 
         if(practical.checked==true){
             document.getElementById("mid").style.display="block"
+            document.getElementById("mid_marks").setAttribute('required','')
         }else{
             document.getElementById("mid").style.display="none"
-
+            document.getElementById("mid_marks").removeAttribute('required')
         }
     })
+
+
+    
+form=document.querySelector("form")
+form.addEventListener("submit",async(e)=>{
+  e.preventDefault()
+subjectcode=document.getElementById("subjectcode").value
+subjectname=document.getElementById("subjectname").value
+sem=document.getElementById("sem").value
+institute_code=document.getElementById("institute_code").value
+program_code=document.getElementById("program_code").value
+csrf=document.getElementsByName("csrfmiddlewaretoken")[0].value
+
+newform=new FormData();
+newform.append('subjectcode',subjectcode)
+newform.append('subjectname',subjectname)
+newform.append('sem',sem)
+newform.append('institute_code',institute_code)
+newform.append('program_code',program_code)
+
+if(theory.checked==true){
+    newform.append("theory_marks",document.getElementById("theory_marks").value)
+    newform.append("theory","True")
+}else{newform.append("theory_marks",0);newform.append("theory","False")}
+
+if(practical.checked==true){
+    newform.append("practical_marks",document.getElementById("practical_marks").value)
+    newform.append("practical","True")
+}else{ newform.append("practical_marks",0);newform.append("practical","False")}
+
+if(mid.checked==true){
+    newform.append("mid_marks",document.getElementById("mid_marks").value)
+    newform.append("mid","True")
+}else{newform.append("mid_marks",0);newform.append("mid","False")}
+
+newform.append("csrfmiddlewaretoken",csrf)
+try{
+  let d=await fetch("{{ current_path }}/adminpage/doaddsubject/",{
+  method:"POST",
+  body:newform,    
+})
+x=await d.json()
+if(x.status=="success"){alert("Institute Added Successfully")}else{alert("Something went wrong \n record not added")}
+}catch{
+  alert("Something went wrong \n record not added")
+}
+})
 
 
 
