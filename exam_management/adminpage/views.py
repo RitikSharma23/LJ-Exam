@@ -118,17 +118,10 @@ def findstudent(request):
 def addstudent(request):
     data={}
     mydata = StudentDetails.objects.all().values()
-    print(mydata)
-
     return selectcourse(request,"addstudent.html",data)
 
 def doaddstudent(request):
     data=request.POST
-
-    # sql1 = "INSERT INTO student_marks (enrollment) VALUES ('"+data['enrollment']+"')"
-    # mycursor.execute(sql1)
-    # mydb.commit()
-    # x=mycursor.rowcount
 
     d=StudentDetails(enrollment=data['enrollment'],sem=data['sem'],roll=data['roll'],oldenrollment=data['oldenrollment'],name=data['name'],phone=data['phone'],email=data['email'],gender=data['gender'],dob=data['dob'],caste=data['caste'],subcast=data['subcast'],category=data['category'],password=data['password'],photo=data['photo'],institute_code=data['institute_code'],program_code=data['program_code'],parent_contact=data['parent_contact'],emergency_contact=data['emergency_contact'],userid=data['userid'],address=data['address'],aadhaar=data['aadhaar'],finalsem=data['finalsem'],term_end=data['term_end'],total_credits=data['total_credits'],total_grade_points=data['total_grade_points'],total_backlog=data['total_backlog'])
     d.save()
@@ -244,9 +237,16 @@ def uploadexcel(request):
 
 
 
-def addsubject(request):1
+def addsubject(request):
+    data={}
+    return selectcourse(request,"addsubject.html",data)
 
 
-def viewsubject(request):1
+
+def viewsubject(request):
+    mymembers = Subject.objects.all().filter(institute_code=institute,program_code=program).values()  
+    data={'courselist':mymembers}
+    return selectcourse(request,"findsubject.html",data)
+
 
     

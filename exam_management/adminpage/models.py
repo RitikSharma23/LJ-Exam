@@ -43,7 +43,7 @@ class StudentMarks(models.Model):
     enrollment=models.CharField(max_length=16,primary_key=True)
 
     
-class SubjectDetails(models.Manager):
+class Subject(models.Model):
     id=models.AutoField(primary_key=True)
     subjectcode=models.CharField(max_length=10)
     sem=models.IntegerField()
