@@ -22,4 +22,6 @@ urlpatterns = [
     path("generateexcel/",generateexcel),
     path("downloadexcel/",downloadexcel),
     path("uploadexcel/",uploadexcel),
+    path("addsubject/",addsubject),
+    path("viewsubject/",viewsubject),
 ]

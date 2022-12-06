@@ -6,6 +6,7 @@ from openpyxl import Workbook
 import openpyxl
 import mysql.connector
 import os
+import datetime
 from django.http import FileResponse
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -108,7 +109,7 @@ def doeditinstitute(request):
 
 
 def findstudent(request): 
-    mymembers = StudentDetails.objects.all().values()   
+    mymembers = StudentDetails.objects.all().filter(institute_code=institute,program_code=program).values()  
     data={'courselist':mymembers}
     return selectcourse(request,"findstudent.html",data)
 
@@ -131,6 +132,8 @@ def doaddstudent(request):
 
     d=StudentDetails(enrollment=data['enrollment'],sem=data['sem'],roll=data['roll'],oldenrollment=data['oldenrollment'],name=data['name'],phone=data['phone'],email=data['email'],gender=data['gender'],dob=data['dob'],caste=data['caste'],subcast=data['subcast'],category=data['category'],password=data['password'],photo=data['photo'],institute_code=data['institute_code'],program_code=data['program_code'],parent_contact=data['parent_contact'],emergency_contact=data['emergency_contact'],userid=data['userid'],address=data['address'],aadhaar=data['aadhaar'],finalsem=data['finalsem'],term_end=data['term_end'],total_credits=data['total_credits'],total_grade_points=data['total_grade_points'],total_backlog=data['total_backlog'])
     d.save()
+    c=StudentMarks(enrollment=data['enrollment'])
+    c.save()
 
     # if(x==1):
     return HttpResponse('{"status":"success"}')
@@ -191,7 +194,6 @@ def generateexcel(request):
     wb.close()
     return HttpResponse("success")
     
-   
 
 def uploadexcel(request):
     global fields,institute,program
@@ -225,6 +227,8 @@ def uploadexcel(request):
                 if(excel_data[0][j]=='enrollment'):
                     a['photo']=excel_data[i][j]+".jpg"
                     a['roll']=excel_data[i][j][-4:]
+                    c=StudentMarks(enrollment=excel_data[i][j])
+                    c.save()
 
             a['institute_code']=institute
             a['program_code']=program
@@ -234,9 +238,15 @@ def uploadexcel(request):
             d=StudentDetails(**a)
             d.save()
         
-        print(a)
+        detail={'excel':excel_data}
  
-        return HttpResponse(fields)
+        return render(request,"viewexcel.html",detail)
 
+
+
+def addsubject(request):1
+
+
+def viewsubject(request):1
 
     

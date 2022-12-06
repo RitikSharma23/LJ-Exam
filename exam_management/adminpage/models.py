@@ -9,7 +9,7 @@ class StudentDetails(models.Model):
     oldenrollment=models.CharField(max_length=16,null=True)
     email=models.CharField(max_length=70,null=True)
     gender=models.CharField(max_length=1,null=True)
-    dob=models.DateTimeField(null=True)
+    dob=models.DateTimeField(null=True,blank=True)
     caste=models.CharField(max_length=20,null=True)
     subcast=models.CharField(max_length=20,null=True)
     category=models.CharField(max_length=10,null=True)
@@ -19,9 +19,9 @@ class StudentDetails(models.Model):
     program_code=models.CharField(max_length=6,null=True)
     parent_contact=models.CharField(max_length=10,null=True)
     emergency_contact=models.CharField(max_length=10,null=True)
-    userid=models.CharField(max_length=20,null=True)
+    userid=models.CharField(max_length=20,null=True,unique=True)
     address=models.CharField(max_length=200,null=True)
-    aadhaar=models.CharField(max_length=12,null=True)
+    aadhaar=models.CharField(max_length=12,null=True,unique=True)
     finalsem=models.CharField(null=True,max_length=10)
     term_end=models.CharField(null=True,max_length=4)
     total_credits=models.FloatField(null=True)
@@ -38,3 +38,22 @@ class Course(models.Model):
     degree_Name=models.CharField(max_length=100)
     category=models.CharField(max_length=100)
     branch =models.CharField(max_length=100)
+
+class StudentMarks(models.Model):
+    enrollment=models.CharField(max_length=16,primary_key=True)
+
+    
+class SubjectDetails(models.Manager):
+    id=models.AutoField(primary_key=True)
+    subjectcode=models.CharField(max_length=10)
+    sem=models.IntegerField()
+    subjectname=models.CharField(max_length=20)
+    throry=models.BooleanField()
+    throry_marks=models.IntegerField()
+    practical=models.BooleanField()
+    practical_marks=models.IntegerField()
+    mid=models.BooleanField()
+    mid_marks=models.IntegerField()
+    institute_code=models.CharField(max_length=6,null=True)
+    program_code=models.CharField(max_length=6,null=True)
+    
