@@ -25,4 +25,6 @@ urlpatterns = [
     path("addsubject/",addsubject),
     path("viewsubject/",viewsubject),
     path("doaddsubject/",doaddsubject),
+    path("editsubject/",editsubject),
+    path("doeditsubject/",doeditsubject),
 ]

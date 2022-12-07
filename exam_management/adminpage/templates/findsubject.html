@@ -17,30 +17,46 @@
     
    
 <div class="container">
-  <input class="form-control" type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Institute Code">
+  <input class="form-control" type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Subject Code..">
 
   <table id="myTable">
     <tr class="header">
       
-        <td>Institute Code</td>
-        <td>Program Code</td>
-        <td>Program Type</td>
-        <td>Institute Name</td>
-        <td>Degree Name</td>
-        <td>Action</td>
+      <td>Subject Code</td>
+      <td>Sem</td>
+      <td>Subject Name</td>
+      <td>Theory</td>
+      <td>Practical</td>
+      <td>Mid</td>
+      <td>Action</td>
       </tr>      
   
 
-    {% for i in courselist %}
+    {% for i in subjectlist %}
     <tr>
-      <td>{{i.institute_Code}}</td>
-      <td>{{i.program_code}}</td>
-      <td>{{i.type}}</td>
-      <td>{{i.institute_Name}}</td>
-      <td>{{i.degree_Name}}</td>
+      <td>{{i.subjectcode}}</td>
+      <td>{{i.sem}}</td>
+      <td>{{i.subjectname}}</td>
+      {%if i.theory %}
+      <td>{{i.theory_marks}}</td>
+      {%else%}
+      <td>NA</td>
+      {%endif%}
+
+      {%if i.practical %}
+      <td>{{i.practical_marks}}</td>
+      {%else%}
+      <td>NA</td>
+      {%endif%}
+
+      {%if i.mid %}
+      <td>{{i.mid_marks}}</td>
+      {%else%}
+      <td>NA</td>
+      {%endif%}
       <td>
-        <form action="{{ current_path }}/adminpage/editinstitute/" method="post">{% csrf_token %}
-          <input type="number" name="uid" value="{{i.id}}" style="display: none;">
+        <form action="{{ current_path }}/adminpage/editsubject/" method="post">{% csrf_token %}
+          <input type="number" name="subjectcode" value="{{i.subjectcode}}" style="display: none;">
           <button type="submit" class="btn btn-success">Update</button>
         </form>
       </td>

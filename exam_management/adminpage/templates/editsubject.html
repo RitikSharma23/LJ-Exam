@@ -17,24 +17,23 @@
 
 <div class="container">
 
-
 <form>{% csrf_token %} 
   <div class="form-group row">
     <label for="subjectcode" class="col-4 col-form-label">Subject Code</label> 
     <div class="col-8">
-      <input id="subjectcode" name="subjectcode" placeholder="e.g. 050020301" type="number" class="form-control" required="required">
+      <input id="subjectcode" name="subjectcode" placeholder="e.g. 050020301" type="number" class="form-control" required="required" value="{{subjectlist.subjectcode}}">
     </div>
   </div>
   <div class="form-group row">
     <label for="subjectname" class="col-4 col-form-label">Subject Name</label> 
     <div class="col-8">
-      <input id="subjectname" name="subjectname" placeholder="e.g. Data Structures (DS)" type="text" class="form-control" required="required">
+      <input id="subjectname" name="subjectname" placeholder="e.g. Data Structures (DS)" type="text" class="form-control" required="required" value="{{subjectlist.subjectname}}">
     </div>
   </div>
   <div class="form-group row">
     <label for="sem" class="col-4 col-form-label">Semister</label> 
     <div class="col-8">
-      <input id="sem" name="sem" placeholder="e.g. 1" type="text" class="form-control" required="required">
+      <input id="sem" name="sem" placeholder="e.g. 1" type="text" class="form-control" required="required" value="{{subjectlist.sem}}">
     </div>
   </div>
   <div class="form-group row">
@@ -75,13 +74,13 @@
   <div class="form-group row">
     <label for="institute_code" class="col-4 col-form-label">Institute Code</label> 
     <div class="col-8">
-      <input id="institute_code" name="institute_code" type="text" class="form-control"  value="{{course.0}}" readonly>
+      <input id="institute_code" name="institute_code" type="text" class="form-control"  value="{{subjectlist.institute_code}}">
     </div>
   </div> 
   <div class="form-group row">
     <label for="program_code" class="col-4 col-form-label">Program Code</label> 
     <div class="col-8">
-      <input id="program_code" name="program_code" type="text" class="form-control"  value="{{course.1}}" readonly>
+      <input id="program_code" name="program_code" type="text" class="form-control"  value="{{subjectlist.program_code}}" >
     </div>
   </div>
   
@@ -99,9 +98,33 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
 
 <script>
+
 theory=document.getElementById("checkbox_0")
 practical=document.getElementById("checkbox_1")
 mid=document.getElementById("checkbox_2")
+
+
+
+if("{{subjectlist.theory}}"=="True"){
+  theory.checked=true
+  document.getElementById("theory").style.display="block"
+  document.getElementById("theory_marks").setAttribute('required','')
+  document.getElementById("theory_marks").value="{{subjectlist.theory_marks}}"
+}
+
+if("{{subjectlist.practical}}"=="True"){
+  practical.checked=true
+  document.getElementById("practical").style.display="block"
+  document.getElementById("practical_marks").setAttribute('required','')
+  document.getElementById("practical_marks").value="{{subjectlist.practical_marks}}"
+}
+
+if("{{subjectlist.mid}}"=="True"){
+  mid.checked=true
+  document.getElementById("mid").style.display="block"
+  document.getElementById("mid_marks").setAttribute('required','')
+  document.getElementById("mid_marks").value="{{subjectlist.mid_marks}}"
+}
 
     document.getElementById("checkbox_0").addEventListener("change",()=>{
         if(theory.checked==true){
@@ -136,6 +159,9 @@ mid=document.getElementById("checkbox_2")
             document.getElementById("mid_marks").removeAttribute('required')
         }
     })
+
+
+
 
 
     
@@ -173,7 +199,7 @@ if(mid.checked==true){
 
 newform.append("csrfmiddlewaretoken",csrf)
 try{
-  let d=await fetch("{{ current_path }}/adminpage/doaddsubject/",{
+  let d=await fetch("{{ current_path }}/adminpage/doeditsubject/",{
   method:"POST",
   body:newform,    
 })
@@ -183,8 +209,6 @@ if(x.status=="success"){alert("Institute Added Successfully")}else{alert("Someth
   alert("Something went wrong \n record not added")
 }
 })
-
-
 
 </script>
 

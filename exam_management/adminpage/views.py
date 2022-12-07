@@ -24,7 +24,27 @@ mycursor = mydb.cursor()
 
 fields=['enrollment','sem','roll','oldenrollment','name','phone','email','gender','dob','caste','subcast','category','password','photo','institute_code','program_code','parent_contact','emergency_contact','userid','address','aadhaar','finalsem','term_end','total_credits','total_grade_points','total_backlog']
 
+def arrange(col):
+    sql="SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`='python' AND `TABLE_NAME`='adminpage_studentmarks';"
+    mycursor.execute(sql)
+    myresult = mycursor.fetchall()
+    if(len(myresult)>1):
+        table=list()
+        for x in range(1,len(myresult)):
+            table.append(myresult[x][0])
 
+        table.append(col)
+        after=int
+        table.sort()
+        for x in range(0,len(table)):
+            if(table[x]==col):
+                    after=x
+        
+        if(after==(len(table))-1):return("AFTER "+table[after-1])
+        elif(after==0):return("AFTER enrollment")
+        else:return("AFTER "+table[after-1])
+
+    else: return('AFTER enrollment')
 
 def clear(request):
     global institute,program
@@ -261,15 +281,21 @@ def doaddsubject(request):
     d.save()
 
     if(data['theory']=="True"):
-        val="ALTER TABLE adminpage_studentmarks ADD "+ data['sem']+"_"+data['subjectcode']+"_t"+" VARCHAR(2000) NOT NULL DEFAULT 'n' AFTER enrollment;"
+        subt=data['sem']+"_"+data['subjectcode']+"_t"
+        zt=arrange(subt)
+        val="ALTER TABLE adminpage_studentmarks ADD "+ subt +" TEXT(2000) NOT NULL DEFAULT 'n' "+zt+";"
         mycursor.execute(val)
         mydb.commit()
     if(data['practical']=="True"):
-        val="ALTER TABLE adminpage_studentmarks ADD "+data['sem']+"_"+data['subjectcode']+"_p"+" VARCHAR(2000) NOT NULL DEFAULT 'n' AFTER enrollment;"
+        subp=data['sem']+"_"+data['subjectcode']+"_p"
+        zp=arrange(subp)
+        val="ALTER TABLE adminpage_studentmarks ADD "+ subp +" TEXT(2000) NOT NULL DEFAULT 'n' "+zp+";"
         mycursor.execute(val)
         mydb.commit()
     if(data['mid']=="True"):
-        val="ALTER TABLE adminpage_studentmarks ADD "+data['sem']+"_"+data['subjectcode']+"_m"+" VARCHAR(2000) NOT NULL DEFAULT 'n' AFTER enrollment;"
+        subm=data['sem']+"_"+data['subjectcode']+"_m"
+        zm=arrange(subm)
+        val="ALTER TABLE adminpage_studentmarks ADD "+ subm +" TEXT(2000) NOT NULL DEFAULT 'n' "+zm+";"
         mycursor.execute(val)
         mydb.commit()
 
@@ -277,12 +303,28 @@ def doaddsubject(request):
     return HttpResponse('{"status":"success"}')
 
 
-    
 
 def viewsubject(request):
     mymembers = Subject.objects.all().filter(institute_code=institute,program_code=program).values()  
-    data={'courselist':mymembers}
+    data={'subjectlist':mymembers}
     return selectcourse(request,"findsubject.html",data)
 
+def editsubject(request):
+    data=request.POST
+    mymembers = Subject.objects.all().filter(subjectcode=data['subjectcode']).values()  
+    detail={'subjectlist':mymembers[0]}
+    return selectcourse(request,"editsubject.html",detail)
 
+
+def doeditsubject(request):
+    data=request.POST
+
+    db = Subject.objects.all().filter(subjectcode=data['subjectcode']).values() 
+    db=db[0]
+    print(db)
+    if(db['theory']==data['theory']):print("theory")
+    if(db['practical']==data['practical']):print("practical")
+    if(db['mid']==data['mid']):print("mid")
+
+    return HttpResponse('{"status":"success"}')
     
