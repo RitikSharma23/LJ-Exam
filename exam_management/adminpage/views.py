@@ -9,8 +9,6 @@ import os
 import datetime
 from django.http import FileResponse
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 institute=""
 program=""
 
