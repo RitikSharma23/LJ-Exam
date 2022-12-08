@@ -6,4 +6,5 @@ urlpatterns = [
     path("seatoption/",seatoption),
     path("remedial/",remedial),
     path("seatsem/",seatsem),
+    path("downloadseat/",downloadseat),
 ]
