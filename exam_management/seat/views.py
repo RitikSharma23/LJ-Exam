@@ -42,10 +42,11 @@ def seatsem(request):
     d=Subject.objects.filter(subjectcode=data['subjectcode']).values()
     d=d[0]
 
-    mycursor.execute("SELECT enrollment FROM adminpage_studentdetails WHERE enrollment like '__"+str(d['institute_code'])+"_"+str(d['program_code'])+"%' and sem="+str(d['sem'])+";")
+    mycursor.execute("SELECT enrollment,name FROM adminpage_studentdetails WHERE enrollment like '__"+str(d['institute_code'])+"_"+str(d['program_code'])+"%' and sem="+str(d['sem'])+";")
 
     myresult = mycursor.fetchall()
  
-    print(myresult)
+    for i in myresult:
+        print(data['session']+data['year'][2:]+data['subjectcode'][1:5]+str(d['sem'])+i[0][-3:])
 
-    return HttpResponse(data)
+    return HttpResponse('{"status":"success"}')
