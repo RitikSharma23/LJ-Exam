@@ -325,4 +325,26 @@ def doeditsubject(request):
     if(db['mid']==data['mid']):print("mid")
 
     return HttpResponse('{"status":"success"}')
-    
+
+def upgradepage(request):
+    mycursor.execute("SELECT DISTINCT SUBSTRING(enrollment, 1, 2) AS batch,sem as sem FROM adminpage_studentdetails WHERE institute_code='"+institute+"' and program_code='"+program+"';")
+
+    myresult = mycursor.fetchall()
+ 
+    print(myresult)
+
+    data={'batchlist':myresult,
+            'institute':institute,
+            'program':program}
+    return selectcourse(request,"upgradepage.html",data)
+
+
+def upgradebatch(request):
+    data=request.POST
+    print(data)
+
+    mycursor.execute("UPDATE adminpage_studentdetails set sem ='"+data['sem']+"' WHERE institute_code='"+data['institute_code']+"' and program_code='"+data['program_code']+"' and enrollment like '"+data['batch']+"%';")
+    mydb.commit()
+    x=mycursor.rowcount
+    if(x>1):return HttpResponse('{"status":"success"}')
+    else:return HttpResponse("failed")

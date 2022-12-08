@@ -53,11 +53,8 @@
                     <div class="card-body">
                       <h5 class="card-title">Year  :  {{data.session}}-{{data.year}}</h5>
                       <p class="card-text">Download For All Students Including Remedial Also</p>
-                      <form action="{{ current_path }}/seat/remedial/" method="post">{% csrf_token %}
-                        <input type="text" name="year" value="{{data.year}}">
-                        <input type="text" name="session" value="{{data.session}}">
-                        <input type="text" name="code" value="{{subject.subjectcode}}">
-                      <a href="" class="btn btn-primary">Download</a>
+                      <form action="" method="post">{% csrf_token %}
+                      <button class="btn btn-primary" id="all">Download</button>
                       </form>
                     </div>
                   </div><br>
@@ -66,8 +63,9 @@
                     <div class="card-body">
                       <h5 class="card-title">Year  :  {{data.session}}-{{data.year}}</h5>
                       <p class="card-text">Download Only For Sem {{subject.sem}} Students</p>
-                      <form action="" method="post"></form>
-                      <a href="#" class="btn btn-primary">Download</a>
+                      <form action="" method="post" id="sem">{% csrf_token %}
+                        <button class="btn btn-primary" type="submit">Download</button>
+                      </form>
                     </div>
                   </div><br>
 
@@ -76,7 +74,7 @@
                     <div class="card-body">
                       <h5 class="card-title">Year  :  {{data.session}}-{{data.year}}</h5>
                       <p class="card-text">Download Only For Remedial Students</p>
-                      <a href="#" class="btn btn-primary">Download</a>
+                      <button class="btn btn-primary" id="remedial">Download</button>
                     </div>
                   </div>
 
@@ -91,5 +89,32 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
+
+
+<script>
+  form=document.getElementById("sem")
+form.addEventListener("submit",async(e)=>{
+  e.preventDefault()
+csrf=document.getElementsByName("csrfmiddlewaretoken")[1].value
+newform=new FormData();
+newform.append("subjectcode","{{subject.subjectcode}}")
+newform.append("year","{{data.year}}")
+newform.append("session","{{data.session}}")
+newform.append("csrfmiddlewaretoken",csrf)
+try{
+  let d=await fetch("{{ current_path }}/seat/seatsem/",{
+  method:"POST",
+  body:newform,    
+})
+x=await d.json()
+if(x.status=="success"){alert("Institute Added Successfully");location.reload()}else{alert("Something went wrong \n record not added")}
+}catch{
+  alert("Something went wrong \n record not added")
+}
+})
+
+</script>
+
+
 </body>
 </html>
