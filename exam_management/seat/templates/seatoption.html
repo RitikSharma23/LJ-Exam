@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="Description" content="Enter your description here"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<title>Seat Option</title>
+</head>
+<body>
+
+    {{data}} 
+    {{subject}}
+
+    <div class="shadow p-3 mb-5 bg-white rounded mx-auto" style="width: 60%;">
+
+        <div class="card">
+            <h5 class="card-header">Generate Seating Arrangenments Excel</h5>
+    
+    
+            <div class="row" style="padding: 30px;">
+                <div class="col-sm-6">
+                    <div class="card" style="width: 18rem;">
+                        
+                        <div class="card-body"><br>
+                          <h5 class="card-title text-center">{{subject.subjectcode}}</h5><br>
+                          <p class="card-text text-center">{{subject.subjectname}}</p><br>
+                          <p class="card-text">Semister : {{subject.sem}}</p>
+                          <p class="card-text">Institute Code : {{subject.institute_code}}</p>
+                          <p class="card-text">Program Code : {{subject.program_code}}</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            {%if subject.theory %}
+                          <li class="list-group-item">Theory Marks : {{subject.theory_marks}}</li>
+                            {%endif%}
+                            {%if subject.practical %}
+                          <li class="list-group-item">Practical Marks : {{subject.practical_marks}}</li>
+                          {%endif%}
+                          {%if subject.mid %}
+                          <li class="list-group-item">Mid Marks : {{subject.mid_marks}}</li>
+                          {%endif%}
+
+                        </ul>
+                        
+                      </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">Year  :  {{data.session}}-{{data.year}}</h5>
+                      <p class="card-text">Download For All Students Including Remedial Also</p>
+                      <form action="{{ current_path }}/seat/remedial/" method="post">{% csrf_token %}
+                        <input type="text" name="year" value="{{data.year}}">
+                        <input type="text" name="session" value="{{data.session}}">
+                        <input type="text" name="code" value="{{subject.subjectcode}}">
+                      <a href="" class="btn btn-primary">Download</a>
+                      </form>
+                    </div>
+                  </div><br>
+
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">Year  :  {{data.session}}-{{data.year}}</h5>
+                      <p class="card-text">Download Only For Sem {{subject.sem}} Students</p>
+                      <form action="" method="post"></form>
+                      <a href="#" class="btn btn-primary">Download</a>
+                    </div>
+                  </div><br>
+
+
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">Year  :  {{data.session}}-{{data.year}}</h5>
+                      <p class="card-text">Download Only For Remedial Students</p>
+                      <a href="#" class="btn btn-primary">Download</a>
+                    </div>
+                  </div>
+
+
+                </div>
+
+          </div>
+          </div>
+    
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
+</body>
+</html>
