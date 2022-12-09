@@ -55,4 +55,11 @@ class Subject(models.Model):
     mid_marks=models.IntegerField(default=0)
     institute_code=models.CharField(max_length=6,null=True)
     program_code=models.CharField(max_length=6,null=True)
+
+class grade(models.Model):
+    r1=models.IntegerField()
+    r2=models.IntegerField()
+    gradepoint=models.FloatField()
+    grade=models.CharField(max_length=6)
+    gradeclass=models.CharField(max_length=50)
     
