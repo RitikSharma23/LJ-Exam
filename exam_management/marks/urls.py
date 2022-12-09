@@ -5,4 +5,5 @@ urlpatterns = [
     path("",markshome),
     path("marksoption/",marksoption),
     path("theory/",theory),
+    path("uploadtheory/",uploadtheory),
 ]

@@ -24,8 +24,9 @@ def marksoption(request):
 def theory(request):
     data=request.POST
     d=Subject.objects.filter(subjectcode=data['subjectcode']).values()
+    g=Grade.objects.all().values()
     details={
-        'subject':d[0],'year':data['year'],'type':data['type']
+        'subject':d[0],'year':data['year'],'type':data['type'],'grade':g
     }
     return render(request,"theory.html",details)
 
@@ -34,12 +35,13 @@ def uploadtheory(request):
     if "GET" == request.method:
         return render(request, 'myapp/index.html', {})
     else:
+        data=request.POST
         excel_file = request.FILES["theoryexcel"]
-
+        d=Subject.objects.filter(subjectcode=data['subjectcode']).values()
+        g=Grade.objects.all().values()
         wb = openpyxl.load_workbook(excel_file)
 
         worksheet = wb["Students Seat"]
-
         excel_data = list()
 
         for row in worksheet.iter_rows():
@@ -48,10 +50,8 @@ def uploadtheory(request):
                 row_data.append(str(cell.value))
             excel_data.append(row_data)
         
-        
-        detail={'excel':excel_data}
+        detail={'excel':excel_data,'subject':d[0],'grade':g,'year':data['year'],'passing':data['passing']}
 
         print(excel_data[0])
- 
-        # return render(request,"viewexcel.html",detail)
-        return HttpResponse(excel_data)
+
+        return render(request,"theoryexcel.html",detail)

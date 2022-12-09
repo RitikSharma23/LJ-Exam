@@ -13,24 +13,50 @@
 <body>
 
     {{year}} 
-    {{subject}}
+    {{subject}}br
+    {{grade}}
 <br><br>
     <div class="shadow p-3 mb-5 bg-white rounded mx-auto" style="width: 60%;">
 
         <div class="card">
             <h5 class="card-header">Theory</h5>
             <div class="card-body">
-              <form action="" method="post">
+            <form action="{{ current_path }}/marks/uploadtheory/" method="POST" enctype="multipart/form-data">{% csrf_token %}
               <h5 class="card-title">Select Marking Scheme</h5><br>
+              <input type="text" name="subjectcode" value="{{subject.subjectcode}}" hidden>
+              <input type="text" name="year" value="{{year}}" hidden>
+              <input type="text" name="type" value="theory" hidden>
                 Passing Mark : <input type="number" name="passing"> -
                 <input type="number" name="total" value="{{subject.theory_marks}}" readonly disabled><br><br> 
 
-
-              <h5 class="card-title">Select Grades Scheme</h5><br>
-
-              <input type="text" >  <input type="text">  <input type="text">  
+                <h5 class="card-title">Upload Seatnumber Excel File : </h5><br><input type="file" name="theoryexcel" id="seatexcel"> <button type="submit" class="btn btn-primary">Next</button><br><br>
 
               </form>
+
+              <h5 class="card-title">Select Grades Scheme</h5><br>  
+
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col" colspan="2">Percentage</th>
+                    <th scope="col">Grades</th>
+                    <th scope="col">Grade Points</th>
+                    <th scope="col">Class</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {%for g in grade%}
+                  <tr>
+                    <td>{{g.r1}}</td>
+                    <td>{{g.r2}}</td>
+                    <td>{{g.grade}}</td>
+                    <td>{{g.gradepoint}}</td>
+                    <td>{{g.gradeclass}}</td>
+                  </tr>
+                  {%endfor%}
+
+                </tbody>
+              </table>
               
               
   
