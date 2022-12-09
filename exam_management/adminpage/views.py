@@ -195,6 +195,7 @@ def generateexcel(request):
     ws1.title = "Students Detail"
     i=1
     x=[]
+
     for d in data:
         x.append(data[d])
 

@@ -4,4 +4,5 @@ from .views import *
 urlpatterns = [
     path("",markshome),
     path("marksoption/",marksoption),
+    path("theory/",theory),
 ]

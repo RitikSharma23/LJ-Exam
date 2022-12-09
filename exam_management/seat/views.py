@@ -57,7 +57,6 @@ def seatsem(request):
         ws1.cell(i+1,3).value=(data['session']+data['year'][2:]+data['subjectcode'][1:5]+str(d['sem'])+myresult[i][0][-3:])
 
 
-        # ws1.cell(1,i+1).value=x[i]
     wb.save(filename = dest_filename) 
 
     wb.close()
