@@ -12,9 +12,6 @@
 </head>
 <body>
 
-    {{data}} 
-    {{subject}}
-
     <div class="shadow p-3 mb-5 bg-white rounded mx-auto" style="width: 60%;">
 
         <div class="card">
@@ -49,15 +46,7 @@
                 </div>
 
                 <div class="col-sm-6">
-                  <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title">Year  :  {{data.session}}-{{data.year}}</h5>
-                      <p class="card-text">Download For All Students Including Remedial Also</p>
-                      <form action="" method="post">{% csrf_token %}
-                      <button class="btn btn-primary" id="all">Download</button>
-                      </form>
-                    </div>
-                  </div><br>
+                  
 
                   <div class="card">
                     <div class="card-body">
@@ -74,9 +63,17 @@
                     <div class="card-body">
                       <h5 class="card-title">Year  :  {{data.session}}-{{data.year}}</h5>
                       <p class="card-text">Download Only For Remedial Students</p>
-                      <button class="btn btn-primary" id="remedial">Download</button>
+                      <form action="" method="post" id="theoryremedial">{% csrf_token %}
+                        <button class="btn btn-primary" type="submit">Theory</button>
+                      </form><br>
+                      <form action="" method="post" id="practicalremedial">{% csrf_token %}
+                        <button class="btn btn-primary" type="submit">Practical</button>
+                      </form><br>
+                      <form action="" method="post" id="midremedial">{% csrf_token %}
+                        <button class="btn btn-primary" type="submit">Mid</button>
+                      </form>
                     </div>
-                  </div>
+                  </div><br>
 
 
                 </div>
@@ -92,6 +89,7 @@
 
 
 <script>
+  // ============= New Form
   form=document.getElementById("sem")
 form.addEventListener("submit",async(e)=>{
   e.preventDefault()
@@ -107,11 +105,96 @@ try{
   body:newform,    
 })
 x=await d.json()
-if(x.status=="success"){alert("Institute Added Successfully");window.location.href="{{ current_path }}/seat/downloadseat/"}else{alert("Something went wrong \n record not added")}
+if(x.status=="success"){alert("Seat Generated Successfully");window.location.href="{{ current_path }}/seat/downloadseat/"}
+else if(x.status=="nodata"){alert("Sorry No Data Found")}
+else{alert("Something went wrong \n record not added")}
 }catch{
   alert("Something went wrong \n record not added")
 }
 })
+
+
+// ============= Remedial Theory ======================
+  form2=document.getElementById("theoryremedial")
+form2.addEventListener("submit",async(e)=>{
+  e.preventDefault()
+csrf=document.getElementsByName("csrfmiddlewaretoken")[1].value
+newform=new FormData();
+newform.append("subjectcode","{{subject.subjectcode}}")
+newform.append("year","{{data.year}}")
+newform.append("session","{{data.session}}")
+newform.append("type","_t")
+newform.append("csrfmiddlewaretoken",csrf)
+try{
+  let d=await fetch("{{ current_path }}/seat/seatremedial/",{
+  method:"POST",
+  body:newform,    
+})
+x=await d.json()
+if(x.status=="success"){alert("Seat Generated Successfully");window.location.href="{{ current_path }}/seat/downloadseat/"}
+else if(x.status=="nodata"){alert("Sorry No Data Found")}
+else{alert("Something went wrong \n record not added")}
+}catch{
+  alert("Something went wrong \n record not added")
+}
+})
+
+
+// ============= Remedial Practical ======================
+  form2=document.getElementById("practicalremedial")
+form2.addEventListener("submit",async(e)=>{
+  e.preventDefault()
+csrf=document.getElementsByName("csrfmiddlewaretoken")[1].value
+newform=new FormData();
+newform.append("subjectcode","{{subject.subjectcode}}")
+newform.append("year","{{data.year}}")
+newform.append("session","{{data.session}}")
+newform.append("type","_p")
+newform.append("csrfmiddlewaretoken",csrf)
+try{
+  let d=await fetch("{{ current_path }}/seat/seatremedial/",{
+  method:"POST",
+  body:newform,    
+})
+x=await d.json()
+if(x.status=="success"){alert("Seat Generated Successfully");window.location.href="{{ current_path }}/seat/downloadseat/"}
+else if(x.status=="nodata"){alert("Sorry No Data Found")}
+else{alert("Something went wrong \n record not added")}
+}catch{
+  alert("Something went wrong \n record not added")
+}
+})
+
+
+// ============= Remedial Mid ======================
+  form2=document.getElementById("midremedial")
+form2.addEventListener("submit",async(e)=>{
+  e.preventDefault()
+csrf=document.getElementsByName("csrfmiddlewaretoken")[1].value
+newform=new FormData();
+newform.append("subjectcode","{{subject.subjectcode}}")
+newform.append("year","{{data.year}}")
+newform.append("session","{{data.session}}")
+newform.append("type","_m")
+newform.append("csrfmiddlewaretoken",csrf)
+try{
+  let d=await fetch("{{ current_path }}/seat/seatremedial/",{
+  method:"POST",
+  body:newform,    
+})
+x=await d.json()
+if(x.status=="success"){alert("Seat Generated Successfully");window.location.href="{{ current_path }}/seat/downloadseat/"}
+else if(x.status=="nodata"){alert("Sorry No Data Found")}
+else{alert("Something went wrong \n record not added")}
+}catch{
+  alert("Something went wrong \n record not added")
+}
+})
+
+
+
+
+
 
 
 

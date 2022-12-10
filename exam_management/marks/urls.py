@@ -6,4 +6,5 @@ urlpatterns = [
     path("marksoption/",marksoption),
     path("theory/",theory),
     path("uploadtheory/",uploadtheory),
+    path("submittheory/",submittheory),
 ]

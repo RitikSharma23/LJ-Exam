@@ -150,6 +150,8 @@
 
 <center>
   <div class="container">
+    <form action="{{ current_path }}/adminpage/uploadexcel/" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
       <div class="form-group row">
         <label for="excel" class="col-4 col-form-label">Upload Excel</label> 
         <div class="col-8">
