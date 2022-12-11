@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <link rel="stylesheet" href="assets/css/style.css">
-<title>Theory Option</title>
+<title>Marks Option</title>
 </head>
 <body>
 
@@ -17,17 +17,17 @@
     <div class="shadow p-3 mb-5 bg-white rounded mx-auto" style="width: 60%;">
 
         <div class="card">
-            <h5 class="card-header">Theory</h5>
+            <h5 class="card-header">Mid</h5>
             <div class="card-body">
-            <form action="{{ current_path }}/marks/uploadtheory/" method="POST" enctype="multipart/form-data">{% csrf_token %}
+            <form action="{{ current_path }}/marks/uploadmid/" method="POST" enctype="multipart/form-data">{% csrf_token %}
               <!-- <h5 class="card-title">Select Marking Scheme</h5><br> -->
               <input type="text" name="subjectcode" value="{{subject.subjectcode}}" hidden>
               <input type="text" name="year" value="{{year}}" hidden>
-              <input type="text" name="type" value="theory" hidden>
+              <input type="text" name="type" value="mid" hidden>
                 <!-- Passing Mark : <input type="number" name="passing"> -
                 <input type="number" name="total" value="{{subject.theory_marks}}" readonly disabled><br><br>  -->
 
-                <h5 class="card-title">Upload Seatnumber Excel File : </h5><br><input type="file" name="theoryexcel" id="seatexcel"> <button type="submit" class="btn btn-primary">Next</button><br><br>
+                <h5 class="card-title">Upload Seatnumber Excel File : </h5><br><input type="file" name="midexcel" id="seatexcel"> <button type="submit" class="btn btn-primary">Next</button><br><br>
 
               </form>
 

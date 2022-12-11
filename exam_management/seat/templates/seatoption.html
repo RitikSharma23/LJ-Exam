@@ -11,6 +11,7 @@
 <title>Seat Option</title>
 </head>
 <body>
+  
 
     <div class="shadow p-3 mb-5 bg-white rounded mx-auto" style="width: 60%;">
 
@@ -63,15 +64,43 @@
                     <div class="card-body">
                       <h5 class="card-title">Year  :  {{data.session}}-{{data.year}}</h5>
                       <p class="card-text">Download Only For Remedial Students</p>
+
+                      {%if subject.theory %}
                       <form action="" method="post" id="theoryremedial">{% csrf_token %}
+                        <select id="theorybatch">
+                          {%for b in batchlist%}
+                          <option value="{{b.0}}">20{{b.0}}</option>
+                          {%endfor%}
+                        </select>
                         <button class="btn btn-primary" type="submit">Theory</button>
                       </form><br>
+                      {%endif%}
+
+                      {%if subject.practical %}
                       <form action="" method="post" id="practicalremedial">{% csrf_token %}
+                        <select id="practicalbatch">
+                          {%for b in batchlist%}
+                          <option value="{{b.0}}">20{{b.0}}</option>
+                          {%endfor%}
+                        </select>
                         <button class="btn btn-primary" type="submit">Practical</button>
                       </form><br>
+                      {%endif%}
+
+                      {%if subject.mid %}
                       <form action="" method="post" id="midremedial">{% csrf_token %}
+                        <select id="midbatch">
+                          {%for b in batchlist%}
+                          <option value="{{b.0}}">20{{b.0}}</option>
+                          {%endfor%}
+                        </select>
                         <button class="btn btn-primary" type="submit">Mid</button>
-                      </form>
+                      </form><br>
+                      {%endif%}
+
+          
+
+                    
                     </div>
                   </div><br>
 
@@ -93,7 +122,7 @@
   form=document.getElementById("sem")
 form.addEventListener("submit",async(e)=>{
   e.preventDefault()
-csrf=document.getElementsByName("csrfmiddlewaretoken")[1].value
+csrf=document.getElementsByName("csrfmiddlewaretoken")[0].value
 newform=new FormData();
 newform.append("subjectcode","{{subject.subjectcode}}")
 newform.append("year","{{data.year}}")
@@ -113,17 +142,22 @@ else{alert("Something went wrong \n record not added")}
 }
 })
 
+</script>
 
+
+{%if subject.theory %}
+<script>
 // ============= Remedial Theory ======================
   form2=document.getElementById("theoryremedial")
 form2.addEventListener("submit",async(e)=>{
   e.preventDefault()
-csrf=document.getElementsByName("csrfmiddlewaretoken")[1].value
+csrf=document.getElementsByName("csrfmiddlewaretoken")[0].value
 newform=new FormData();
 newform.append("subjectcode","{{subject.subjectcode}}")
 newform.append("year","{{data.year}}")
 newform.append("session","{{data.session}}")
 newform.append("type","_t")
+newform.append("batch",document.getElementById("theorybatch").value)
 newform.append("csrfmiddlewaretoken",csrf)
 try{
   let d=await fetch("{{ current_path }}/seat/seatremedial/",{
@@ -138,18 +172,22 @@ else{alert("Something went wrong \n record not added")}
   alert("Something went wrong \n record not added")
 }
 })
+</script>
+{%endif%}
 
-
+{%if subject.practical %}
+<script>
 // ============= Remedial Practical ======================
-  form2=document.getElementById("practicalremedial")
-form2.addEventListener("submit",async(e)=>{
+  form3=document.getElementById("practicalremedial")
+form3.addEventListener("submit",async(e)=>{
   e.preventDefault()
-csrf=document.getElementsByName("csrfmiddlewaretoken")[1].value
+csrf=document.getElementsByName("csrfmiddlewaretoken")[0].value
 newform=new FormData();
 newform.append("subjectcode","{{subject.subjectcode}}")
 newform.append("year","{{data.year}}")
 newform.append("session","{{data.session}}")
 newform.append("type","_p")
+newform.append("batch",document.getElementById("practicalbatch").value)
 newform.append("csrfmiddlewaretoken",csrf)
 try{
   let d=await fetch("{{ current_path }}/seat/seatremedial/",{
@@ -164,18 +202,23 @@ else{alert("Something went wrong \n record not added")}
   alert("Something went wrong \n record not added")
 }
 })
+</script>
+{%endif%}
 
+{%if subject.mid %}
+<script>
 
 // ============= Remedial Mid ======================
-  form2=document.getElementById("midremedial")
-form2.addEventListener("submit",async(e)=>{
+  form4=document.getElementById("midremedial")
+form4.addEventListener("submit",async(e)=>{
   e.preventDefault()
-csrf=document.getElementsByName("csrfmiddlewaretoken")[1].value
+csrf=document.getElementsByName("csrfmiddlewaretoken")[0].value
 newform=new FormData();
 newform.append("subjectcode","{{subject.subjectcode}}")
 newform.append("year","{{data.year}}")
 newform.append("session","{{data.session}}")
 newform.append("type","_m")
+newform.append("batch",document.getElementById("midbatch").value)
 newform.append("csrfmiddlewaretoken",csrf)
 try{
   let d=await fetch("{{ current_path }}/seat/seatremedial/",{
@@ -191,15 +234,8 @@ else{alert("Something went wrong \n record not added")}
 }
 })
 
-
-
-
-
-
-
-
 </script>
-
+{%endif%}
 
 </body>
 </html>

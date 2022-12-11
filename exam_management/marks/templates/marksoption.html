@@ -12,8 +12,6 @@
 </head>
 <body>
 
-    {{year}} 
-    {{subject}}
 
     <div class="shadow p-3 mb-5 bg-white rounded mx-auto" style="width: 60%;">
 
@@ -56,9 +54,9 @@
                     <div class="card-body">
                       <p class="card-text">Please Upload Seat-Number generated excel For Theory Only</p>
                       <form action="{{ current_path }}/marks/theory/" method="POST">{% csrf_token %}
-                      <input type="text" name="subjectcode" value="{{subject.subjectcode}}">
-                      <input type="text" name="year" value="{{year}}">
-                      <input type="text" name="type" value="theory">
+                      <input type="text" name="subjectcode" value="{{subject.subjectcode}}" hidden>
+                      <input type="text" name="year" value="{{year}}" hidden>
+                      <input type="text" name="type" value="theory" hidden>
                       <button class="btn btn-primary" id="all">Theory</button>
                       </form>
                     </div>
@@ -68,11 +66,14 @@
 
                   {%if subject.practical %}
                   <div class="card">
+                    <h5 class="card-header">Practical  {{data.session}}- {{year}}</h5>
                     <div class="card-body">
-                      <h5 class="card-title">Practical  {{data.session}}- {{year}}</h5>
-                      <p class="card-text">Download Only For Sem {{subject.sem}} Students</p>
-                      <form action="" method="post" id="sem">{% csrf_token %}
-                        <button class="btn btn-primary" type="submit">Download</button>
+                      <p class="card-text">Please Upload Seat-Number generated excel For Practical Only</p>
+                      <form action="{{ current_path }}/marks/practical/" method="POST">{% csrf_token %}
+                      <input type="text" name="subjectcode" value="{{subject.subjectcode}}" hidden>
+                      <input type="text" name="year" value="{{year}}" hidden>
+                      <input type="text" name="type" value="practical" hidden>
+                      <button class="btn btn-primary" id="all">Practical</button>
                       </form>
                     </div>
                   </div><br>
@@ -81,12 +82,17 @@
 
                   {%if subject.mid %}
                   <div class="card">
+                    <h5 class="card-header">Mid  {{data.session}}- {{year}}</h5>
                     <div class="card-body">
-                      <h5 class="card-title">Mid {{data.session}}- {{year}}</h5>
-                      <p class="card-text">Download Only For Remedial Students</p>
-                      <button class="btn btn-primary" id="remedial">Download</button>
+                      <p class="card-text">Please Upload Seat-Number generated excel For Mid Only</p>
+                      <form action="{{ current_path }}/marks/mid/" method="POST">{% csrf_token %}
+                      <input type="text" name="subjectcode" value="{{subject.subjectcode}}" hidden>
+                      <input type="text" name="year" value="{{year}}" hidden>
+                      <input type="text" name="type" value="mid" hidden>
+                      <button class="btn btn-primary" id="all">Mid</button>
+                      </form>
                     </div>
-                  </div>
+                  </div><br>
                   {%endif%}
 
 

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="Description" content="Enter your description here"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<title>Marks Entry</title>
+</head>
+<body>
+
+  
+
+  <br><br>
+  <div class="shadow p-3 mb-5 bg-white rounded mx-auto" style="width: 90%;">
+    <form action="{{ current_path }}/marks/submitpractical/" method="post">{% csrf_token %}
+      <input type="text" name="subjectcode" value="{{subject.subjectcode}}" hidden>
+              <input type="text" name="year" value="{{year}}" hidden>
+              <input type="text" name="type" value="practical" hidden>
+              <input type="text" name="total" value="{{subject.practical_marks}}" hidden>
+
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Enrollment No.</th>
+          <th scope="col">Seat No.</th>
+          <th scope="col">Marks</th>
+          <th scope="col">Percentage</th>
+          <th scope="col">Grade Point</th>
+          <th scope="col">Grade</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {%for e in excel%}
+        <tr>
+          <td>{{e.1}}</td>
+          <td>{{e.0}}</td>
+          <td>{{e.2}}</td>
+          <td id="b{{e.2}}"><input type="number" name="marks" min="0" max="{{subject.practical_marks}}" class="marks" id="{{e.2}}" required/></td>
+          <td id="p{{e.2}}"></td>
+          <td id="gp{{e.2}}"></td>
+          <td id="g{{e.2}}"></td>
+          <td id="s{{e.2}}"></td>
+
+          <input type="text" name="status" id="sv{{e.2}}" hidden>
+          <input type="text" name="grade" id="gv{{e.2}}" hidden>
+          <input type="text" name="gradepoint" id="gpv{{e.2}}" hidden>
+          <input type="text" name="enrollment" value="{{e.0}}" hidden>
+       
+        </tr>
+        {%endfor%}
+        
+      </tbody>
+     
+    </table>
+    <button type="submit" class="btn btn-primary">Submit Marks</button>
+  </form>
+
+ 
+
+  </div>
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+
+<script>
+
+
+
+var elements = document.getElementsByClassName("marks");
+   
+    var myFunction = function() {
+        var attribute = this.getAttribute("id");
+        console.log("{{passing}}")
+        marks=document.getElementById(attribute).value
+        per=(marks*100)/parseFloat("{{subject.practical_marks}}")
+        
+        document.getElementById("p"+attribute).innerHTML=per.toFixed(2)
+
+// =============== marks validation ========================
+        if(marks>parseFloat("{{subject.practical_marks}}")){
+          document.getElementById("b"+attribute).style.border="solid red"
+        }else{
+          document.getElementById("b"+attribute).style.border="none"
+        }
+// ===================== passing validation =================
+        if(per>parseFloat("{{passing}}")+1){
+          document.getElementById("s"+attribute).innerHTML="P"
+          document.getElementById("sv"+attribute).value="P"
+          document.getElementById("s"+attribute).style.color="green"
+          document.getElementById("s"+attribute).style.border="solid green"
+        }else{
+          document.getElementById("s"+attribute).innerHTML="F"
+          document.getElementById("sv"+attribute).value="F"
+          document.getElementById("s"+attribute).style.color="red"
+          document.getElementById("s"+attribute).style.border="solid red"
+        }
+
+// ===================== grades ======================
+
+"{%for g in grade%}"
+console.log("{{g.r1}} - {{g.r2}}")
+        if(per>=(parseFloat("{{g.r1}}")) && per<=(parseFloat("{{g.r2}}")+0.99)){
+          document.getElementById("g"+attribute).innerHTML="{{g.grade}}"
+          document.getElementById("gv"+attribute).value="{{g.grade}}"
+          document.getElementById("gp"+attribute).innerHTML="{{g.gradepoint}}"
+          document.getElementById("gpv"+attribute).value="{{g.gradepoint}}"
+        }
+"{%endfor%}"
+};
+
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].addEventListener('keyup', myFunction, false);
+    }
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].addEventListener('keydown', myFunction, false);
+    }
+
+</script>
+</body>
+</html>

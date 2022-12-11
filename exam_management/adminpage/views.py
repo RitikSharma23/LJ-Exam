@@ -12,17 +12,18 @@ from django.http import FileResponse
 institute=""
 program=""
 
-mydb = mysql.connector.connect(
-host="localhost",
-user="root",
-password="",
-database="python"
-)
-mycursor = mydb.cursor()
+config={
+'host':"localhost",
+'user':"root",
+'password':"",
+'database':"python"
+}
 
 fields=['enrollment','sem','roll','oldenrollment','name','phone','email','gender','dob','caste','subcast','category','password','photo','institute_code','program_code','parent_contact','emergency_contact','userid','address','aadhaar','finalsem','term_end','total_credits','total_grade_points','total_backlog']
 
 def arrange(col):
+    mydb=mysql.connector.connect(**config)
+    mycursor = mydb.cursor()
     sql="SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`='python' AND `TABLE_NAME`='adminpage_studentmarks';"
     mycursor.execute(sql)
     myresult = mycursor.fetchall()
@@ -40,9 +41,9 @@ def arrange(col):
         
         if(after==(len(table))-1):return("AFTER "+table[after-1])
         elif(after==0):return("AFTER enrollment")
-        else:return("AFTER "+table[after-1])
+        else:mydb.close();return("AFTER "+table[after-1])
 
-    else: return('AFTER enrollment')
+    else: mydb.close();return('AFTER enrollment')
 
 def clear(request):
     global institute,program
@@ -114,7 +115,6 @@ def deleteinstitute(request):
 
 def doeditinstitute(request):
     data=request.POST
-    mydb.commit()
 
     v=Course.objects.filter(id=data['uid']).update(institute_Code=data['institute_code'],program_code=data['program_code'],type=data['program_type'],institute_Name=data['institute_name'],degree_Name=data['degree_name'],category=data['program_category'],branch=data['branch_name'])
     if(v==1):
@@ -280,23 +280,32 @@ def doaddsubject(request):
     d.save()
 
     if(data['theory']=="True"):
+        mydb=mysql.connector.connect(**config)
+        mycursor = mydb.cursor()
         subt=data['sem']+"_"+data['subjectcode']+"_t"
         zt=arrange(subt)
         val="ALTER TABLE adminpage_studentmarks ADD "+ subt +" TEXT(2000) NOT NULL DEFAULT 'n' "+zt+";"
         mycursor.execute(val)
         mydb.commit()
+        mydb.close()
     if(data['practical']=="True"):
+        mydb=mysql.connector.connect(**config)
+        mycursor = mydb.cursor()
         subp=data['sem']+"_"+data['subjectcode']+"_p"
         zp=arrange(subp)
         val="ALTER TABLE adminpage_studentmarks ADD "+ subp +" TEXT(2000) NOT NULL DEFAULT 'n' "+zp+";"
         mycursor.execute(val)
         mydb.commit()
+        mydb.close()
     if(data['mid']=="True"):
+        mydb=mysql.connector.connect(**config)
+        mycursor = mydb.cursor()
         subm=data['sem']+"_"+data['subjectcode']+"_m"
         zm=arrange(subm)
         val="ALTER TABLE adminpage_studentmarks ADD "+ subm +" TEXT(2000) NOT NULL DEFAULT 'n' "+zm+";"
         mycursor.execute(val)
         mydb.commit()
+        mydb.close()
 
     
     return HttpResponse('{"status":"success"}')
@@ -328,6 +337,8 @@ def doeditsubject(request):
     return HttpResponse('{"status":"success"}')
 
 def upgradepage(request):
+    mydb=mysql.connector.connect(**config)
+    mycursor = mydb.cursor()
     mycursor.execute("SELECT DISTINCT SUBSTRING(enrollment, 1, 2) AS batch,sem as sem FROM adminpage_studentdetails WHERE institute_code='"+institute+"' and program_code='"+program+"';")
 
     myresult = mycursor.fetchall()
@@ -337,15 +348,19 @@ def upgradepage(request):
     data={'batchlist':myresult,
             'institute':institute,
             'program':program}
+    mydb.close()
     return selectcourse(request,"upgradepage.html",data)
 
 
 def upgradebatch(request):
+    mydb=mysql.connector.connect(**config)
+    mycursor = mydb.cursor()
     data=request.POST
     print(data)
 
     mycursor.execute("UPDATE adminpage_studentdetails set sem ='"+data['sem']+"' WHERE institute_code='"+data['institute_code']+"' and program_code='"+data['program_code']+"' and enrollment like '"+data['batch']+"%';")
     mydb.commit()
+    mydb.close()
     x=mycursor.rowcount
     if(x>1):return HttpResponse('{"status":"success"}')
     else:return HttpResponse("failed")

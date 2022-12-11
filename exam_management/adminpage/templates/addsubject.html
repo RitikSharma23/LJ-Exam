@@ -178,7 +178,7 @@ try{
   body:newform,    
 })
 x=await d.json()
-if(x.status=="success"){alert("Institute Added Successfully")}else{alert("Something went wrong \n record not added")}
+if(x.status=="success"){alert("Subject Added Successfully");location.reload()}else{alert("Something went wrong \n record not added")}
 }catch{
   alert("Something went wrong \n record not added")
 }
