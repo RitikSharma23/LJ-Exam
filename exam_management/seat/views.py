@@ -111,6 +111,7 @@ def seatremedial(request):
     myresult = mycursor.fetchall()
 
 
+
     wb = Workbook()
     dest_filename = 'Seat.xlsx'
     ws1 = wb.active

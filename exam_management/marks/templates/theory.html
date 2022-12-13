@@ -23,13 +23,36 @@
               <!-- <h5 class="card-title">Select Marking Scheme</h5><br> -->
               <input type="text" name="subjectcode" value="{{subject.subjectcode}}" hidden>
               <input type="text" name="year" value="{{year}}" hidden>
-              <input type="text" name="type" value="theory" hidden>
+              <input type="text" name="type" value="_t" hidden>
                 <!-- Passing Mark : <input type="number" name="passing"> -
                 <input type="number" name="total" value="{{subject.theory_marks}}" readonly disabled><br><br>  -->
-
-                <h5 class="card-title">Upload Seatnumber Excel File : </h5><br><input type="file" name="theoryexcel" id="seatexcel"> <button type="submit" class="btn btn-primary">Next</button><br><br>
-
+                <h5 class="card-title">Select Student Type : </h5><br>
+                <input type="text" name="btype" value="regular">
+                 <button type="submit" class="btn btn-primary">Regular</button><br><br>
               </form>
+
+            <!-- <form  method="POST" enctype="multipart/form-data">{% csrf_token %} -->
+              <!-- <h5 class="card-title">Select Marking Scheme</h5><br> -->
+             
+                <!-- Passing Mark : <input type="number" name="passing"> -
+                <input type="number" name="total" value="{{subject.theory_marks}}" readonly disabled><br><br>  -->
+                <h5 class="card-title">Select Student Type : </h5><br>
+                
+                <form action="{{ current_path }}/marks/uploadtheory/" method="post" id="midremedial">{% csrf_token %}
+                  <input type="text" name="subjectcode" value="{{subject.subjectcode}}" hidden>
+                  <input type="text" name="year" value="{{year}}" hidden>
+                  <input type="text" name="type" value="_t" hidden>
+                <input type="text" name="btype" value="remedial" hidden>
+                  <select id="midbatch" name="batch">
+                    {%for b in batchlist%}
+                    <option value="{{b.0}}">20{{b.0}}</option>
+                    {%endfor%}
+                  </select>
+                 <button type="submit" class="btn btn-primary">Remedial</button><br><br>
+              </form>
+
+
+
 
               <h5 class="card-title">Select Grades Scheme</h5><br>  
 
