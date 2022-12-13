@@ -12,8 +12,6 @@
 </head>
 <body>
 
-  
-
   <br><br>
   <div class="shadow p-3 mb-5 bg-white rounded mx-auto" style="width: 90%;">
     <form action="{{ current_path }}/marks/submitmid/" method="post">{% csrf_token %}
@@ -27,7 +25,10 @@
         <tr>
           <th scope="col">Name</th>
           <th scope="col">Enrollment No.</th>
-          <th scope="col">Seat No.</th>
+          {%if remedial%}
+          <th scope="col" style="width: 150px;color: gray;">Old Marks ({{remedialyear}})</th>
+          {%endif%}
+          
           <th scope="col">Marks</th>
           <th scope="col">Percentage</th>
           <th scope="col">Grade Point</th>
@@ -40,16 +41,18 @@
         <tr>
           <td>{{e.1}}</td>
           <td>{{e.0}}</td>
-          <td>{{e.2}}</td>
-          <td id="b{{e.2}}"><input type="number" name="marks" min="0" max="{{subject.mid_marks}}" class="marks" id="{{e.2}}" required/></td>
-          <td id="p{{e.2}}"></td>
-          <td id="gp{{e.2}}"></td>
-          <td id="g{{e.2}}"></td>
-          <td id="s{{e.2}}"></td>
+          {%if remedial%}
+          <td id="o{{e.1}}" style="width: 150px;color: gray;">Na</td>
+          {%endif%}
+          <td id="b{{e.1}}"><input type="number" name="marks" min="0" max="{{subject.mid_marks}}" class="marks" id="{{e.1}}"  required/></td>
+          <td id="p{{e.1}}"></td>
+          <td id="gp{{e.1}}"></td>
+          <td id="g{{e.1}}"></td>
+          <td id="s{{e.1}}"></td>
 
-          <input type="text" name="status" id="sv{{e.2}}" hidden>
-          <input type="text" name="grade" id="gv{{e.2}}" hidden>
-          <input type="text" name="gradepoint" id="gpv{{e.2}}" hidden>
+          <input type="text" name="status" id="sv{{e.1}}" hidden>
+          <input type="text" name="grade" id="gv{{e.1}}" hidden>
+          <input type="text" name="gradepoint" id="gpv{{e.1}}" hidden>
           <input type="text" name="enrollment" value="{{e.0}}" hidden>
        
         </tr>
@@ -74,6 +77,50 @@
 
 
 <script>
+
+"{%for e in excel%}"
+per=(parseFloat("{{e.2}}")*100)/parseFloat("{{subject.mid_marks}}")
+
+if (isNaN(per)){
+document.getElementById("p{{e.1}}").innerHTML=""
+}else if("{{e.2}}"=="000"){
+  "{%if remedial%}"
+document.getElementById("o{{e.1}}").innerHTML="{{e.3}}"
+"{%endif%}"
+
+}else{
+document.getElementById("p{{e.1}}").innerHTML=per.toFixed(2)
+document.getElementById("{{e.1}}").value="{{e.2}}"
+
+"{%if remedial%}"
+document.getElementById("o{{e.1}}").innerHTML="{{e.3}}"
+"{%endif%}"
+
+    if(per>parseFloat("{{passing}}")+1){
+          document.getElementById("s{{e.1}}").innerHTML="P"
+          document.getElementById("sv{{e.1}}").value="P"
+          document.getElementById("s{{e.1}}").style.color="green"
+          document.getElementById("s{{e.1}}").style.border="solid green"
+    }else{
+      document.getElementById("s{{e.1}}").innerHTML="F"
+      document.getElementById("sv{{e.1}}").value="F"
+      document.getElementById("s{{e.1}}").style.color="red"
+      document.getElementById("s{{e.1}}").style.border="solid red"
+    }
+
+    "{%for g in grade%}"
+      console.log("{{g.r1}} - {{g.r2}}")
+            if(per>=(parseFloat("{{g.r1}}")) && per<=(parseFloat("{{g.r2}}")+0.99)){
+              document.getElementById("g{{e.1}}").innerHTML="{{g.grade}}"
+              document.getElementById("gv{{e.1}}").value="{{g.grade}}"
+              document.getElementById("gp{{e.1}}").innerHTML="{{g.gradepoint}}"
+              document.getElementById("gpv{{e.1}}").value="{{g.gradepoint}}"
+            }
+    "{%endfor%}"
+
+  }
+
+"{%endfor%}"
 
 
 
