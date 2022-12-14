@@ -223,13 +223,16 @@ def uploadexcel(request):
         for row in worksheet.iter_rows():
             row_data = list()
             for cell in row:
-                row_data.append(str(cell.value))
-            excel_data.append(row_data)
+                    row_data.append(str(cell.value))
+            if(row_data[0]!='None'):
+                excel_data.append(row_data)
         
 
         column=list()
         query=list()
         a=dict()
+
+        print(excel_data)
         
         for i in range(1,len(excel_data)):
             a.clear()

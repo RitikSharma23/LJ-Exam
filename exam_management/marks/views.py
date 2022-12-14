@@ -61,12 +61,12 @@ def uploadtheory(request):
         d=d[0]
         b='{"Status": "F"%'
         sub=str(d['sem'])+"_"+d['subjectcode']+data['type']
-        # c=('SELECT  adminpage_studentmarks.enrollment,adminpage_studentdetails.name FROM adminpage_studentmarks INNER JOIN adminpage_studentdetails ON adminpage_studentdetails.enrollment=adminpage_studentmarks.enrollment WHERE '+str(sub)+' LIKE '+"'"+b+"' AND adminpage_studentmarks.enrollment LIKE '"+data['batch']+"%'" )
-        c=('''
-            SELECT  adminpage_studentmarks.enrollment,adminpage_studentdetails.name,
+
+        c=('''SELECT  adminpage_studentmarks.enrollment,adminpage_studentdetails.name,
             adminpage_studentmarks.'''+sub+''' FROM adminpage_studentmarks INNER JOIN adminpage_studentdetails ON adminpage_studentdetails.enrollment=adminpage_studentmarks.enrollment WHERE 
-            '''+sub+''' LIKE '''+"'"+str(b)+"'"+''' AND 
-            adminpage_studentmarks.enrollment LIKE '''+"'"+str(data['batch']+"%"+"'"))
+            adminpage_studentmarks.enrollment LIKE '''+"'"+str(data['batch'])+"%'"+''' AND   
+            adminpage_studentdetails.institute_code='''+str(d['institute_code'])+''' AND 
+            adminpage_studentdetails.program_code='''+str(d['program_code'])+''';''')
         print(c)
         mycursor = mydb.cursor()
         mycursor.execute(c)
@@ -74,17 +74,29 @@ def uploadtheory(request):
         mydb.close()
 
         arr = list()
-        for i in range(0, len(myresult)):
-            if(myresult[i][2]=='n'):
-                arr.insert(i,[myresult[i][0],myresult[i][1],""])
-            else:
+        print(myresult[0][2])
+        if(myresult[0][2]=='n'):
+            return HttpResponse("No Data Found for this year")
+        else:
+            for i in range(0, len(myresult)):
                 marks = ast.literal_eval(myresult[i][2])
-                if str(int(data['year'])-1) not in marks['year'].keys():return HttpResponse("No Data Found");break
 
-                if data['year'] in marks['year'].keys():
-                    arr.insert(i,[(myresult[i][0]),myresult[i][1],marks['year'][data['year']]['theory']['marks'],marks['year'][str(int(data['year'])-1)]['theory']['marks']])
-                else:arr.insert(i,[myresult[i][0],myresult[i][1],"000",marks['year'][str(int(data['year'])-1)]['theory']['marks']])
+                if str(int(data['year'])-1) in marks['year'].keys():
 
+
+                    if(marks['year'][str(int(data['year'])-1)]['theory']['grade']=='F'):
+                        
+                        if data['year'] in marks['year'].keys():
+                            print(marks['year'][str(int(data['year'])-1)]['theory']['grade'])
+                            arr.insert(i,[(myresult[i][0]),myresult[i][1],marks['year'][data['year']]['theory']['marks'],marks['year'][str(int(data['year'])-1)]['theory']['marks']])
+                        
+                        elif str(int(data['year'])-1) not in marks['year'].keys():return HttpResponse("No Data Found second");break
+
+                        else:
+                            arr.insert(i,[(myresult[i][0]),myresult[i][1],"000",marks['year'][str(int(data['year'])-1)]['theory']['marks']])
+
+
+        
         d=Subject.objects.filter(subjectcode=data['subjectcode']).values()
         g=Grade.objects.all().values()
         passing=g[len(g)-1]['r2']
@@ -92,6 +104,7 @@ def uploadtheory(request):
         detail={'excel':arr,'subject':d[0],'grade':g,'year':data['year'],'passing':passing,'remedial':True,'remedialyear':str(int(data['year'])-1)}
 
         return render(request,"theoryexcel.html",detail)
+
     
     else:
         mydb=mysql.connector.connect(**config)
@@ -110,7 +123,7 @@ def uploadtheory(request):
         mycursor.execute(c)
         myresult = mycursor.fetchall()
         mydb.close()
-
+        
         arr = list()
         for i in range(0, len(myresult)):
             if(myresult[i][2]=='n'):
@@ -119,9 +132,9 @@ def uploadtheory(request):
                 marks = ast.literal_eval(myresult[i][2])
 
                 if data['year'] in marks['year'].keys():
-                    # arr[i][2]=
                     arr.insert(i,[(myresult[i][0]),myresult[i][1],marks['year'][data['year']]['theory']['marks']])
-                else:arr.insert(i,[myresult[i][0],myresult[i][1],""])
+                # else:arr.insert(i,[myresult[i][0],myresult[i][1],""])
+                else:return HttpResponse("Response Alerady Addedd");break
 
         d=Subject.objects.filter(subjectcode=data['subjectcode']).values()
         g=Grade.objects.all().values()
@@ -229,12 +242,12 @@ def uploadpractical(request):
         d=d[0]
         b='{"Status": "F"%'
         sub=str(d['sem'])+"_"+d['subjectcode']+data['type']
-        # c=('SELECT  adminpage_studentmarks.enrollment,adminpage_studentdetails.name FROM adminpage_studentmarks INNER JOIN adminpage_studentdetails ON adminpage_studentdetails.enrollment=adminpage_studentmarks.enrollment WHERE '+str(sub)+' LIKE '+"'"+b+"' AND adminpage_studentmarks.enrollment LIKE '"+data['batch']+"%'" )
-        c=('''
-            SELECT  adminpage_studentmarks.enrollment,adminpage_studentdetails.name,
+
+        c=('''SELECT  adminpage_studentmarks.enrollment,adminpage_studentdetails.name,
             adminpage_studentmarks.'''+sub+''' FROM adminpage_studentmarks INNER JOIN adminpage_studentdetails ON adminpage_studentdetails.enrollment=adminpage_studentmarks.enrollment WHERE 
-            '''+sub+''' LIKE '''+"'"+str(b)+"'"+''' AND 
-            adminpage_studentmarks.enrollment LIKE '''+"'"+str(data['batch']+"%"+"'"))
+            adminpage_studentmarks.enrollment LIKE '''+"'"+str(data['batch'])+"%'"+''' AND   
+            adminpage_studentdetails.institute_code='''+str(d['institute_code'])+''' AND 
+            adminpage_studentdetails.program_code='''+str(d['program_code'])+''';''')
         print(c)
         mycursor = mydb.cursor()
         mycursor.execute(c)
@@ -242,17 +255,29 @@ def uploadpractical(request):
         mydb.close()
 
         arr = list()
-        for i in range(0, len(myresult)):
-            if(myresult[i][2]=='n'):
-                arr.insert(i,[myresult[i][0],myresult[i][1],""])
-            else:
+        print(myresult[0][2])
+        if(myresult[0][2]=='n'):
+            return HttpResponse("No Data Found for this year")
+        else:
+            for i in range(0, len(myresult)):
                 marks = ast.literal_eval(myresult[i][2])
-                if str(int(data['year'])-1) not in marks['year'].keys():return HttpResponse("No Data Found");break
 
-                if data['year'] in marks['year'].keys():
-                    arr.insert(i,[(myresult[i][0]),myresult[i][1],marks['year'][data['year']]['practical']['marks'],marks['year'][str(int(data['year'])-1)]['practical']['marks']])
-                else:arr.insert(i,[myresult[i][0],myresult[i][1],"000",marks['year'][str(int(data['year'])-1)]['practical']['marks']])
+                if str(int(data['year'])-1) in marks['year'].keys():
 
+
+                    if(marks['year'][str(int(data['year'])-1)]['practical']['grade']=='F'):
+                        
+                        if data['year'] in marks['year'].keys():
+                            print(marks['year'][str(int(data['year'])-1)]['practical']['grade'])
+                            arr.insert(i,[(myresult[i][0]),myresult[i][1],marks['year'][data['year']]['practical']['marks'],marks['year'][str(int(data['year'])-1)]['practical']['marks']])
+                        
+                        elif str(int(data['year'])-1) not in marks['year'].keys():return HttpResponse("No Data Found second");break
+
+                        else:
+                            arr.insert(i,[(myresult[i][0]),myresult[i][1],"000",marks['year'][str(int(data['year'])-1)]['practical']['marks']])
+
+
+        
         d=Subject.objects.filter(subjectcode=data['subjectcode']).values()
         g=Grade.objects.all().values()
         passing=g[len(g)-1]['r2']
@@ -289,7 +314,10 @@ def uploadpractical(request):
                 if data['year'] in marks['year'].keys():
                     # arr[i][2]=
                     arr.insert(i,[(myresult[i][0]),myresult[i][1],marks['year'][data['year']]['practical']['marks']])
-                else:arr.insert(i,[myresult[i][0],myresult[i][1],""])
+                # else:arr.insert(i,[myresult[i][0],myresult[i][1],""])
+                else:return HttpResponse("Response Alerady Addedd");break
+
+
 
         d=Subject.objects.filter(subjectcode=data['subjectcode']).values()
         g=Grade.objects.all().values()
@@ -398,12 +426,12 @@ def uploadmid(request):
         d=d[0]
         b='{"Status": "F"%'
         sub=str(d['sem'])+"_"+d['subjectcode']+data['type']
-        # c=('SELECT  adminpage_studentmarks.enrollment,adminpage_studentdetails.name FROM adminpage_studentmarks INNER JOIN adminpage_studentdetails ON adminpage_studentdetails.enrollment=adminpage_studentmarks.enrollment WHERE '+str(sub)+' LIKE '+"'"+b+"' AND adminpage_studentmarks.enrollment LIKE '"+data['batch']+"%'" )
-        c=('''
-            SELECT  adminpage_studentmarks.enrollment,adminpage_studentdetails.name,
+
+        c=('''SELECT  adminpage_studentmarks.enrollment,adminpage_studentdetails.name,
             adminpage_studentmarks.'''+sub+''' FROM adminpage_studentmarks INNER JOIN adminpage_studentdetails ON adminpage_studentdetails.enrollment=adminpage_studentmarks.enrollment WHERE 
-            '''+sub+''' LIKE '''+"'"+str(b)+"'"+''' AND 
-            adminpage_studentmarks.enrollment LIKE '''+"'"+str(data['batch']+"%"+"'"))
+            adminpage_studentmarks.enrollment LIKE '''+"'"+str(data['batch'])+"%'"+''' AND   
+            adminpage_studentdetails.institute_code='''+str(d['institute_code'])+''' AND 
+            adminpage_studentdetails.program_code='''+str(d['program_code'])+''';''')
         print(c)
         mycursor = mydb.cursor()
         mycursor.execute(c)
@@ -411,17 +439,29 @@ def uploadmid(request):
         mydb.close()
 
         arr = list()
-        for i in range(0, len(myresult)):
-            if(myresult[i][2]=='n'):
-                arr.insert(i,[myresult[i][0],myresult[i][1],""])
-            else:
+        print(myresult[0][2])
+        if(myresult[0][2]=='n'):
+            return HttpResponse("No Data Found for this year")
+        else:
+            for i in range(0, len(myresult)):
                 marks = ast.literal_eval(myresult[i][2])
-                if str(int(data['year'])-1) not in marks['year'].keys():return HttpResponse("No Data Found");break
 
-                if data['year'] in marks['year'].keys():
-                    arr.insert(i,[(myresult[i][0]),myresult[i][1],marks['year'][data['year']]['mid']['marks'],marks['year'][str(int(data['year'])-1)]['mid']['marks']])
-                else:arr.insert(i,[myresult[i][0],myresult[i][1],"000",marks['year'][str(int(data['year'])-1)]['mid']['marks']])
+                if str(int(data['year'])-1) in marks['year'].keys():
 
+
+                    if(marks['year'][str(int(data['year'])-1)]['mid']['grade']=='F'):
+                        
+                        if data['year'] in marks['year'].keys():
+                            print(marks['year'][str(int(data['year'])-1)]['mid']['grade'])
+                            arr.insert(i,[(myresult[i][0]),myresult[i][1],marks['year'][data['year']]['mid']['marks'],marks['year'][str(int(data['year'])-1)]['mid']['marks']])
+                        
+                        elif str(int(data['year'])-1) not in marks['year'].keys():return HttpResponse("No Data Found second");break
+
+                        else:
+                            arr.insert(i,[(myresult[i][0]),myresult[i][1],"000",marks['year'][str(int(data['year'])-1)]['mid']['marks']])
+
+
+        
         d=Subject.objects.filter(subjectcode=data['subjectcode']).values()
         g=Grade.objects.all().values()
         passing=g[len(g)-1]['r2']
@@ -458,7 +498,9 @@ def uploadmid(request):
                 if data['year'] in marks['year'].keys():
                     # arr[i][2]=
                     arr.insert(i,[(myresult[i][0]),myresult[i][1],marks['year'][data['year']]['mid']['marks']])
-                else:arr.insert(i,[myresult[i][0],myresult[i][1],""])
+                # else:arr.insert(i,[myresult[i][0],myresult[i][1],""])
+                else:return HttpResponse("Response Alerady Addedd");break
+
 
         d=Subject.objects.filter(subjectcode=data['subjectcode']).values()
         g=Grade.objects.all().values()
