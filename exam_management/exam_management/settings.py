@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     "home",
     "adminpage",
     "seat",
-    "marks"
+    "marks",
+    "result"
 ]
 
 MIDDLEWARE = [
