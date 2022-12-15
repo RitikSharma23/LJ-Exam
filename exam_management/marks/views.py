@@ -6,6 +6,7 @@ import mysql.connector
 import json
 import ast
 
+
 config={
 'host':"localhost",
 'user':"root",
@@ -276,7 +277,6 @@ def uploadpractical(request):
                         else:
                             arr.insert(i,[(myresult[i][0]),myresult[i][1],"000",marks['year'][str(int(data['year'])-1)]['practical']['marks']])
 
-
         
         d=Subject.objects.filter(subjectcode=data['subjectcode']).values()
         g=Grade.objects.all().values()
@@ -428,7 +428,8 @@ def uploadmid(request):
         sub=str(d['sem'])+"_"+d['subjectcode']+data['type']
 
         c=('''SELECT  adminpage_studentmarks.enrollment,adminpage_studentdetails.name,
-            adminpage_studentmarks.'''+sub+''' FROM adminpage_studentmarks INNER JOIN adminpage_studentdetails ON adminpage_studentdetails.enrollment=adminpage_studentmarks.enrollment WHERE 
+            adminpage_studentmarks.'''+sub+''' FROM adminpage_studentmarks INNER JOIN adminpage_studentdetails
+             ON adminpage_studentdetails.enrollment=adminpage_studentmarks.enrollment WHERE 
             adminpage_studentmarks.enrollment LIKE '''+"'"+str(data['batch'])+"%'"+''' AND   
             adminpage_studentdetails.institute_code='''+str(d['institute_code'])+''' AND 
             adminpage_studentdetails.program_code='''+str(d['program_code'])+''';''')

@@ -28,7 +28,7 @@
       <td>Theory</td>
       <td>Practical</td>
       <td>Mid</td>
-      <td>Action</td>
+      <!-- <td>Action</td> -->
       </tr>      
   
 
@@ -54,12 +54,12 @@
       {%else%}
       <td>NA</td>
       {%endif%}
-      <td>
+      <!-- <td>
         <form action="{{ current_path }}/adminpage/editsubject/" method="post">{% csrf_token %}
           <input type="number" name="subjectcode" value="{{i.subjectcode}}" style="display: none;">
           <button type="submit" class="btn btn-success">Update</button>
         </form>
-      </td>
+      </td> -->
     </tr>
     
     {%endfor%}

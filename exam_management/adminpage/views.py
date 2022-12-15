@@ -77,6 +77,8 @@ def selectcourse(request,page,data):
             else:
                 db=Course.objects.values_list('institute_Code','program_code','type','institute_Name','degree_Name','category','branch').filter(institute_Code=institute,program_code=program)
                 data['course']=db[0]
+                data['ins']=institute
+                data['pro']=program
                 return render(request,page,data)
 
 def adminpage(request):  

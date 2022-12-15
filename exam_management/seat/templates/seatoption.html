@@ -166,6 +166,7 @@ try{
 })
 x=await d.json()
 if(x.status=="success"){alert("Seat Generated Successfully");window.location.href="{{ current_path }}/seat/downloadseat/"}
+// if(x.status=="success"){alert("Seat Generated Successfully")}
 else if(x.status=="nodata"){alert("Sorry No Data Found")}
 else{alert("Something went wrong \n record not added")}
 }catch{
