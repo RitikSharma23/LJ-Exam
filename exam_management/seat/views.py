@@ -55,7 +55,6 @@ def seatsem(request):
     d=d[0]
   
     c=("SELECT enrollment,name FROM adminpage_studentdetails WHERE enrollment like '__"+str(d['institute_code'])+"_"+str(d['program_code'])+"%' and sem="+str(d['sem'])+";")
-    print(c)
     mycursor = mydb.cursor()
     mycursor.execute(c)
     myresult = mycursor.fetchall()
@@ -139,7 +138,6 @@ def seatremedial(request):
     adminpage_studentmarks.'''+sub+'''_p LIKE '{"Status": "F"%' OR
     adminpage_studentmarks.'''+sub+'''_m LIKE '{"Status": "F"%') AND
     adminpage_studentmarks.enrollment LIKE '''+"'"+data['batch']+"%'")
-    print(c)
     mycursor = mydb.cursor()
     mycursor.execute(c)
     myresult = mycursor.fetchall()
@@ -161,9 +159,6 @@ def seatremedial(request):
     ws1.cell(1,8).value="Mid Marks"
     ws1.cell(1,9).value="Mid Status"
 
-    
-
-    # print()
     
 
     if(len(myresult)>=1):
@@ -198,9 +193,6 @@ def seatremedial(request):
             
             if str(int(data['year'])-1) not in markst['year'].keys() and str(int(data['year'])-1) not in marksp['year'].keys() and str(int(data['year'])-1) not in marksm['year'].keys():
                 return HttpResponse('{"status":"nodata"}')
-
-            
-
 
         wb.save(filename = dest_filename) 
 

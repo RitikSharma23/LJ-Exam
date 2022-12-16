@@ -68,14 +68,12 @@ def uploadtheory(request):
             adminpage_studentmarks.enrollment LIKE '''+"'"+str(data['batch'])+"%'"+''' AND   
             adminpage_studentdetails.institute_code='''+str(d['institute_code'])+''' AND 
             adminpage_studentdetails.program_code='''+str(d['program_code'])+''';''')
-        print(c)
         mycursor = mydb.cursor()
         mycursor.execute(c)
         myresult = mycursor.fetchall()
         mydb.close()
 
         arr = list()
-        print(myresult[0][2])
         if(myresult[0][2]=='n'):
             return HttpResponse("No Data Found for this year")
         else:
@@ -88,7 +86,6 @@ def uploadtheory(request):
                     if(marks['year'][str(int(data['year'])-1)]['theory']['grade']=='F'):
                         
                         if data['year'] in marks['year'].keys():
-                            print(marks['year'][str(int(data['year'])-1)]['theory']['grade'])
                             arr.insert(i,[(myresult[i][0]),myresult[i][1],marks['year'][data['year']]['theory']['marks'],marks['year'][str(int(data['year'])-1)]['theory']['marks']])
                         
                         elif str(int(data['year'])-1) not in marks['year'].keys():return HttpResponse("No Data Found second");break
@@ -119,7 +116,6 @@ def uploadtheory(request):
         adminpage_studentdetails.institute_code='''+str(d['institute_code'])+''' AND 
         adminpage_studentdetails.program_code='''+str(d['program_code'])+''';''')
 
-        print(c)
         mycursor = mydb.cursor()
         mycursor.execute(c)
         myresult = mycursor.fetchall()
@@ -181,13 +177,11 @@ def submittheory(request):
             mycursor.execute(c)
             mydb.commit()
             mydb.close()
-            print(mycursor.rowcount, "record inserted.")
 
         else:
             mydb=mysql.connector.connect(**config)
             mycursor = mydb.cursor()
             marks = ast.literal_eval(myresult[0][0])
-            print(marks)
             marks['Status']=data['status'][d]
             marks['Grade']=data['grade'][d]
 
@@ -202,7 +196,6 @@ def submittheory(request):
             mycursor.execute(c)
             mydb.commit()
             mydb.close()
-            print(mycursor.rowcount, "record inserted.")
 
     return HttpResponse("MARKS ADDED SUCCESSFULLY")
 
@@ -249,14 +242,12 @@ def uploadpractical(request):
             adminpage_studentmarks.enrollment LIKE '''+"'"+str(data['batch'])+"%'"+''' AND   
             adminpage_studentdetails.institute_code='''+str(d['institute_code'])+''' AND 
             adminpage_studentdetails.program_code='''+str(d['program_code'])+''';''')
-        print(c)
         mycursor = mydb.cursor()
         mycursor.execute(c)
         myresult = mycursor.fetchall()
         mydb.close()
 
         arr = list()
-        print(myresult[0][2])
         if(myresult[0][2]=='n'):
             return HttpResponse("No Data Found for this year")
         else:
@@ -269,7 +260,6 @@ def uploadpractical(request):
                     if(marks['year'][str(int(data['year'])-1)]['practical']['grade']=='F'):
                         
                         if data['year'] in marks['year'].keys():
-                            print(marks['year'][str(int(data['year'])-1)]['practical']['grade'])
                             arr.insert(i,[(myresult[i][0]),myresult[i][1],marks['year'][data['year']]['practical']['marks'],marks['year'][str(int(data['year'])-1)]['practical']['marks']])
                         
                         elif str(int(data['year'])-1) not in marks['year'].keys():return HttpResponse("No Data Found second");break
@@ -298,7 +288,6 @@ def uploadpractical(request):
         adminpage_studentdetails.institute_code='''+str(d['institute_code'])+''' AND 
         adminpage_studentdetails.program_code='''+str(d['program_code'])+''';''')
 
-        print(c)
         mycursor = mydb.cursor()
         mycursor.execute(c)
         myresult = mycursor.fetchall()
@@ -363,13 +352,11 @@ def submitpractical(request):
             mycursor.execute(c)
             mydb.commit()
             mydb.close()
-            print(mycursor.rowcount, "record inserted.")
 
         else:
             mydb=mysql.connector.connect(**config)
             mycursor = mydb.cursor()
             marks = ast.literal_eval(myresult[0][0])
-            print(marks)
             marks['Status']=data['status'][d]
             marks['Grade']=data['grade'][d]
 
@@ -384,7 +371,6 @@ def submitpractical(request):
             mycursor.execute(c)
             mydb.commit()
             mydb.close()
-            print(mycursor.rowcount, "record inserted.")
 
     return HttpResponse("MARKS ADDED SUCCESSFULLY")
 
@@ -433,14 +419,12 @@ def uploadmid(request):
             adminpage_studentmarks.enrollment LIKE '''+"'"+str(data['batch'])+"%'"+''' AND   
             adminpage_studentdetails.institute_code='''+str(d['institute_code'])+''' AND 
             adminpage_studentdetails.program_code='''+str(d['program_code'])+''';''')
-        print(c)
         mycursor = mydb.cursor()
         mycursor.execute(c)
         myresult = mycursor.fetchall()
         mydb.close()
 
         arr = list()
-        print(myresult[0][2])
         if(myresult[0][2]=='n'):
             return HttpResponse("No Data Found for this year")
         else:
@@ -453,7 +437,6 @@ def uploadmid(request):
                     if(marks['year'][str(int(data['year'])-1)]['mid']['grade']=='F'):
                         
                         if data['year'] in marks['year'].keys():
-                            print(marks['year'][str(int(data['year'])-1)]['mid']['grade'])
                             arr.insert(i,[(myresult[i][0]),myresult[i][1],marks['year'][data['year']]['mid']['marks'],marks['year'][str(int(data['year'])-1)]['mid']['marks']])
                         
                         elif str(int(data['year'])-1) not in marks['year'].keys():return HttpResponse("No Data Found second");break
@@ -483,7 +466,6 @@ def uploadmid(request):
         adminpage_studentdetails.institute_code='''+str(d['institute_code'])+''' AND 
         adminpage_studentdetails.program_code='''+str(d['program_code'])+''';''')
 
-        print(c)
         mycursor = mydb.cursor()
         mycursor.execute(c)
         myresult = mycursor.fetchall()
@@ -547,13 +529,11 @@ def submitmid(request):
             mycursor.execute(c)
             mydb.commit()
             mydb.close()
-            print(mycursor.rowcount, "record inserted.")
 
         else:
             mydb=mysql.connector.connect(**config)
             mycursor = mydb.cursor()
             marks = ast.literal_eval(myresult[0][0])
-            print(marks)
             marks['Status']=data['status'][d]
             marks['Grade']=data['grade'][d]
 
@@ -568,7 +548,6 @@ def submitmid(request):
             mycursor.execute(c)
             mydb.commit()
             mydb.close()
-            print(mycursor.rowcount, "record inserted.")
 
     return HttpResponse("MARKS ADDED SUCCESSFULLY")
 

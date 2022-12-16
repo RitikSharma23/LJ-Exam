@@ -76,27 +76,7 @@
                       </form><br>
                       {%endif%}
 
-                      {%if subject.practical %}
-                      <form action="" method="post" id="practicalremedial">{% csrf_token %}
-                        <select id="practicalbatch">
-                          {%for b in batchlist%}
-                          <option value="{{b.0}}">20{{b.0}}</option>
-                          {%endfor%}
-                        </select>
-                        <button class="btn btn-primary" type="submit">Practical</button>
-                      </form><br>
-                      {%endif%}
-
-                      {%if subject.mid %}
-                      <form action="" method="post" id="midremedial">{% csrf_token %}
-                        <select id="midbatch">
-                          {%for b in batchlist%}
-                          <option value="{{b.0}}">20{{b.0}}</option>
-                          {%endfor%}
-                        </select>
-                        <button class="btn btn-primary" type="submit">Mid</button>
-                      </form><br>
-                      {%endif%}
+                 
 
           
 
@@ -176,67 +156,6 @@ else{alert("Something went wrong \n record not added")}
 </script>
 {%endif%}
 
-{%if subject.practical %}
-<script>
-// ============= Remedial Practical ======================
-  form3=document.getElementById("practicalremedial")
-form3.addEventListener("submit",async(e)=>{
-  e.preventDefault()
-csrf=document.getElementsByName("csrfmiddlewaretoken")[0].value
-newform=new FormData();
-newform.append("subjectcode","{{subject.subjectcode}}")
-newform.append("year","{{data.year}}")
-newform.append("session","{{data.session}}")
-newform.append("type","_p")
-newform.append("batch",document.getElementById("practicalbatch").value)
-newform.append("csrfmiddlewaretoken",csrf)
-try{
-  let d=await fetch("{{ current_path }}/seat/seatremedial/",{
-  method:"POST",
-  body:newform,    
-})
-x=await d.json()
-if(x.status=="success"){alert("Seat Generated Successfully");window.location.href="{{ current_path }}/seat/downloadseat/"}
-else if(x.status=="nodata"){alert("Sorry No Data Found")}
-else{alert("Something went wrong \n record not added")}
-}catch{
-  alert("Something went wrong \n record not added")
-}
-})
-</script>
-{%endif%}
-
-{%if subject.mid %}
-<script>
-
-// ============= Remedial Mid ======================
-  form4=document.getElementById("midremedial")
-form4.addEventListener("submit",async(e)=>{
-  e.preventDefault()
-csrf=document.getElementsByName("csrfmiddlewaretoken")[0].value
-newform=new FormData();
-newform.append("subjectcode","{{subject.subjectcode}}")
-newform.append("year","{{data.year}}")
-newform.append("session","{{data.session}}")
-newform.append("type","_m")
-newform.append("batch",document.getElementById("midbatch").value)
-newform.append("csrfmiddlewaretoken",csrf)
-try{
-  let d=await fetch("{{ current_path }}/seat/seatremedial/",{
-  method:"POST",
-  body:newform,    
-})
-x=await d.json()
-if(x.status=="success"){alert("Seat Generated Successfully");window.location.href="{{ current_path }}/seat/downloadseat/"}
-else if(x.status=="nodata"){alert("Sorry No Data Found")}
-else{alert("Something went wrong \n record not added")}
-}catch{
-  alert("Something went wrong \n record not added")
-}
-})
-
-</script>
-{%endif%}
 
 </body>
 </html>

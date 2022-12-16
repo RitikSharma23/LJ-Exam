@@ -12,7 +12,6 @@
 </head>
 <body>
 
-  {% include "header.html" %} 
   {{batchlist}}
 
     <div class="shadow p-3 mb-5 bg-white rounded mx-auto" style="width: 60%;margin-top: 100px;">
@@ -20,7 +19,8 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"> 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<form>
+  <form action="{{ current_path }}/result/find/" method="post">{% csrf_token %}
+
   <div class="form-group row">
     <label for="batch" class="col-4 col-form-label">Select Batch</label> 
     <div class="col-8">
@@ -43,6 +43,10 @@
     </div>
   </div>
 </form>
+
+
+
+
     
     </div>
 

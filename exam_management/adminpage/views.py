@@ -56,7 +56,6 @@ def addcourse(request):
     data=request.POST
     institute=data['institute_code']
     program=data['program_code']
-    print(institute)
     return HttpResponse(data['institute_code'])
 
 def selectcourse(request,page,data):
@@ -103,7 +102,6 @@ def findinstitute(request):
 def editinstitute(request):
     data=request.POST
     db=Course.objects.values_list('id','institute_Code','program_code','type','institute_Name','degree_Name','category','branch').filter(id=data['uid'])
-    print(db[0])
     data={
     'courselist':db[0]}
     return selectcourse(request,"editinstitute.html",data)
@@ -112,7 +110,6 @@ def deleteinstitute(request):
     data=request.POST
     member = Course.objects.get(id=data['uid'])
     member.delete()
-    print(member)
     return HttpResponse('{"status":"success"}')
 
 def doeditinstitute(request):
@@ -234,7 +231,6 @@ def uploadexcel(request):
         query=list()
         a=dict()
 
-        print(excel_data)
         
         for i in range(1,len(excel_data)):
             a.clear()
@@ -268,7 +264,6 @@ def addsubject(request):
 def doaddsubject(request):
     data=request.POST
 
-    print(data)
     d=Subject(
         subjectcode=data['subjectcode'],
         sem=data['sem'],
@@ -334,7 +329,6 @@ def doeditsubject(request):
 
     db = Subject.objects.all().filter(subjectcode=data['subjectcode']).values() 
     db=db[0]
-    print(db)
     if(db['theory']==data['theory']):print("theory")
     if(db['practical']==data['practical']):print("practical")
     if(db['mid']==data['mid']):print("mid")
@@ -348,7 +342,6 @@ def upgradepage(request):
 
     myresult = mycursor.fetchall()
  
-    print(myresult)
 
     data={'batchlist':myresult,
             'institute':institute,
@@ -361,7 +354,6 @@ def upgradebatch(request):
     mydb=mysql.connector.connect(**config)
     mycursor = mydb.cursor()
     data=request.POST
-    print(data)
 
     mycursor.execute("UPDATE adminpage_studentdetails set sem ='"+data['sem']+"' WHERE institute_code='"+data['institute_code']+"' and program_code='"+data['program_code']+"' and enrollment like '"+data['batch']+"%';")
     mydb.commit()

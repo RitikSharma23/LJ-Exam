@@ -55,6 +55,7 @@ class Subject(models.Model):
     mid_marks=models.IntegerField(default=0)
     institute_code=models.CharField(max_length=6,null=True)
     program_code=models.CharField(max_length=6,null=True)
+    credit=models.IntegerField(default=0)
 
 class Grade(models.Model):
     r1=models.IntegerField()

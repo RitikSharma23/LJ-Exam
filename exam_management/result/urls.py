@@ -8,4 +8,5 @@ urlpatterns = [
     path("",resulthome),
     path("viewresult/",viewresult),
     path("addcourse/",addcourse),
+    path("find/",find),
 ]
