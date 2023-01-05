@@ -109,7 +109,6 @@ document.getElementById("o{{e.1}}").innerHTML="{{e.3}}"
     }
 
     "{%for g in grade%}"
-      console.log("{{g.r1}} - {{g.r2}}")
             if(per>=(parseFloat("{{g.r1}}")) && per<=(parseFloat("{{g.r2}}")+0.99)){
               document.getElementById("g{{e.1}}").innerHTML="{{g.grade}}"
               document.getElementById("gv{{e.1}}").value="{{g.grade}}"
@@ -117,7 +116,6 @@ document.getElementById("o{{e.1}}").innerHTML="{{e.3}}"
               document.getElementById("gpv{{e.1}}").value="{{g.gradepoint}}"
             }
     "{%endfor%}"
-
   }
 
 "{%endfor%}"
