@@ -1,22 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<meta name="Description" content="Enter your description here"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<link rel="stylesheet" href="assets/css/style.css">
-<title>Home</title>
+    {% load static %}
+  <meta charset="utf-8" />
+  <title>Ritik University</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta content="Premium Multipurpose Admin & Dashboard Template" name="description">
+  <meta content="Themesbrand" name="author">
+  <!-- App favicon -->
+  <link rel="shortcut icon" href="public/assets/images/favicon.ico">
+
+
+    {% include 'Partials/HeaderStyle.html' %}
+
 </head>
+
 <body>
 
-    <a href="adminpage"><button class="btn btn-success">Admin Panel</button></a>
-    <a href="seat"><button class="btn btn-success">Seat Generation</button></a>
-    <a href="marks"><button class="btn btn-success">Marks Entry</button></a>
-    <a href="result"><button class="btn btn-success">Result Generation</button></a>
+  <!-- Begin page -->
+  <div id="layout-wrapper">
+
+    {% include 'Partials/Header.html'%}
+    {% include 'Partials/Sidebar.html'%}
+
+    <div class="main-content">
+      <div class="page-content">
+        <div class="container-fluid">
 
 
+          <!-- BODY PATR      -->
+
+
+          <a href="adminpage"><button class="btn btn-success">Admin Panel</button></a>
+          <a href="seat"><button class="btn btn-success">Seat Generation</button></a>
+          <a href="marks"><button class="btn btn-success">Marks Entry</button></a>
+          <a href="result"><button class="btn btn-success">Result Generation</button></a>
+      
+
+
+
+
+        </div>
+      </div>
+      {% include 'Partials/Footer.html'%}
+    </div>
+  </div>
+
+  {% include 'Partials/Rightbar.html'%}
+  {% include 'Partials/VendorScript.html'%}
 </body>
+
 </html>
+
+
+
+
+
+
+
