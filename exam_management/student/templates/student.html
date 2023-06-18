@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+  <meta charset="utf-8" />
+  <title>Student University</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta content="Premium Multipurpose Admin & Dashboard Template" name="description">
+  <meta content="Themesbrand" name="author">
+  <!-- App favicon -->
+  <link rel="shortcut icon" href="public/assets/images/favicon.ico">
+
+
+    {% include 'sPartials/HeaderStyle.html' %}
+
+</head>
+
+<body>
+
+  <!-- Begin page -->
+  <div id="layout-wrapper">
+
+    {% include 'sPartials/Header.html'%}
+    {% include 'sPartials/Sidebar.html'%}
+
+    <div class="main-content">
+      <div class="page-content">
+        <div class="container-fluid">
+
+
+          <!-- BODY PATR      -->
+
+
+          <a href="adminpage"><button class="btn btn-success">Admin Panel</button></a>
+          <a href="seat"><button class="btn btn-success">Seat Generation</button></a>
+          <a href="marks"><button class="btn btn-success">Marks Entry</button></a>
+          <a href="result"><button class="btn btn-success">Result Generation</button></a>
+      
+
+
+
+
+        </div>
+      </div>
+      {% include 'sPartials/Footer.html'%}
+    </div>
+  </div>
+
+  {% include 'sPartials/Rightbar.html'%}
+  {% include 'sPartials/VendorScript.html'%}
+</body>
+
+</html>
+
+
+
+
+
+
+
