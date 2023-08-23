@@ -12,6 +12,12 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+import firebase_admin
+from firebase_admin import credentials
+
+# Path to your Firebase service account JSON file
+cred = credentials.Certificate('C:/Users/ritik/OneDrive/Desktop/DJANGO HTML/demo/demo/config.json')
+firebase_admin.initialize_app(cred)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,6 +44,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'corsheaders',
+    'firebaseapp',
     "home",
     "adminpage",
     "student",
@@ -48,6 +56,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -128,10 +137,18 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "UTC"
+CORS_ORIGIN_ALLOW_ALL = True
+
 
 USE_I18N = True
 
 USE_TZ = True
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:8000',
+]
+
+
 
 
 # Static files (CSS, JavaScript, Images)
