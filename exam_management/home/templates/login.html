@@ -14,6 +14,7 @@
     {% include 'Partials/HeaderStyle.html' %}
 
     <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
 
 </head>
 
@@ -43,23 +44,15 @@
                                 <p class="text-muted">Sign in to continue.</p>
                             </div>
                             <div class="p-2 mt-4">
-                                <!-- <% if(error.length> 0) { %>
-                                    <div class="alert alert-danger text-center mb-4 flash" role="alert">
-                                        <%= error %>
-                                    </div>
-                                <% } %>
-                                <% if(message.length> 0) { %>
-                                    <div class="alert alert-success text-center mb-4 flash" role="alert">
-                                        <%= message %>
-                                    </div>
-                                <% } %> -->
-                                <form method="post" action="post-login/">
-                                    {% csrf_token %}
+                              <!-- <form action="post-login/" method="get"> -->
+
+            {% csrf_token %}
+                    
 
                                     <div class="mb-3">
                                         <label class="form-label" for="username">Email</label>
                                         <input type="text" class="form-control" id="username" name="email"
-                                            placeholder="Enter email" value="admin@themesbrand.com">
+                                            placeholder="Enter email" value="admin@gmail.com">
                                     </div>
 
                                     <div class="mb-3">
@@ -68,7 +61,7 @@
                                         </div>
                                         <label class="form-label" for="userpassword">Password</label>
                                         <input type="password" class="form-control" id="userpassword" name="password"
-                                            placeholder="Enter password" value="123456">
+                                            placeholder="Enter password" value="Admin@123">
                                     </div>
 
                                     <div class="form-check">
@@ -77,7 +70,7 @@
                                     </div>
 
                                     <div class="mt-3 text-end">
-                                        <button class="btn btn-primary w-sm waves-effect waves-light" type="submit">Log
+                                        <button class="btn btn-primary w-sm waves-effect waves-light" id="loginbtn" type="submit">Log
                                             In</button>
                                     </div>
 
@@ -95,9 +88,9 @@
                                             </li>
                                         </ul>
                                     </div>
+                                  <!-- </form> -->
 
 
-                                </form>
                             </div>
                         </div>
                     </div>
@@ -109,40 +102,27 @@
     </div>
 
 
-
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script>
-      function handleCredentialResponse(response) {
-        var credential = response.credential;
-        console.log("Encoded JWT ID token: " + credential);
-
-        var jwtPayload = credential.split('.')[1];
-        var decodedPayload = JSON.parse(atob(jwtPayload));
-        console.log("User details:");
-        console.log("User ID: " + decodedPayload.sub);
-        console.log("Name: " + decodedPayload.name);
-        console.log("Email: " + decodedPayload.email);
-        console.log("Profile Picture URL: " + decodedPayload.picture);
+<script>
+  $("#loginbtn").click(function(){
+    data={
+      email:$("#username").val(),
+      password:$("#userpassword").val(),
+      csrfmiddlewaretoken:document.getElementsByName("csrfmiddlewaretoken")[0].value
+    }
+    console.log(data)
+    $.ajax({
+      url: "post-login/",
+      type: 'GET',
+      contentType: 'application/json',
+      data: JSON.stringify(data),
+      success: function(response) {
+          if(response.status==true){location.replace(response.link)}
+          if(response.status==false){erroralert(response.msg)}
       }
+  });
+  })
 
-      window.onload = function () {
-        google.accounts.id.initialize({
-          client_id: "69080923123-jffkrro2is76o0pili7r5ac2m6g6k6ql.apps.googleusercontent.com",
-          callback: handleCredentialResponse
-        });
-
-        google.accounts.id.renderButton(
-          document.getElementById("buttonDiv"),
-          { theme: "outline", size: "large" }  // customization attributes
-        );
-
-        google.accounts.id.prompt(); // also display the One Tap dialog
-      }
-    </script>
-    <div id="buttonDiv"></div> 
-
-
-
+</script>
 
 
 

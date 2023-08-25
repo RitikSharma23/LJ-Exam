@@ -12,18 +12,11 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
-import firebase_admin
-from firebase_admin import credentials
 
-# Path to your Firebase service account JSON file
-cred = credentials.Certificate('C:/Users/ritik/OneDrive/Desktop/DJANGO HTML/demo/demo/config.json')
-firebase_admin.initialize_app(cred)
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -32,10 +25,14 @@ SECRET_KEY = "django-insecure-^#8&z$e6hu0+9^=e!55enssgrsb_qx5j-h@t3f97ke7#ezi5@-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
+# settings.py
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SESSION_COOKIE_SECURE = True
+
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -51,7 +48,8 @@ INSTALLED_APPS = [
     "student",
     "seat",
     "marks",
-    "result"
+    "result",
+    'sslserver'
 ]
 
 MIDDLEWARE = [
