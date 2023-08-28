@@ -23,12 +23,11 @@ def generate_accesstoken(email):
     try:
         user = auth.get_user_by_email(email)
         if user:
-            auth_token = user_id.create_custom_token(user.uid)
-            return JsonResponse({'status':False,'access_token':auth_token})
-    except:
+            auth_token = auth.create_custom_token(user.uid)
+            return JsonResponse({'status':True,'access_token':str(auth_token)})
+    except Exception as e:
+        print(e)
         return JsonResponse({'status':False})
-
-
 
 def home(request):
     return render(request,"home.html",{})
@@ -51,9 +50,21 @@ def login_with_email_password(request):
         
         try:
             user = auth.sign_in_with_email_and_password(x['email'], x['password'])
-            return JsonResponse({"message": str(user)})
+            x=generate_accesstoken(x['email'])
+            print(x)
+            return x
         except Exception as e:
-            print(e['error'])
+            print(type(e))
+            if (str(e).find("TOO_MANY_ATTEMPTS_TRY_LATER"))!=-1:
+                return JsonResponse({"message": "Too Many Login Attempts"})
+            elif (str(e).find("INVALID_PASSWORD"))!=-1:
+                return JsonResponse({"message": "Invalid Password"})
+            else:
+                return JsonResponse({"message": "Something went wrong"})
+
+
+        
+            print(str(e).find("INVALID_PASSWORD"))
             return JsonResponse({"message": "Too Many Login Attempts Or Invalid Password"})
             
             
