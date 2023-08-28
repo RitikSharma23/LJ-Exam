@@ -47,24 +47,18 @@ def login_with_email_password(request):
     if request.method == "POST":
         x=cnv_json(request.body)
         auth = firebase.auth()
-        
+
         try:
             user = auth.sign_in_with_email_and_password(x['email'], x['password'])
-            x=generate_accesstoken(x['email'])
-            print(x)
-            return x
+            return generate_accesstoken(x['email'])
         except Exception as e:
-            print(type(e))
             if (str(e).find("TOO_MANY_ATTEMPTS_TRY_LATER"))!=-1:
                 return JsonResponse({"message": "Too Many Login Attempts"})
             elif (str(e).find("INVALID_PASSWORD"))!=-1:
                 return JsonResponse({"message": "Invalid Password"})
             else:
                 return JsonResponse({"message": "Something went wrong"})
-
-
-        
-            print(str(e).find("INVALID_PASSWORD"))
+  
             return JsonResponse({"message": "Too Many Login Attempts Or Invalid Password"})
             
             
