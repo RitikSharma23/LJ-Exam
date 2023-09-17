@@ -20,9 +20,25 @@ def course(request):
   
   return render(request, 'course.html',{})
 
+def courseEdit(request):
+  
+  return render(request, 'course-edit.html',{})
+
+def courseAdd(request):
+  
+  return render(request, 'course-add.html',{})
+
 def admins(request):
   
   return render(request, 'admin.html',{})
+
+def adminsAdd(request):
+  
+  return render(request, 'admin-add.html',{})
+
+def adminsEdit(request):
+  
+  return render(request, 'admin-edit.html',{})
 
 def setting(request):
   

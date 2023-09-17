@@ -8,6 +8,10 @@ urlpatterns = [
     path('branch-add/',branchAdd,name="branch-add"),
     path('branch-edit/',branchEdit,name="branch-edit"),
     path('course/',course,name="course"),
+    path('course-add/',courseAdd,name="course-add"),
+    path('course-edit/',courseEdit,name="course-edit"),
     path('admin/',admins,name="admin"),
+    path('admin-add/',adminsAdd,name="admin-add"),
+    path('admin-edit/',adminsEdit,name="admin-edit"),
     path('setting/',setting,name="setting"),
 ]
