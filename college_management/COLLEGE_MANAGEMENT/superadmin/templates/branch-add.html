@@ -12,17 +12,18 @@
           <div class="col-lg-12">
             <div class="card-body">
               
-              <form>
+              <form action="{% url 'branch-add-post' %}" method="post">
+                 {% csrf_token %}
                 <div class="row mb-3">
                   <label class="col-sm-2 col-form-label" for="basic-default-name">Code</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="basic-default-name" placeholder="Branch Code" />
+                    <input type="text" class="form-control" name="code" id="basic-default-name" placeholder="Branch Code" />
                   </div>
                 </div>
                 <div class="row mb-3">
                   <label class="col-sm-2 col-form-label" for="basic-default-name">Name</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="basic-default-name" placeholder="Branch Name" />
+                    <input type="text" class="form-control" name="name" id="basic-default-name" placeholder="Branch Name" />
                   </div>
                 </div>
                 
@@ -38,6 +39,7 @@
                         placeholder="john.doe"
                         aria-label="john.doe"
                         aria-describedby="basic-default-email2"
+                        name="email"
                       />
                       <span class="input-group-text" id="basic-default-email2">@example.com</span>
                     </div>
@@ -53,7 +55,7 @@
                       class="form-control phone-mask"
                       placeholder="658 799 8941"
                       aria-label="658 799 8941"
-                      
+                      name="phone"
                       aria-describedby="basic-default-phone"
                     />
                   </div>
@@ -67,6 +69,7 @@
                       placeholder="Hi, Do you have a moment to talk Joe?"
                       aria-label="Hi, Do you have a moment to talk Joe?"
                       aria-describedby="basic-icon-default-message2"
+                      name="address"
                     ></textarea>
                   </div>
                 </div>
