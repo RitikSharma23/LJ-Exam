@@ -1,6 +1,4 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
-from django.urls import reverse
 from django.shortcuts import redirect
 
 import pymongo
@@ -17,10 +15,8 @@ db = client[database_name]
 
 
 
-
-
 def dashboard(request):
-  return render(request, 'dashboard.html',{})
+  return render(request, 'SuperAdmin/dashboard.html',{})
 
 def branch(request):
   collection = db["branch"]
@@ -30,11 +26,11 @@ def branch(request):
     document['id']=str(document['_id'])
     data[document['code']]=document
     
-  return render(request, 'branch.html', {'data': data})
+  return render(request, 'SuperAdmin/branch.html', {'data': data})
 
 
 def branchAdd(request):
-  return render(request, 'branch-add.html',{})
+  return render(request, 'SuperAdmin/branch-add.html',{})
 
 def branchAddPost(request):
   data=(request.POST)
@@ -48,7 +44,7 @@ def branchAddPost(request):
   }
   result = collection.insert_one(data_to_insert)
   
-  return HttpResponseRedirect(reverse('branch'))
+  return branch(request)
 
 def branchEdit(request):
   collection = db["branch"]
@@ -58,7 +54,7 @@ def branchEdit(request):
     document['id']=str(document['_id'])
     data=document
 
-  return render(request, 'branch-edit.html', {'data': data})
+  return render(request, 'SuperAdmin/branch-edit.html', {'data': data})
 
 def branchEditPost(request):
   data=(request.POST)
@@ -71,7 +67,7 @@ def branchEditPost(request):
      "address": data['address'],
   }}
   result = collection.update_one({"_id":ObjectId(request.POST['id'])}, data_to_insert) 
-  return HttpResponseRedirect(reverse('branch'))
+  return branch(request)
 
 def branchDeletePost(request):
   print(request.GET)
@@ -80,15 +76,15 @@ def branchDeletePost(request):
   # result = collection.update_one({"_id":ObjectId(request.GET['id'])}, data_to_insert) 
   result = collection.delete_one({"_id":ObjectId(request.GET['id'])})
   print("Deleted Count:", result.deleted_count)
-  return HttpResponseRedirect(reverse('branch'))
+  return branch(request)
 
 def course(request):
   
-  return render(request, 'course.html',{})
+  return render(request, 'SuperAdmin/course.html',{})
 
 def courseEdit(request):
   
-  return render(request, 'course-edit.html',{})
+  return render(request, 'SuperAdmin/course-edit.html',{})
 
 def courseAdd(request):
   collection = db["branch"]
@@ -99,20 +95,20 @@ def courseAdd(request):
     data[document['code']]=document
   print(data)
   
-  return render(request, 'course-add.html',{'data':data})
+  return render(request, 'SuperAdmin/course-add.html',{'data':data})
 
 def admins(request):
   
-  return render(request, 'admin.html',{})
+  return render(request, 'SuperAdmin/admin.html',{})
 
 def adminsAdd(request):
   
-  return render(request, 'admin-add.html',{})
+  return render(request, 'SuperAdmin/admin-add.html',{})
 
 def adminsEdit(request):
   
-  return render(request, 'admin-edit.html',{})
+  return render(request, 'SuperAdmin/admin-edit.html',{})
 
 def setting(request):
   
-  return render(request, 'setting.html',{})
+  return render(request, 'SuperAdmin/setting.html',{})
