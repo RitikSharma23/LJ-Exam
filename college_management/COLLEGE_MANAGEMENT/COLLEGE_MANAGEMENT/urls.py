@@ -21,9 +21,12 @@ urlpatterns = [
     path('superadmin/', include('superadmin.urls')),
     path('subadmin/', include('subadmin.urls')),
     path('admins/', include('admins.urls')),
+    # path('admins/', include('admins.')),
     path('faculty/', include('faculty.urls')),
     path('student/', include('student.urls')),
-    # path('pages/', include('pages.urls')),
+    # path('static/', include('pages')),
     path('', include('home.urls')),
     path('admin/', admin.site.urls),
 ]
+
+
