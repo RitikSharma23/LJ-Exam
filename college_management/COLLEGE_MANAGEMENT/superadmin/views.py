@@ -13,6 +13,11 @@ client = pymongo.MongoClient(mongo_uri)
 database_name = "LJKU"
 db = client[database_name]
 
+def check_session(request):
+    if not request.session.get('authenticated', False):
+        return redirect('login')
+
+
 
 
 def dashboard(request):
@@ -32,6 +37,16 @@ def branch(request):
 def branchAdd(request):
   return render(request, 'SuperAdmin/branch-add.html',{})
 
+def branchEdit(request):
+  collection = db["branch"]
+  results = collection.find({'code':request.GET['id']})
+  data={}
+  for document in results:
+    document['id']=str(document['_id'])
+    data=document
+
+  return render(request, 'SuperAdmin/branch-edit.html', {'data': data})
+
 def branchAddPost(request):
   data=(request.POST)
   collection = db["branch"]
@@ -44,17 +59,7 @@ def branchAddPost(request):
   }
   result = collection.insert_one(data_to_insert)
   
-  return branch(request)
-
-def branchEdit(request):
-  collection = db["branch"]
-  results = collection.find({'code':request.GET['id']})
-  data={}
-  for document in results:
-    document['id']=str(document['_id'])
-    data=document
-
-  return render(request, 'SuperAdmin/branch-edit.html', {'data': data})
+  return redirect('/superadmin/branch/')
 
 def branchEditPost(request):
   data=(request.POST)
@@ -67,16 +72,16 @@ def branchEditPost(request):
      "address": data['address'],
   }}
   result = collection.update_one({"_id":ObjectId(request.POST['id'])}, data_to_insert) 
-  return branch(request)
+  return redirect('/superadmin/branch/')
+
 
 def branchDeletePost(request):
   print(request.GET)
   print(request.POST)
   collection = db["branch"]
-  # result = collection.update_one({"_id":ObjectId(request.GET['id'])}, data_to_insert) 
   result = collection.delete_one({"_id":ObjectId(request.GET['id'])})
   print("Deleted Count:", result.deleted_count)
-  return branch(request)
+  return redirect('/superadmin/branch/')
 
 def course(request):
   
