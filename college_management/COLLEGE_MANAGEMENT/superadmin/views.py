@@ -14,16 +14,23 @@ database_name = "LJKU"
 db = client[database_name]
 
 def check_session(request):
-    if not request.session.get('authenticated', False):
-        return redirect('login')
+    print("CHECKINF")
+    if request.session.get('authenticated', False):
+        return redirect('/login/')
 
 
 
 
 def dashboard(request):
+  check_session(request)
+  session_data = request.session
+  
+  for key, value in session_data.items():
+      print(f"Session Variable: {key}, Value: {value}")
   return render(request, 'SuperAdmin/dashboard.html',{})
 
 def branch(request):
+  
   collection = db["branch"]
   results = collection.find({})
   data={}
