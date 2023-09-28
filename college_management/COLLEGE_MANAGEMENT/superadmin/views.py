@@ -200,7 +200,7 @@ def adminsAddPost(request):
      "branch": data['branch'],
      "email": data['email'],
      "phone": data['phone'],
-     "password": 'nopass',
+     "password": data['phone'],
      "role": 'Admin',
   }
   result = collection.insert_one(data_to_insert)

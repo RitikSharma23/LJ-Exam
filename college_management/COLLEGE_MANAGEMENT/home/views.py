@@ -26,7 +26,13 @@ def home(request):
 def login(request):
   return render(request, 'login.html',{})
 
+def logout(request):
+  request.session.clear()
+  request.session['is_authenticated'] = False
+  return redirect("/")
+
 def postLogin(request):
+    print("POST LOGIN")
     data = request.POST
     collection = db["users"]
     criteria1 = {"email": data['email']}
@@ -39,12 +45,14 @@ def postLogin(request):
    
         request.session['email'] = result[0]['email']
         request.session['role'] = result[0]['role']
-        request.session['authenticated'] = True
+        request.session['is_authenticated'] = True
         
         if result[0]['role'] == 'Superadmin':
             return redirect('/superadmin/dashboard/')
         elif result[0]['role'] == 'Subadmin':
             return redirect('/subadmin/dashboard/')
+        elif result[0]['role'] == 'Admin':
+            return redirect('/admins/dashboard/')
           
     except Exception as e:
         print(e)
