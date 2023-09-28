@@ -14,12 +14,6 @@ client = pymongo.MongoClient(mongo_uri)
 database_name = "LJKU"
 db = client[database_name]
 
-
-def check_session(request):
-    if not request.session.get('authenticated', False):
-        return redirect('login')
-
-
 def home(request):
   return render(request, 'home.html',{})
 
@@ -45,6 +39,7 @@ def postLogin(request):
    
         request.session['email'] = result[0]['email']
         request.session['role'] = result[0]['role']
+        request.session['branch'] = result[0]['branch']
         request.session['is_authenticated'] = True
         
         if result[0]['role'] == 'Superadmin':
