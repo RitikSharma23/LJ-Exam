@@ -15,11 +15,18 @@ urlpatterns = [
     path('course/',course),
     path('course-add/',courseAdd),
     path('course-edit/',courseEdit),
+    path('course-add-post/',courseAddPost),
+    path('course-edit-post/',courseEditPost),
+    path('course-delete-post/',courseDeletePost),
     
     
-    path('admin/',admins),
-    path('admin-add/',adminsAdd),
-    path('admin-edit/',adminsEdit),
+    path('admins/',admins),
+    path('admins-add/',adminsAdd),
+    path('admins-edit/',adminsEdit),
+    path('admins-add-post/',adminsAddPost),
+    path('admins-edit-post/',adminsEditPost),
+    path('admins-delete-post/',adminsDeletePost),
+    
     
     
     path('setting/',setting),

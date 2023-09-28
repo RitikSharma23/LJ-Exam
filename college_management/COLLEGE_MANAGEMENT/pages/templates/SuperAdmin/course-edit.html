@@ -13,22 +13,32 @@
           <div class="col-lg-12">
             <div class="card-body">
               
-              <form>
+              <form action="/superadmin/course-edit-post/" method="post">
+                 {% csrf_token %}
+                  <input type="hidden" name="id" value="{{data.id}}">
+
                 <div class="row mb-3">
-                  <label class="col-sm-2 col-form-label" for="basic-default-name">Name</label>
+                  <label class="col-sm-2 col-form-label" for="basic-default-name">Course Name</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="basic-default-name" placeholder="John Doe" />
+                    <input type="text" class="form-control" name="name" value="{{data.name}}"  id="basic-default-name" placeholder="IMCA" />
                   </div>
                 </div>
                 <div class="row mb-3">
-                  <label class="col-sm-2 col-form-label" for="basic-default-name">Branch</label>
+                  <label class="col-sm-2 col-form-label" for="basic-default-name">Course Code</label>
                   <div class="col-sm-10">
-                    <select id="defaultSelect" class="form-select">
-                      <option>Default select</option>
-                      <option value="1">One</option>
-                      <option value="2">Two</option>
-                      <option value="3">Three</option>
-                    </select>
+                    <input type="text" class="form-control" name="code" value="{{data.code}}" id="basic-default-name" placeholder="002" />
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label" for="basic-default-name">Total Sem</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="sem" value="{{data.sem}}" id="basic-default-name" placeholder="1" />
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label" for="basic-default-name">Total Year</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="year" value="{{data.year}}" id="basic-default-name" placeholder="5" />
                   </div>
                 </div>
                 
@@ -37,13 +47,14 @@
                   <label class="col-sm-2 col-form-label" for="basic-default-email">Email</label>
                   <div class="col-sm-10">
                     <div class="input-group input-group-merge">
-                      <input
+                      <input 
                         type="text"
                         id="basic-default-email"
                         class="form-control"
                         placeholder="john.doe"
                         aria-label="john.doe"
                         aria-describedby="basic-default-email2"
+                        name="email" value="{{data.email}}"
                       />
                       <span class="input-group-text" id="basic-default-email2">@example.com</span>
                     </div>
@@ -59,26 +70,14 @@
                       class="form-control phone-mask"
                       placeholder="658 799 8941"
                       aria-label="658 799 8941"
-                      
+                      name="phone" value="{{data.phone}}"
                       aria-describedby="basic-default-phone"
                     />
                   </div>
                 </div>
-                <div class="row mb-3">
-                  <label class="col-sm-2 col-form-label" for="basic-default-message">Address</label>
-                  <div class="col-sm-10">
-                    <textarea
-                      id="basic-default-message"
-                      class="form-control"
-                      placeholder="Hi, Do you have a moment to talk Joe?"
-                      aria-label="Hi, Do you have a moment to talk Joe?"
-                      aria-describedby="basic-icon-default-message2"
-                    ></textarea>
-                  </div>
-                </div>
                 <div class="row justify-content-end">
                   <div class="col-sm-10">
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="submit" class="btn btn-primary">Send</button>
                   </div>
                 </div>
               </form>

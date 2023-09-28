@@ -74,7 +74,6 @@ def branchEditPost(request):
   result = collection.update_one({"_id":ObjectId(request.POST['id'])}, data_to_insert) 
   return redirect('/superadmin/branch/')
 
-
 def branchDeletePost(request):
   print(request.GET)
   print(request.POST)
@@ -84,12 +83,23 @@ def branchDeletePost(request):
   return redirect('/superadmin/branch/')
 
 def course(request):
-  
-  return render(request, 'SuperAdmin/course.html',{})
+  collection = db["course"]
+  results = collection.find({})
+  data={}
+  for document in results:
+    document['id']=str(document['_id'])
+    data[document['code']]=document
+  return render(request, 'SuperAdmin/course.html',{'data':data})
 
 def courseEdit(request):
-  
-  return render(request, 'SuperAdmin/course-edit.html',{})
+  collection = db["course"]
+  results = collection.find({'code':request.GET['id']})
+  data={}
+  for document in results:
+    document['id']=str(document['_id'])
+    data=document
+
+  return render(request, 'SuperAdmin/course-edit.html',{'data':data})
 
 def courseAdd(request):
   collection = db["branch"]
@@ -99,20 +109,119 @@ def courseAdd(request):
     document['id']=str(document['_id'])
     data[document['code']]=document
   print(data)
-  
   return render(request, 'SuperAdmin/course-add.html',{'data':data})
 
-def admins(request):
-  
-  return render(request, 'SuperAdmin/admin.html',{})
 
-def adminsAdd(request):
+def courseAddPost(request):
+  data=(request.POST)
+  collection = db["course"]
+  data_to_insert = {
+     "code": data['code'],
+     "name": data['name'],
+     "sem": data['sem'],
+     "year": data['year'],
+     "branch": data['branch'],
+     "email": data['email'],
+     "phone": data['phone'],
+  }
+  result = collection.insert_one(data_to_insert)
   
-  return render(request, 'SuperAdmin/admin-add.html',{})
+  return redirect('/superadmin/course/')
+
+def courseEditPost(request):
+  data=(request.POST)
+  collection = db["course"]
+  data_to_insert = {"$set":{
+     "code": data['code'],
+     "name": data['name'],
+     "sem": data['sem'],
+     "year": data['year'],
+     "email": data['email'],
+     "phone": data['phone'],
+  }}
+  result = collection.update_one({"_id":ObjectId(request.POST['id'])}, data_to_insert) 
+  return redirect('/superadmin/course/')
+
+def courseDeletePost(request):
+  print(request.GET)
+  print(request.POST)
+  collection = db["course"]
+  result = collection.delete_one({"_id":ObjectId(request.GET['id'])})
+  print("Deleted Count:", result.deleted_count)
+  return redirect('/superadmin/course/')
+
+
+
+
+def admins(request):
+  collection = db["users"]
+  results = collection.find({'role': 'Admin'})
+  data={}
+  for document in results:
+    document['id']=str(document['_id'])
+    data['data']=document
+  return render(request, 'SuperAdmin/admins.html',{'data':data})
 
 def adminsEdit(request):
-  
-  return render(request, 'SuperAdmin/admin-edit.html',{})
+  collection = db["users"]
+  results = collection.find({'email':request.GET['id']})
+  data={}
+  for document in results:
+    document['id']=str(document['_id'])
+    data=document
+    print(document)
+  return render(request, 'SuperAdmin/admins-edit.html',{'data':data})
+
+def adminsAdd(request):
+  collection = db["branch"]
+  results = collection.find({})
+  data={}
+  for document in results:
+    document['id']=str(document['_id'])
+    data[document['code']]=document
+  print(data)
+  return render(request, 'SuperAdmin/admins-add.html',{'data':data})
+
+
+def adminsAddPost(request):
+  data=(request.POST)
+  collection = db["users"]
+  data_to_insert = {
+     "fname": data['fname'],
+     "lname": data['lname'],
+     "address": data['address'],
+     "branch": data['branch'],
+     "email": data['email'],
+     "phone": data['phone'],
+     "password": 'nopass',
+     "role": 'Admin',
+  }
+  result = collection.insert_one(data_to_insert)
+  return redirect('/superadmin/admins/')
+
+def adminsEditPost(request):
+  data=(request.POST)
+  collection = db["users"]
+  data_to_insert = {"$set":{
+     "fname": data['fname'],
+     "lname": data['lname'],
+     "address": data['address'],
+     "email": data['email'],
+     "phone": data['phone'],
+  }}
+  result = collection.update_one({"_id":ObjectId(request.POST['id'])}, data_to_insert) 
+  return redirect('/superadmin/admins/')
+
+def adminsDeletePost(request):
+  print(request.GET)
+  print(request.POST)
+  collection = db["users"]
+  result = collection.delete_one({"_id":ObjectId(request.GET['id'])})
+  print("Deleted Count:", result.deleted_count)
+  return redirect('/superadmin/admins/')
+
+
+
 
 def setting(request):
   
