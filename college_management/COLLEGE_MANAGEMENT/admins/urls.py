@@ -10,4 +10,5 @@ urlpatterns = [
     path('subject/',subject),
     path('subject-add/',subjectAdd),
     path('subject-edit/',subjectEdit),
+    path('setting/',setting),
 ]

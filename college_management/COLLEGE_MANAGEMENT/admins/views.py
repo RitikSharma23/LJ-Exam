@@ -16,3 +16,5 @@ def subjectAdd(request):
   return render(request,'Admin/subject-add.html',{})
 def subjectEdit(request):
   return render(request,'Admin/subject-edit.html',{})
+def setting(request):
+  return render(request,'Admin/setting.html',{})
