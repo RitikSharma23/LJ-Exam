@@ -46,3 +46,8 @@ function infoalert(title="",text=""){
         timer: 3000 
       });
 }
+
+$(document).ready(function () {
+
+
+});
