@@ -14,6 +14,7 @@ db = client[database_name]
 uname='Superadmin'
 
 
+
 def dashboard(request):
   return render(request,f'{uname}/dashboard.html',{'title':'Dashboard'})
 
