@@ -18,7 +18,15 @@ def dashboard(request):
   return render(request,f'{uname}/dashboard.html',{'title':'Dashboard'})
 
 def admins(request):
-  return render(request,f'{uname}/admins.html',{'title':'admins'})
+  collection = db["users"]
+  results = collection.find({'role': 'Admin'})
+  data={}
+  for document in results:
+    print(document)
+    document['id']=str(document['_id'])
+    data[str(document['_id'])]=document
+  print(data)
+  return render(request,f'{uname}/admins.html',{'title':'admins','data':data})
 
 def addadmins_GET(request):
   return render(request,f'{uname}/add-admins.html',{'title':'admins'})
@@ -50,8 +58,37 @@ def email(request):
 def course(request):
   return render(request,f'{uname}/course.html',{'title':'course'})
 
+
+
+
+
+
+
 def branch(request):
   return render(request,f'{uname}/branch.html',{'title':'branch'})
+
+
+def addbranch_GET(request):
+  return render(request,f'{uname}/add-branch.html',{'title':'branch'})
+
+
+
+def addbranch_POST(request):
+  data=(request.POST)
+  collection = db["branch"]
+  data_to_insert = {
+     "code": data['code'],
+     "name": data['name'],
+     "email": data['email'],
+     "phone": data['phone'],
+     "address": data['address'],
+  }
+  result = collection.insert_one(data_to_insert)
+  return redirect('/Superadmin-branch/')
+  
+
+
+
 
 
 def inbox(request):

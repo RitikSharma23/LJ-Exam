@@ -54,7 +54,6 @@
 
 {% block body %}
 
-
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -62,41 +61,44 @@
                 <table id="datatable-buttons" class="mt-lg-5 table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0;margin-top:40px; width: 100%;">
                     <thead class="mt-5">
                     <tr>
-                        <th>Name</th>
-                        <th>Position</th>
-                        <th>Office</th>
-                        <th>Age</th>
-                        <th>Start date</th>
-                        <th>Salary</th>
-                        <th>Action</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Branch</th>
+                        <th></th>
                     </tr>
                     </thead>
 
 
                     <tbody>
-                        
-                    <tr>
-                        <td>Tiger Nixon</td>
-                        <td>System Architect</td>
-                        <td>Edinburgh</td>
-                        <td>61</td>
-                        <td>2011/04/25</td>
-                        <td>$320,800</td>
-                        <td>
-                            <div class="btn-group mr-1 mt-2">
-                                <button class="btn btn-info btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Action
-                                    <i class="mdi mdi-chevron-down"></i>
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">Edit</a>
-                                    <a class="dropdown-item" href="#">Delete</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">View Logs</a>
+
+                    {% for key, d in data.items %}
+
+                         <tr>
+                            <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{ d.fname }}</strong></td>
+                            <td>{{ d.lname }}</td>
+                            <td>{{ d.email }}</td>
+                            <td>{{ d.phone }}</td>
+                            <td>{{ d.branch }}</td>
+                            <td>
+                                <div class="btn-group mr-1 mt-2">
+                                    <button class="btn btn-info btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Action
+                                        <i class="mdi mdi-chevron-down"></i>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="#">Edit</a>
+                                        <a class="dropdown-item" href="#">Delete</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#">View Logs</a>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
+                      {% endfor %}
+                        
+
 
                     </tbody>
                 </table>
@@ -104,8 +106,6 @@
         </div>
     </div>
 </div> 
-
-
 
 {% endblock body %}
 

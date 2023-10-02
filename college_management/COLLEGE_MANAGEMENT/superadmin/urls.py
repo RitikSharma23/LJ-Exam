@@ -16,7 +16,14 @@ urlpatterns = [
     # path(f"{u}-add-admins-get/", addadmins_GET, name=f"{u}-admins-get"),
     
     path(f"{u}-course/", course, name=f"{u}-course"),
+    
+    
     path(f"{u}-branch/", branch, name=f"{u}-branch"),
+    path(f"{u}-add-branch/", addbranch_GET, name=f"{u}-add-branch"),
+    path(f"{u}-add-branch-post/", addbranch_POST, name=f"{u}-branch-post"),
+    
+    
+    
     path(f"{u}-inbox/", inbox, name=f"{u}-inbox"),
     path(f"{u}-read/", read, name=f"{u}-read"),
     path(f"testform/", testform, name="testform"),
