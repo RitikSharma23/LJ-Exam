@@ -14,12 +14,6 @@ client = pymongo.MongoClient(mongo_uri)
 database_name = "LJKU"
 db = client[database_name]
 
-
-def check_session(request):
-    if not request.session.get('authenticated', False):
-        return redirect('login')
-
-
 def home(request):
   return render(request, 'home.html',{})
 
@@ -39,20 +33,19 @@ def postLogin(request):
     criteria2 = {"password": data['password']}
 
     query = {"$and": [criteria1, criteria2]}
-
     try:
         result = collection.find(query)
    
+        request.session['fname'] = result[0]['fname']
+        request.session['lname'] = result[0]['lname']
+        request.session['profile_pic'] = result[0]['profile_pic']
         request.session['email'] = result[0]['email']
         request.session['role'] = result[0]['role']
+        request.session['branch'] = result[0]['branch']
         request.session['is_authenticated'] = True
+        request.session.save()
         
-        if result[0]['role'] == 'Superadmin':
-            return redirect('/superadmin/dashboard/')
-        elif result[0]['role'] == 'Subadmin':
-            return redirect('/subadmin/dashboard/')
-        elif result[0]['role'] == 'Admin':
-            return redirect('/admins/dashboard/')
+        return redirect(f"/{result[0]['role']}-dashboard/")
           
     except Exception as e:
         print(e)
