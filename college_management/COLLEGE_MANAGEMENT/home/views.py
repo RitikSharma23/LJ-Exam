@@ -35,7 +35,6 @@ def postLogin(request):
     query = {"$and": [criteria1, criteria2]}
     try:
         result = collection.find(query)
-        
    
         request.session['fname'] = result[0]['fname']
         request.session['lname'] = result[0]['lname']
