@@ -22,10 +22,8 @@ def admins(request):
   results = collection.find({'role': 'Admin'})
   data={}
   for document in results:
-    print(document)
     document['id']=str(document['_id'])
     data[str(document['_id'])]=document
-  print(data)
   return render(request,f'{uname}/admins.html',{'title':'admins','data':data})
 
 def addadmins_GET(request):
