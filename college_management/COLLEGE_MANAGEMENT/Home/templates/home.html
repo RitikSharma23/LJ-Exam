@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>
+      University 
+    </title>
+
+    <!-- Stylesheets -->
+    <link href="/static/css/bootstrap.css" rel="stylesheet" />
+    <link href="/static/css/style.css" rel="stylesheet" />
+    <link href="/static/css/responsive.css" rel="stylesheet" />
+
+    <link
+      rel="shortcut icon"
+      href="/static/images/branding/favicon.png"
+      type="image/x-icon"
+    />
+    <link rel="icon" href="/static/images/branding/favicon.png" type="image/x-icon" />
+
+    <!-- Responsive -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <!--[if lt IE 9
+      ]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script
+    ><![endif]-->
+    <!--[if lt IE 9]><script src="js/respond.js"></script><![endif]-->
+  </head>
+
+  <body>
+    <div class="page-wrapper">
+      <!-- Preloader -->
+      <div class="preloader"></div>
+
+      <!-- Main Header-->
+      <header class="main-header">
+        <!-- Main box -->
+        <div class="main-box">
+          <div class="logo-box">
+            <div class="logo">
+              <a href="index.html"
+                >
+                <!-- <img
+                  src="/static/images/branding/logo.png"
+                  alt="logo"
+                  width="240px"
+                  title=""
+              /> -->
+            </a>
+            </div>
+
+            <!-- Search Btn -->
+            <div class="search-box">
+              <!-- Search Backdrop -->
+              <div class="search-backdrop"></div>
+
+              <div class="header-search-form">
+
+              </div>
+
+              <div class="search-list">
+                <div class="search-item region">
+                  <i class="icon flaticon-placeholder"></i>
+                  <div class="text">City Of London</div>
+                  <span class="cat">Region</span>
+                  <a href="listing-single.html" class="overlay-link"></a>
+                </div>
+                <div class="search-item region">
+                  <i class="icon flaticon-placeholder"></i>
+                  <div class="text">City of Westminster</div>
+                  <span class="cat">Region</span>
+                  <a href="listing-single.html" class="overlay-link"></a>
+                </div>
+                <div class="search-item region">
+                  <i class="icon flaticon-placeholder"></i>
+                  <div class="text">Chelsea District</div>
+                  <span class="cat">Region</span>
+                  <a href="listing-single.html" class="overlay-link"></a>
+                </div>
+                <div class="search-item listing">
+                  <i class="icon flaticon-placeholder"></i>
+                  <div class="text">Top Picks</div>
+                  <span class="cat">Featured Listings</span>
+                  <a href="listing-single.html" class="overlay-link"></a>
+                </div>
+                <div class="search-item shopping">
+                  <i class="icon flaticon-placeholder"></i>
+                  <div class="text">Shopping</div>
+                  <span class="cat">Category</span>
+                  <a href="listing-single.html" class="overlay-link"></a>
+                </div>
+                <div class="search-item food">
+                  <i class="icon flaticon-placeholder"></i>
+                  <div class="text">Local Food</div>
+                  <span class="cat">Category</span>
+                  <a href="listing-single.html" class="overlay-link"></a>
+                </div>
+                <div class="search-item prize">
+                  <i class="icon flaticon-placeholder"></i>
+                  <div class="text">Free Entrance</div>
+                  <span class="cat">Tag</span>
+                  <a href="listing-single.html" class="overlay-link"></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--Nav Box-->
+          <div class="nav-outer">
+            <nav class="nav main-menu">
+          
+            </nav>
+            <!-- Main Menu End-->
+
+            <div class="outer-box">
+              <!-- Add Listing -->
+   
+              <!-- Cart btn -->
+              <!-- <div class="cart-btn">
+                <a href="shopping-cart.html"
+                  ><i class="icon flaticon-shopping-bag"></i>
+                  <span class="count">2</span></a
+                >
+
+                <div class="shopping-cart">
+                  <ul class="shopping-cart-items">
+                    <li class="cart-item">
+                      <img
+                        src="/static/images/resource/item-thumb-1.jpg"
+                        alt=""
+                        class="thumb"
+                      />
+                      <span class="item-name">Dolar Sit Amet</span>
+                      <span class="item-quantity"
+                        >1 x <span class="item-amount">$7.90</span></span
+                      >
+                      <a href="shop-single.html" class="product-detail"></a>
+                      <button class="remove-item">
+                        <span class="fa fa-times"></span>
+                      </button>
+                    </li>
+
+                    <li class="cart-item">
+                      <img
+                        src="/static/images/resource/item-thumb-2.jpg"
+                        alt=""
+                        class="thumb"
+                      />
+                      <span class="item-name">Lorem Ipsum</span>
+                      <span class="item-quantity"
+                        >3 x <span class="item-amount">$7.90</span></span
+                      >
+                      <a href="shop-single.html" class="product-detail"></a>
+                      <button class="remove-item">
+                        <span class="fa fa-times"></span>
+                      </button>
+                    </li>
+                  </ul>
+
+                  <div class="shopping-cart-total">
+                    <span>Subtotal: </span> $57.70
+                  </div>
+
+                  <div class="cart-footer">
+                    <a href="cart.html" class="theme-btn btn-style-one"
+                      >View Cart</a
+                    >
+                    <a href="checkout.html" class="theme-btn btn-style-two"
+                      >Checkout</a
+                    >
+                  </div>
+                </div> -->
+                <!--end shopping-cart -->
+              </div>
+
+              <!-- Login/Register -->
+              <div class="login-box">
+                <span class="flaticon-user"></span>
+                <a href="{{ current_path }}/login/" >Student Login</a> 
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile Header -->
+
+        <!-- Mobile Nav -->
+        <div id="nav-mobile"></div>
+
+        <!-- Header Search -->
+        <div class="search-popup">
+          <span class="search-back-drop"></span>
+
+          <div class="search-inner">
+            <button class="close-search">
+              <span class="fa fa-times"></span>
+            </button>
+            <form
+              method="post"
+              action="https://creativelayers.net/themes/listdo-html/blog-showcase.html"
+            >
+              <div class="form-group">
+
+                <button type="submit">
+                  <i class="flaticon-magnifying-glass"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- End Header Search -->
+      </header>
+      <!--End Main Header -->
+
+      <!-- Banner Section-->
+      <section class="banner-section">
+        <!-- Background Layer -->
+        <div
+          class="background-layer"
+          style="background-image: url('/static/images/banner/1.jpg')"
+        ></div>
+
+        <div class="auto-container">
+          <div class="content-box">
+            <!-- Upper Heading -->
+            <div class="upper-heading">
+              <h3>
+                University With
+                <!-- Typed words can be configured in script settings at the bottom of this HTML file -->
+                <span class="typed-words"></span>
+              </h3>
+            </div>
+
+            <!-- Listing Search Tabs -->
+         
+          </div>
+
+          <!-- Browse Category -->
+          <div class="browse-catergory">
+            <div class="text">Or browse the university</div>
+            <ul class="browse-cat-list">
+              <li>
+                <a href="#"
+                  ><span class="icon flaticon-hamburger"></span>Study</a
+                >
+              </li>
+              <li>
+                <a href="#"
+                  ><span class="icon flaticon-shopping-cart"></span> College
+                </a>
+              </li>
+              <li>
+                <a href="#"><span class="icon flaticon-bed"></span> Hostels </a>
+              </li>
+              <li>
+                <a href="#"
+                  ><span class="icon flaticon-guitar"></span> Programs
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+      <!-- End Banner Section-->
+
+      <!-- Features Section -->
+      <section class="features-section">
+        <div class="auto-container">
+          <div class="sec-title text-center">
+            <h2>We Have the best in class features</h2>
+            <span class="divider"></span>
+            <div class="text">
+              Explore some of the best tips from our University
+            </div>
+          </div>
+
+          <div class="row">
+            <!-- Feature Block -->
+            <div class="feature-block col-lg-6 col-md-12 col-sm-12">
+              <div class="inner-box">
+                <figure class="image">
+                  <img src="/static/images/resource/interested-1.jpg" alt="" />
+                </figure>
+                <div class="overlay-box">
+                  <div class="content">
+                    <h5>Best Infrastrecture</h5>
+                    <a href="#" class="overlay-link"></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Feature Block -->
+            <div class="feature-block col-lg-3 col-md-6 col-sm-12">
+              <div class="inner-box">
+                <figure class="image">
+                  <img src="/static/images/resource/interested-2.jpg" alt="" />
+                </figure>
+                <div class="overlay-box">
+                  <div class="content">
+                    <h5>Canteen</h5>
+                    <a href="#" class="overlay-link"></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Feature Block -->
+            <div class="feature-block col-lg-3 col-md-6 col-sm-12">
+              <div class="inner-box">
+                <figure class="image">
+                  <img src="/static/images/resource/interested-3.jpg" alt="" />
+                </figure>
+                <div class="overlay-box">
+                  <div class="content">
+                    <h5>Gym & Fitness</h5>
+                    <a href="#" class="overlay-link"></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Feature Block -->
+            <div class="feature-block col-lg-3 col-md-6 col-sm-12">
+              <div class="inner-box">
+                <figure class="image">
+                  <img src="/static/images/resource/interested-4.jpg" alt="" />
+                </figure>
+                <div class="overlay-box">
+                  <div class="content">
+                    <h5>Art & History</h5>
+                    <a href="#" class="overlay-link"></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Feature Block -->
+            <div class="feature-block col-lg-3 col-md-6 col-sm-12">
+              <div class="inner-box">
+                <figure class="image">
+                  <img src="/static/images/resource/interested-5.jpg" alt="" />
+                </figure>
+                <div class="overlay-box">
+                  <div class="content">
+                    <h5>Study</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Feature Block -->
+            <div class="feature-block col-lg-6 col-md-12 col-sm-12">
+              <div class="inner-box">
+                <figure class="image">
+                  <img src="/static/images/resource/interested-6.jpg" alt="" />
+                </figure>
+                <div class="overlay-box">
+                  <div class="content">
+                    <h5>Outdoor Activities</h5>
+                    <a href="#" class="overlay-link"></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- End Features Section -->
+
+      <!-- Listing Section -->
+      <section class="listing-section">
+        <div class="auto-container">
+          <div class="sec-title text-center">
+            <h2>Which course you interested in?</h2>
+            <span class="divider"></span>
+            <div class="text">
+              Explore some of the best of our Courses.
+            </div>
+          </div>
+
+          <div class="three-items-carousel owl-carousel owl-theme default-nav">
+            <!-- Listing lLock -->
+            <div class="listing-block">
+              <div class="inner-box">
+                <div class="image-box">
+                  <figure class="image">
+                    <img src="/static/images/resource/listing/1-1.jpg" alt="" />
+                  </figure>
+                  <a href="#" class="like-btn"
+                    ><span class="flaticon-heart"></span> Save</a
+                  >
+                </div>
+                <div class="lower-content">
+                  <div class="user-thumb">
+                    <img src="/static/images/resource/user-thumb-1.jpg" alt="" />
+                  </div>
+                  <div class="rating">
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="title">(7 review)</span>
+                  </div>
+                  <h3>
+                    <a href="#"
+                      >Batehelor Of Pharmacy<span class="icon icon-verified"></span
+                    ></a>
+                  </h3>
+                  <div class="text">
+                    Luxury Pharmacy in the heart of Bloomsbury.
+                  </div>
+                  <ul class="info">
+                    <li>
+                      <span class="flaticon-phone-call"></span> +91 8866892314
+                    </li>
+                  </ul>
+                </div>
+                <div class="bottom-box">
+                  <div class="places">
+                    <div class="place">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </section>
+      <!-- End Listing Section -->
+
+      <!-- How It Works -->
+      <section class="how-it-works">
+        <div class="auto-container">
+          <div class="sec-title text-center">
+            <h2>See How It Works</h2>
+            <span class="divider"></span>
+            <div class="text">
+              Discover how Listable can you help you find everything you want.
+            </div>
+          </div>
+          <div class="row">
+            <!-- Work Block -->
+            <div class="work-block col-lg-4 col-md-6 col-sm-12">
+              <div class="inner-box">
+                <figure class="icon-box">
+                  <img src="/static/images/icons/process-1.png" alt="" />
+                </figure>
+                <h4><a href="#">Choose What To Do</a></h4>
+                <div class="text">
+                  Looking for a cozy hotel to stay, a restaurant to eat, a
+                  museum to visit or a mall to do some shopping?
+                </div>
+              </div>
+            </div>
+
+            <!-- Work Block -->
+            <div class="work-block col-lg-4 col-md-6 col-sm-12">
+              <div class="inner-box">
+                <figure class="icon-box">
+                  <img src="/static/images/icons/process-2.png" alt="" />
+                </figure>
+                <h4><a href="#">Find What You Want</a></h4>
+                <div class="text">
+                  Looking for a cozy hotel to stay, a restaurant to eat, a
+                  museum to visit or a mall to do some shopping?
+                </div>
+              </div>
+            </div>
+
+            <!-- Work Block -->
+            <div class="work-block col-lg-4 col-md-6 col-sm-12">
+              <div class="inner-box">
+                <figure class="icon-box">
+                  <img src="/static/images/icons/process-3.png" alt="" />
+                </figure>
+                <h4><a href="#">Explore Amazing Places</a></h4>
+                <div class="text">
+                  Looking for a cozy hotel to stay, a restaurant to eat, a
+                  museum to visit or a mall to do some shopping?
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- End How It Works -->
+
+      <!-- Call to Action -->
+      <section
+        class="call-to-action"
+        style="background-image: url(/static/images/background/1.jpg)"
+      >
+        <div class="auto-container">
+          <div class="content">
+            <h3>Need More Information</h3>
+            <div class="text">
+              Keep calm and visit our best in class infrastrecture cuniversity.<br />
+              Hurry up!.
+            </div>
+            <div class="btn-box">
+              <a href="#" class="theme-btn btn-style-three"
+                >Explore <span class="flaticon-right"></span
+              ></a>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- End Call to Action -->
+
+      <!-- Testimonial Section -->
+      <section class="testimonial-section">
+        <div class="auto-container">
+          <!-- Sec Title -->
+          <div class="sec-title text-center">
+            <h2>What Our Students Say</h2>
+            <span class="divider"></span>
+            <div class="text">
+              Discover how this university can you help you everything you want.
+            </div>
+          </div>
+
+          <div class="testimonial-outer">
+            <!-- Product Thumbs Carousel -->
+            <div class="client-thumb-outer">
+              <div class="client-thumbs-carousel owl-carousel owl-theme">
+                <div class="thumb-item">
+                  <figure class="thumb-box">
+                    <img src="/static/images/resource/testi-thumb-1.jpg" alt="" />
+                  </figure>
+                  <div class="author-info">
+                    <div class="author-name">Lara Croft</div>
+                    <div class="designation">College Student</div>
+                  </div>
+                </div>
+                <div class="thumb-item">
+                  <figure class="thumb-box">
+                    <img src="/static/images/resource/testi-thumb-2.jpg" alt="" />
+                  </figure>
+                  <div class="author-info">
+                    <div class="author-name">Lara Vrutik</div>
+                    <div class="designation">College Student</div>
+                  </div>
+                </div>
+                <div class="thumb-item">
+                  <figure class="thumb-box">
+                    <img src="/static/images/resource/testi-thumb-3.jpg" alt="" />
+                  </figure>
+                  <div class="author-info">
+                    <div class="author-name">Lara Croft</div>
+                    <div class="designation">College Student</div>
+                  </div>
+                </div>
+
+                <div class="thumb-item">
+                  <figure class="thumb-box">
+                    <img src="/static/images/resource/testi-thumb-4.jpg" alt="" />
+                  </figure>
+                  <div class="author-info">
+                    <div class="author-name">Lara Croft</div>
+                    <div class="designation">College Student</div>
+                  </div>
+                </div>
+                <div class="thumb-item">
+                  <figure class="thumb-box">
+                    <img src="/static/images/resource/testi-thumb-5.jpg" alt="" />
+                  </figure>
+                  <div class="author-info">
+                    <div class="author-name">Lara Croft</div>
+                    <div class="designation">College Student</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Client Testimonial Carousel -->
+            <div class="client-testimonial-carousel owl-carousel owl-theme">
+              <!--Testimonial Block -->
+              <div class="testimonial-block">
+                <div class="inner-box">
+                  <div class="text">
+                    Especially i want to give thanks to support team, this guys
+                    are friendly, <br />
+                    correct, gave me quick and complete answers.
+                  </div>
+                  <span class="title">Good job!</span>
+                </div>
+              </div>
+
+              <!--Testimonial Block -->
+              <div class="testimonial-block">
+                <div class="inner-box">
+                  <div class="text">
+                    Especially i want to give thanks to support team, this guys
+                    are friendly, <br />
+                    correct, gave me quick and complete answers.
+                  </div>
+                  <span class="title">Good job!</span>
+                </div>
+              </div>
+
+              <!--Testimonial Block -->
+              <div class="testimonial-block">
+                <div class="inner-box">
+                  <div class="text">
+                    Especially i want to give thanks to support team, this guys
+                    are friendly, <br />
+                    correct, gave me quick and complete answers.
+                  </div>
+                  <span class="title">Good job!</span>
+                </div>
+              </div>
+
+              <!--Testimonial Block -->
+              <div class="testimonial-block">
+                <div class="inner-box">
+                  <div class="text">
+                    Especially i want to give thanks to support team, this guys
+                    are friendly, <br />
+                    correct, gave me quick and complete answers.
+                  </div>
+                  <span class="title">Good job!</span>
+                </div>
+              </div>
+
+              <!--Testimonial Block -->
+              <div class="testimonial-block">
+                <div class="inner-box">
+                  <div class="text">
+                    Especially i want to give thanks to support team, this guys
+                    are friendly, <br />
+                    correct, gave me quick and complete answers.
+                  </div>
+                  <span class="title">Good job!</span>
+                </div>
+              </div>
+
+              <!--Testimonial Block -->
+              <div class="testimonial-block">
+                <div class="inner-box">
+                  <div class="text">
+                    Especially i want to give thanks to support team, this guys
+                    are friendly, <br />
+                    correct, gave me quick and complete answers.
+                  </div>
+                  <span class="title">Good job!</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- End Testimonial Section -->
+
+      <!-- News Section -->
+
+      <!-- End News Section -->
+
+      <!-- Main Footer -->
+      <footer class="main-footer">
+        <!-- Footer Upper -->
+        <div class="footer-upper">
+          <ul class="footer-nav">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Courses</a></li>
+            <li><a href="#">AZout</a></li>
+            <li><a href="#">Courses</a></li>
+            <li><a href="#">Courses</a></li>
+          </ul>
+        </div>
+
+        <!-- Footer Content -->
+        <div class="footer-content">
+          <div class="auto-container">
+            <ul class="social-icon-one">
+              <li>
+                <a href="#"><span class="fab fa-facebook"></span></a>
+              </li>
+              <li>
+                <a href="#"><span class="fab fa-twitter"></span></a>
+              </li>
+              <li>
+                <a href="#"><span class="fab fa-instagram"></span></a>
+              </li>
+              <li>
+                <a href="#"><span class="fab fa-pinterest"></span></a>
+              </li>
+              <li>
+                <a href="#"><span class="fab fa-dribbble"></span></a>
+              </li>
+              <li>
+                <a href="#"><span class="fab fa-google"></span></a>
+              </li>
+            </ul>
+
+            <ul class="copyright-text">
+              <li>Created By Ritik Sharma</li>
+              <li>Ahmedabad, Vatral</li>
+              <li><a href="#">+91 8866892314</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+          <div class="text">Proudly Listdo by Ritik Sharma</div>
+        </div>
+
+        <!-- Scroll To Top -->
+        <div class="scroll-to-top scroll-to-target" data-target="html">
+          <span class="flaticon-up"></span>
+        </div>
+      </footer>
+      <!-- End Footer -->
+    </div>
+    <!-- End Page Wrapper -->
+
+    <script src="/static/js/jquery.js"></script>
+    <script src="/static/js/popper.min.js"></script>
+    <script src="/static/js/chosen.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/jquery.fancybox.js"></script>
+    <script src="/static/js/jquery.modal.min.js"></script>
+    <script src="/static/js/jquery.hideseek.min.js"></script>
+    <script src="/static/js/mmenu.polyfills.js"></script>
+    <script src="/static/js/mmenu.js"></script>
+    <script src="/static/js/appear.js"></script>
+    <script src="/static/js/owl.js"></script>
+    <script src="/static/js/wow.js"></script>
+    <script src="/static/js/script.js"></script>
+
+    <!-- Typed Script -->
+    <script src="/static/js/typed.js"></script>
+    <script>
+      var typed = new Typed(".typed-words", {
+        strings: [" Difference", " Excellence", " Development"],
+        typeSpeed: 80,
+        backSpeed: 80,
+        backDelay: 4000,
+        startDelay: 1000,
+        loop: true,
+        showCursor: true,
+      });
+    </script>
+  </body>
+
+  <!-- Mirrored from creativelayers.net/themes/listdo-html/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 28 Apr 2023 08:17:52 GMT -->
+</html>

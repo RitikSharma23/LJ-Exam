@@ -1,0 +1,423 @@
+{% extends 'AdminPartials/layout.html' %}
+{% load static %}
+{% block page_title %}
+  {{ page_title }}
+{% endblock page_title %}
+
+{% block HeaderCss %}
+    <link rel="stylesheet" href="{% static 'assets/libs/twitter-bootstrap-wizard/prettify.css'%}">
+    <link rel="stylesheet" href="{% static 'assets/js/plugins.bundle.css'%}">
+{% endblock HeaderCss %}
+
+{% block BottomJs %}
+<script src="{%static 'assets/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js'%}"></script>
+<script src="{%static 'assets/libs/twitter-bootstrap-wizard/prettify.js'%}"></script>
+<script src="{%static 'assets/js/pages/form-wizard.init.js'%}"></script>
+
+<script src="{%static 'assets/libs/inputmask/jquery.inputmask.min.js'%}"></script>
+<script src="{%static 'assets/js/pages/form-mask.init.js'%}"></script>
+<script src="{%static 'assets/js/scripts.bundle.js'%}"></script>
+
+
+<script>
+    function submitforms(url) {
+        const form = $("<form></form>");
+        form.attr("method", "POST");
+        form.attr("action", "");
+        const csrfTokenInput = $("<input>");
+        csrfTokenInput.attr("type", "hidden");
+        csrfTokenInput.attr("name", "csrfmiddlewaretoken");
+        csrfTokenInput.val("{{ csrf_token }}");
+        form.append(csrfTokenInput);
+        $("input, select").each(function () {
+            const input = $(this);
+            const clonedInput = input.clone();
+            clonedInput.attr("name", input.attr("name"));
+            clonedInput.val(input.val());
+            form.append(clonedInput);
+        });
+        form.attr("action", url);
+        form.appendTo("body").submit();
+    }
+
+    function disableAllSteps() {
+        document.getElementById("step1").classList.add("disabled");
+        document.getElementById("step2").classList.add("disabled");
+        document.getElementById("step3").classList.add("disabled");
+    }
+
+    var formElements = document.querySelectorAll("input, select");
+
+    formElements.forEach(function (element) {
+        element.addEventListener("change", function () {
+            disableAllSteps();
+        });
+    });
+
+    function prev(c){
+        $(`#${c}`).removeClass("disabled");
+        $('#prevclick').click()
+        disableAllSteps();
+    }
+
+    var KTModalCustomersAdd = function () {
+        var t, e, o, n, r, i;
+        return {
+            init: function () {
+                r = document.querySelector("#oneform");
+                t = r.querySelector("#onesubmit");
+                n = FormValidation.formValidation(r, {
+                    fields: {
+                        course: {
+                            validators: {
+                                notEmpty: {
+                                    message: "Please Select Course"
+                                }
+                            }
+                        },
+                    },
+                    plugins: {
+                        trigger: new FormValidation.plugins.Trigger(),
+                        bootstrap: new FormValidation.plugins.Bootstrap5({
+                            rowSelector: ".valid",
+                            eleInvalidClass: "",
+                            eleValidClass: ""
+                        })
+                    }
+                });
+                t.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    n &&
+                        n.validate().then(function (e) {
+                            console.log("validated!");
+                            if (e === "Valid") {
+                                //t.setAttribute("data-kt-indicator", "on");
+                                //t.disabled = true;
+                                setTimeout(function () {
+                                    $('#step2').removeClass("disabled");
+                                    $('#nextclick').click()
+                                }, 0);
+                            } else {
+                                erroralert("Please Fill All The Required Details");
+                            }
+                        });
+                });
+            }
+        };
+    }();
+
+    var KTModalCustomersAdd2 = function () {
+        var t, e, o, n, r, i;
+        return {
+            init: function () {
+                r = document.querySelector("#twoform");
+                t = r.querySelector("#twosubmit");
+                n = FormValidation.formValidation(r, {
+                    fields: {
+                        fname: {
+                            validators: {
+                                notEmpty: {
+                                    message: "Please Enter First Name"
+                                }, callback: {
+                                    message: "Contain only characters and without space",
+                                    callback: function (input) {
+                                        const firstName = input.value.trim();
+                                        const regex = /^[A-Za-z]+$/;
+                                        return regex.test(firstName);
+                                    }
+                                }
+                            }
+                        },
+                        lname: {
+                            validators: {
+                                notEmpty: {
+                                    message: "Please Enter Last Name"
+                                },callback: {
+                                    message: "Contain only characters and without space",
+                                    callback: function (input) {
+                                        const firstName = input.value.trim();
+                                        const regex = /^[A-Za-z]+$/;
+                                        return regex.test(firstName);
+                                    }
+                                }
+                            }
+                        },
+                        email: {
+                            validators: {
+                                notEmpty: {
+                                    message: "Please Enter Email"
+                                },callback: {
+                                    message: "Please Provide Proper Email",
+                                    callback: function (input) {
+                                        const phoneNumber = input.value.trim();
+                                        return !phoneNumber.includes('_');
+                                    }
+                                }
+                            }
+                        },
+                        phone: {
+                            validators: {
+                                notEmpty: {
+                                    message: "Please Enter Phone"
+                                },callback: {
+                                    message: "Please Provide Proper Phone",
+                                    callback: function (input) {
+                                        const phoneNumber = input.value.trim();
+                                        return !phoneNumber.includes('_');
+                                    }
+                                }
+                            }
+                        },
+                    },
+                    plugins: {
+                        trigger: new FormValidation.plugins.Trigger(),
+                        bootstrap: new FormValidation.plugins.Bootstrap5({
+                            rowSelector: ".valid",
+                            eleInvalidClass: "",
+                            eleValidClass: ""
+                        })
+                    }
+                });
+                t.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    n &&
+                        n.validate().then(function (e) {
+                            console.log("validated!");
+                            if (e === "Valid") {
+                                t.setAttribute("data-kt-indicator", "on");
+                                t.disabled = true;
+                                setTimeout(function () {
+                                    $('#step3').removeClass("disabled");
+                                    $('#nextclick').click()
+                                }, 0);
+                            } else {
+                                erroralert("Please Fill All The Required Details");
+                            }
+                        });
+                });
+            }
+        };
+    }();
+
+      var KTModalCustomersAdd3 = function () {
+        var t, e, o, n, r, i;
+        return {
+            init: function () {
+                r = document.querySelector("#threeform");
+                t = r.querySelector("#threesubmit");
+                n = FormValidation.formValidation(r, {
+                    fields: {
+                        address: {
+                            validators: {
+                                notEmpty: {
+                                    message: "Please Enter Subadmin Address"
+                                },
+                            }
+                        },
+   
+                    },
+                    plugins: {
+                        trigger: new FormValidation.plugins.Trigger(),
+                        bootstrap: new FormValidation.plugins.Bootstrap5({
+                            rowSelector: ".valid",
+                            eleInvalidClass: "",
+                            eleValidClass: ""
+                        })
+                    }
+                });
+                t.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    n && n.validate().then(function (e) {
+                            console.log("validated!");
+                            if (e === "Valid") {
+                                t.setAttribute("data-kt-indicator", "on");
+                                t.disabled = true;
+                                setTimeout(function () {
+                                    submitforms('/Admins-add-subadmins-post/')
+                                }, 0);
+                            } else {
+                                erroralert("Please Fill All The Required Details");
+                            }
+                        });
+                });
+            }
+        };
+    }();
+
+    KTUtil.onDOMContentLoaded(function () {
+        KTModalCustomersAdd.init();
+        KTModalCustomersAdd2.init();
+        KTModalCustomersAdd3.init();
+    });
+
+
+
+
+
+
+</script>
+
+
+{% endblock BottomJs %}
+
+
+{% block breadcrumb %}
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0">add new Admin</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Admins</a></li>
+                    <li class="breadcrumb-item active">New Admin</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock breadcrumb %}
+
+
+{% block body %}
+
+
+<div class="row">
+
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Add New Subadmin</h4>
+                <div id="basic-pills-wizard" class="twitter-bs-wizard">
+                    <ul class="twitter-bs-wizard-nav">
+                    <li class="nav-item">
+                        <a href="#seller-details" id="step1" class="nav-link" data-toggle="tab">
+                            <span class="step-number">01</span>
+                            <span class="step-title">Branch Details</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#company-document" id="step2" class="nav-link disabled" data-toggle="tab">
+                            <span class="step-number">02</span>
+                            <span class="step-title">Profile Details</span>
+                        </a>
+                    </li>                        
+                    <li class="nav-item">
+                        <a href="#bank-detail" id="step3" class="nav-link disabled" data-toggle="tab">
+                            <span class="step-number">03</span>
+                            <span class="step-title">Address Details</span>
+                        </a>
+                    </li>
+                </ul>
+
+                    <div class="tab-content twitter-bs-wizard-tab-content">
+                        <div class="tab-pane justify-content-center" id="seller-details">
+                            <form  id="oneform">
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-6">
+                                        <div class="text-center">
+                                            <div>
+                                                <h5>Select Course</h5>
+                                                <div class="mb-3 valid">
+                                                    <select class="form-select" name="course">
+                                                        <option value="">Select course</option>
+                                                        {% for key, d in branch.items %}
+                                                            <option value="{{d.code}}">{{d.name}}</option>                       
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <ul class="pager wizard twitter-bs-wizard-pager-link">
+                                    <li id='onesubmit' class="float-end"><a href="javascript: void(0);">Next</a></li>
+                                </ul>
+                            </form>                                
+
+                        </div>
+                        <div class="tab-pane" id="company-document">
+                        <div>
+                            <form id="twoform">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3 valid">
+                                            <label class="form-label" for="basicpill-pancard-input">First Name</label>
+                                            <input type="text" name="fname" class="form-control" id="basicpill-pancard-input">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="mb-3 valid">
+                                            <label class="form-label" for="basicpill-vatno-input">Last Name</label>
+                                            <input type="text" name="lname" class="form-control" id="basicpill-vatno-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3 valid">
+                                            <label class="form-label" for="basicpill-cstno-input">Email</label>
+                                            <input type="text" name="email" class="form-control input-mask" data-inputmask="'alias': 'email'" id="basicpill-cstno-input">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="mb-3 valid">
+                                            <label class="form-label" for="basicpill-servicetax-input">Phone</label>
+                                            <input type="text" name="phone" class="form-control input-mask" data-inputmask="'mask': '+99 9999999999'" id="basicpill-servicetax-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                    <ul class="pager wizard twitter-bs-wizard-pager-link">
+                                        <li class="previous" onclick="prev('step1')"><a href="javascript: void(0);">Previous</a></li>
+                                        <li id='twosubmit' class="float-end"><a href="javascript: void(0);">Next</a></li>
+                                    </ul>
+                            </form>
+
+                            
+                        </div>
+                        </div>
+                        <div class="tab-pane" id="bank-detail">
+                            <div>
+                            <form id="threeform">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3 valid">
+                                            <label class="form-label" for="basicpill-namecard-input">Subadmin Address</label>
+                                            <input type="text" name="address" class="form-control" id="basicpill-namecard-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                    <ul class="pager wizard twitter-bs-wizard-pager-link">
+                                        <li class="previous" onclick="prev('step2')"><a href="javascript: void(0);">Previous</a></li>
+                                        <li id='threesubmit' class="float-end"><a href="javascript: void(0);">Submit</a></li>
+                                    </ul>
+                            </form>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <ul class="d-none pager wizard twitter-bs-wizard-pager-link">
+                        <li class="previous" id="prevclick"><a href="javascript: void(0);">Previous</a></li>
+                        <li class="next" id="nextclick"><a href="javascript: void(0);">Next</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="{% static 'assets/js/plugins.bundle.js'%}"></script>
+
+{% endblock body %}
+
+
+
+
+
+
