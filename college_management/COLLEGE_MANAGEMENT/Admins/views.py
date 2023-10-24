@@ -36,11 +36,11 @@ def subadmins(request):
   for document in results:
     document['id']=str(document['_id'])
     data[str(document['_id'])]=document
-  return render(request,f'{uname}/subadmins.html',{'title':'subadmins','data':data})
+  return render(request,f'{uname}/subadmins.html',{'title':'Subadmins','data':data})
 
 def subadmins_GET(request):
   branch=getbranch(request.session.get("branch"))
-  return render(request,f'{uname}/add-subadmins.html',{'title':'subadmins','branch':branch})
+  return render(request,f'{uname}/add-subadmins.html',{'title':'Subadmins','branch':branch})
 
 def subadmins_POST(request):
   data=(request.POST)
@@ -132,6 +132,7 @@ def subjects_POST(request):
      "code": data['code'],
      "branch": request.session.get("branch"),
      "course": data['course'],
+     "is_mark": False,
      "sem": data['sem'],
   }
   result = collection.insert_one(data_to_insert)

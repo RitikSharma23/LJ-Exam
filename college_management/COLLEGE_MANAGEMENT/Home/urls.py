@@ -11,4 +11,7 @@ urlpatterns = [
     path('forgot-password-page/',passpage,name="forgot-password-page"),
     path('postforgot/',postforgot,name="postforgot"),
     path('post-reset/',postreset,name="post-reset"),
+    path('upload_file/',upload_file,name="upload_file"),
+    path('testpage/',testpage,name="testpage"),
+    path('generate_pdf/', generate_pdf, name='generate_pdf'),
 ]

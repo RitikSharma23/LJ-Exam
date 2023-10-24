@@ -11,6 +11,8 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from jinja2 import Environment, FileSystemLoader
+from rest_framework.response import Response
+from django.core.files.storage import FileSystemStorage
 
 mongo_uri = "mongodb+srv://ljexam:LjExam@ljexam.vysc2ku.mongodb.net/"
 client = pymongo.MongoClient(mongo_uri)
@@ -126,7 +128,7 @@ import os
 def passmail(email):
   
   tp = os.path.join(settings.BASE_DIR, 'email.html')
-  
+
   collection = db["users"]
   results = collection.find({'email':email})
   data={}
@@ -147,10 +149,9 @@ def passmail(email):
   }  
   collection.insert_one(document)
 
-
   sender_email = "ritik.sharma@techglide.in"
+  password = "@"
   receiver_email =data['email']
-  password = "Dcba4321@"
   subject = "Reset Your Password"
 
   template_path =tp
@@ -191,3 +192,75 @@ def passmail(email):
       server.quit()
 
 # passmail('ritikss748@gmail.com')
+
+from django.shortcuts import render
+from django.core.files.storage import FileSystemStorage
+from django.http import JsonResponse
+
+def upload_file(request):
+  file_uploaded = request.FILES['file_uploaded']
+  fs = FileSystemStorage()
+  filename = fs.save(file_uploaded.name, file_uploaded)
+  file_url = fs.url(filename)
+  return JsonResponse({'message': 'File uploaded and saved successfully', 'filename': filename, 'file_url': file_url})
+
+
+def testpage(request):
+  return render(request,'test.html',{})
+
+
+# Add This To Your URLS.py File
+# path('generate_pdf/', generate_pdf, name='generate_pdf'),
+
+
+# Views.py Function
+
+from django.http import FileResponse
+from django.shortcuts import render
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from reportlab.lib import colors
+from io import BytesIO
+
+def generate_pdf(request):
+    buffer = BytesIO()
+
+    doc = SimpleDocTemplate(buffer, pagesize=letter)
+    elements = []
+    
+    # Fetch Data From Your Database
+
+    data = [
+        ["Name", "Roll"],
+        ["Ritik Sharma", 62],
+        ["Shanu Pandey", 29,],
+        ["Vrutik Jagad", 18,],
+    ]
+
+    table_data = []
+    for row in data:
+        table_data.append(row)
+
+    table = Table(table_data)
+    
+    # Add More Styles According To Your Needs
+    style = TableStyle([
+        ('GRID', (0, 0), (-1, -1), 1, colors.black)
+        # ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+        # ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        # ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        # ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        # ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        # ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+    ])
+
+    table.setStyle(style)
+    elements.append(table)
+    doc.build(elements)
+    buffer.seek(0)
+    response = FileResponse(buffer, as_attachment=True, filename='sample_table.pdf')
+    return response
+
+
+
+
