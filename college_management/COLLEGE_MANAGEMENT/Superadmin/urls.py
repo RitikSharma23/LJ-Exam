@@ -8,7 +8,11 @@ u='Superadmin'
 urlpatterns = [
     path(f"{u}-dashboard/", dashboard, name=f"{u}-dashboard"),
     path(f"{u}-calendar/", calendar, name=f"{u}-calendar"),
-    path(f"{u}-email/", email, name=f"{u}-email"),
+    # path(f"{u}-email/", email, name=f"{u}-email"),
+
+     path(f"{u}-profile/", profile, name=f"{u}-profile"),
+     path(f"{u}-edit-profile/", profile_edit_GET, name=f"{u}-edit-profile"),
+    
     
     path(f"{u}-admins/", admins, name=f"{u}-admins"),
     path(f"{u}-add-admins/", addadmins_GET, name=f"{u}-add-admins"),

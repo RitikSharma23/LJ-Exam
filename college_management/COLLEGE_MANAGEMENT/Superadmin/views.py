@@ -102,6 +102,14 @@ def calendar(request):
 def email(request):
   return render(request,f'{uname}/email.html',{'title':'email'})
 
+def profile(request):
+  return render(request,f'{uname}/profile.html',{'title':'profile'})
+
+
+def profile_edit_GET(request):
+  
+  return render(request,f'{uname}/edit-profile.html',{'title':'edit-profile'})
+
 
 
 
