@@ -12,7 +12,6 @@ class LoginCheckMiddleWare(MiddlewareMixin):
         for key, value in request.session.items():
             user[key] = value
         
-        
         try:
             if user['is_authenticated']:
                 if user['role'] == 'Superadmin':
