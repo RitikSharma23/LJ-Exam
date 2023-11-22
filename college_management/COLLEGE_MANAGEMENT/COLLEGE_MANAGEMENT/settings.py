@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Superadmin',
     'Admins',
+    'Subadmin',
     'Home',
 
     # My Apps
@@ -73,8 +74,8 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
     # My Middleware
-    'Superadmin.middleware.LoginCheckMiddleWare',
-    'Admins.middleware.LoginCheckMiddleWare',
+    # 'Superadmin.middleware.LoginCheckMiddleWare',
+    # 'Admins.middleware.LoginCheckMiddleWare',
 ]
 
 ROOT_URLCONF = 'COLLEGE_MANAGEMENT.urls'
