@@ -131,7 +131,7 @@ def addfaculty_delete_POST(request):
 
 def student(request):
   collection = db["students"]
-  results = collection.find({'role': 'Faculty'})
+  results = collection.find({'branch':int(request.session.get("branch")),'course':int(request.session.get("course"))})
   data={}
   for document in results:
     document['id']=str(document['_id'])
