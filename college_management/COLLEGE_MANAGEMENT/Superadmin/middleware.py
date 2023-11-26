@@ -6,11 +6,12 @@ from django.shortcuts import redirect
 class LoginCheckMiddleWare(MiddlewareMixin):
     def process_view(self, request, view_func, view_args, view_kwargs):
         modulename = view_func.__module__
-        print("=========================",modulename)
+        # print("=========================",modulename)
         user = {}
 
         for key, value in request.session.items():
             user[key] = value
+        # print(user)
         
         try:
             if user['is_authenticated']:
@@ -22,9 +23,18 @@ class LoginCheckMiddleWare(MiddlewareMixin):
                     print(user['role'])
                     if modulename != 'Admins.views' and modulename != 'Home.views':
                         return redirect(reverse('home'))
-                elif user['role'] == '3':
-                    if modulename == 'main_app.hod_views' or modulename == 'main_app.staff_views':
-                        return redirect(reverse('student_home'))
+
+                elif user['role'] == 'Subadmin':
+                    if modulename != 'Subadmin.views' and modulename != 'Home.views':
+                        return redirect(reverse('home'))
+
+                elif user['role'] == 'Faculty':
+                    if modulename != 'Faculty.views' and modulename != 'Home.views':
+                        return redirect(reverse('home'))
+
+                elif user['role'] == 'Student':
+                    if modulename != 'Student.views' and modulename != 'Home.views':
+                        return redirect(reverse('home'))
                 else:
                     return redirect(reverse('login'))
             else:

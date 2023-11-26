@@ -13,6 +13,7 @@ from email.mime.multipart import MIMEMultipart
 from jinja2 import Environment, FileSystemLoader
 from rest_framework.response import Response
 from django.core.files.storage import FileSystemStorage
+import pandas as pd
 
 mongo_uri = "mongodb+srv://ljexam:LjExam@ljexam.vysc2ku.mongodb.net/"
 client = pymongo.MongoClient(mongo_uri)
@@ -50,8 +51,8 @@ def postLogin(request):
         request.session['profile_pic'] = result[0]['profile_pic']
         request.session['email'] = result[0]['email']
         request.session['role'] = result[0]['role']
-        request.session['branch'] = result[0]['branch']
-        request.session['course'] = result[0]['course']
+        request.session['branch'] = result[0]['branch'] #computer application
+        request.session['course'] = result[0]['course'] # MCA , BCA 
         request.session['is_authenticated'] = True
         request.session.save()
         
@@ -197,14 +198,11 @@ from django.shortcuts import render
 from django.core.files.storage import FileSystemStorage
 from django.http import JsonResponse
 
-def upload_file(request):
-  file_uploaded = request.FILES['file_uploaded']
-  fs = FileSystemStorage()
-  filename = fs.save(file_uploaded.name, file_uploaded)
-  file_url = fs.url(filename)
-  return JsonResponse({'message': 'File uploaded and saved successfully', 'filename': filename, 'file_url': file_url})
 
 
+
+
+        
 def testpage(request):
   return render(request,'test.html',{})
 

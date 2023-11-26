@@ -1,0 +1,387 @@
+{% extends 'AdminPartials/layout.html' %}
+{% load static %}
+{% block page_title %}
+  {{ page_title }}
+{% endblock page_title %}
+
+{% block HeaderCss %}
+    <link rel="stylesheet" href="{% static 'assets/libs/twitter-bootstrap-wizard/prettify.css'%}">
+    <link rel="stylesheet" href="{% static 'assets/js/plugins.bundle.css'%}">
+{% endblock HeaderCss %}
+
+{% block BottomJs %}
+<script src="{%static 'assets/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js'%}"></script>
+<script src="{%static 'assets/libs/twitter-bootstrap-wizard/prettify.js'%}"></script>
+<script src="{%static 'assets/js/pages/form-wizard.init.js'%}"></script>
+
+<script src="{%static 'assets/libs/inputmask/jquery.inputmask.min.js'%}"></script>
+<script src="{%static 'assets/js/pages/form-mask.init.js'%}"></script>
+<script src="{%static 'assets/js/scripts.bundle.js'%}"></script>
+
+
+<script>
+    is_mid = {% if data.is_mid %}true{% else %}false{% endif %};
+    is_theory = {% if data.is_theory %}true{% else %}false{% endif %};
+    is_practical = {% if data.is_practical %}true{% else %}false{% endif %};
+
+    console.log(is_mid)
+function submitforms(url) {
+        const formData = {
+            is_mid:is_mid,
+            is_theory:is_theory,
+            is_practical:is_practical,
+            theory_pass:parseInt($("#theory_pass").val()),
+            theory_total:parseInt($("#theory_total").val()),
+            mid_pass:parseInt($("#mid_pass").val()),
+            mid_total:parseInt($("#mid_total").val()),
+            practical_pass:parseInt($("#practical_pass").val()),
+            practical_total:parseInt($("#practical_total").val()),
+            id:new URLSearchParams(window.location.search).get('id')};
+        formData["csrfmiddlewaretoken"] = "{{ csrf_token }}";
+        const jsonData = JSON.stringify(formData);
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            contentType: "application/json; charset=utf-8",
+            data: jsonData,
+            success: function (response) {
+                if(response.status==true){
+                    location.replace("/Admins-marks")
+                }
+            },
+            error: function (error) {
+                console.error("Error:", error);
+            }
+        });
+}
+
+
+
+    var KTModalCustomersAdd = function () {
+        var t, e, o, n, r, i;
+        return {
+            init: function () {
+                r = document.querySelector("#oneform");
+                t = r.querySelector("#onesubmit");
+                n = FormValidation.formValidation(r, {
+                    fields: {
+                        theory_total: {
+                            validators: {
+                                notEmpty: {
+                                    message: "Please Enter Subject Marks"
+                                },callback: {
+                                    message: "Please Provide Proper Marks In Format",
+                                    callback: function (input) {
+                                        const Number = input.value.trim();
+                                        if (Number === "000" && is_theory) {return {valid: false,message: "Value cannot be 0"}}
+                                        if (parseInt(Number) <= $("#theory_pass").val()  && is_theory) {return {valid: false,message: "Can Not Be Greater Than Passing"}}
+                                        return !Number.includes('_');
+                                    }
+                                }
+                            }
+                        },
+                        theory_pass: {
+                            validators: {
+                                notEmpty: {
+                                    message: "Please Enter Subject Marks"
+                                },callback: {
+                                    message: "Please Provide Proper Marks In Format",
+                                    callback: function (input) {
+                                        const Number = input.value.trim();
+                                        if (Number === "000" && is_theory) {return {valid: false,message: "Value cannot be 0"};
+
+                                    }
+                                        return !Number.includes('_');
+                                    }
+                                }
+                            }
+                        },
+                        mid_total: {
+                            validators: {
+                                notEmpty: {
+                                    message: "Please Enter Subject Marks"
+                                },callback: {
+                                    message: "Please Provide Proper Marks In Format",
+                                    callback: function (input) {
+                                        const Number = input.value.trim();
+                                        if (Number === "000" && is_mid) {return {valid: false,message: "Value cannot be 0"}}
+                                        if (parseInt(Number) <= $("#mid_pass").val()  && is_mid) {return {valid: false,message: "Can Not Be Greater Than Passing"}}
+                                        return !Number.includes('_');
+                                    }
+                                }
+                            }
+                        },
+                        mid_pass: {
+                            validators: {
+                                notEmpty: {
+                                    message: "Please Enter Subject Marks"
+                                },callback: {
+                                    message: "Please Provide Proper Marks In Format",
+                                    callback: function (input) {
+                                        const Number = input.value.trim();
+                                        if (Number === "000" && is_mid) {return {valid: false,message: "Value cannot be 0"};
+                                    }
+                                        return !Number.includes('_');
+                                    }
+                                }
+                            }
+                        },
+                        practical_total: {
+                            validators: {
+                                notEmpty: {
+                                    message: "Please Enter Subject Marks"
+                                },callback: {
+                                    message: "Please Provide Proper Marks In Format",
+                                    callback: function (input) {
+                                        const Number = input.value.trim();
+                                        if (Number === "000" && is_practical) {return {valid: false,message: "Value cannot be 0"}}
+                                        if (parseInt(Number) <= $("#practical_pass").val()  && is_practical) {return {valid: false,message: "Can Not Be Greater Than Passing"}}
+                                        return !Number.includes('_');
+                                    }
+                                }
+                            }
+                        },
+                        practical_pass: {
+                            validators: {
+                                notEmpty: {
+                                    message: "Please Enter Subject Marks"
+                                },callback: {
+                                    message: "Please Provide Proper Marks In Format",
+                                    callback: function (input) {
+                                        const Number = input.value.trim();
+                                        if (Number === "000" && is_practical) {return {valid: false,message: "Value cannot be 0"};
+                                    }
+                                        return !Number.includes('_');
+                                    }
+                                }
+                            }
+                        },
+                    },
+                    plugins: {
+                        trigger: new FormValidation.plugins.Trigger(),
+                        bootstrap: new FormValidation.plugins.Bootstrap5({
+                            rowSelector: ".valid",
+                            eleInvalidClass: "",
+                            eleValidClass: ""
+                        })
+                    }
+                });
+                t.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    n &&
+                        n.validate().then(function (e) {
+                            console.log("validated!");
+                            if (e === "Valid") {
+
+                                submitforms('/Admins-add-marks-post/')
+
+                            } else {
+                                console.log(is_theory);
+                                erroralert("Please Fill All The Required Details");
+                            }
+                        });
+                });
+            }
+        };
+    }();
+
+
+    KTUtil.onDOMContentLoaded(function () {
+        KTModalCustomersAdd.init();
+    });
+
+
+
+    function theoryChange(checkbox) {
+        var isChecked = checkbox.checked;
+        if (isChecked) {
+            is_theory=true
+            $("#th_t").css("display","block")
+            $("#th_p").css("display","block")
+        } else {
+            is_theory=false
+            $("#th_t").css("display","none")
+            $("#th_p").css("display","none")
+        }
+    }
+    function midChange(checkbox) {
+        var isChecked = checkbox.checked;
+        if (isChecked) {
+            is_mid=true
+            $("#mid_t").css("display","block")
+            $("#mid_p").css("display","block")
+        } else {
+            is_mid=false
+            $("#mid_t").css("display","none")
+            $("#mid_p").css("display","none")
+        }
+    }
+    function praChange(checkbox) {
+        var isChecked = checkbox.checked;
+        if (isChecked) {
+            is_practical=true
+            $("#pr_t").css("display","block")
+            $("#pr_p").css("display","block")
+        } else {
+            is_practical=false
+            $("#pr_t").css("display","none")
+            $("#pr_p").css("display","none")
+        }
+    }
+
+
+</script>
+
+
+{% endblock BottomJs %}
+
+
+{% block breadcrumb %}
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0">add new subject</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">subjects</a></li>
+                    <li class="breadcrumb-item active">New subject</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock breadcrumb %}
+
+
+{% block body %}
+
+<div class="row">
+
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Add New subject</h4>
+                <div id="basic-pills-wizard" class="twitter-bs-wizard">
+                    <ul class="twitter-bs-wizard-nav">
+                    <li class="nav-item">
+                        <a href="#seller-details" id="step1" class="nav-link" data-toggle="tab">
+                            <span class="step-number">01</span>
+                            <span class="step-title">Add Marks</span>
+                        </a>
+                    </li>                  
+                </ul>
+
+                    <div class="tab-content twitter-bs-wizard-tab-content">
+                        <div class="tab-pane" id="seller-details">
+                        <div>
+                            <form id="oneform">
+                                
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <div class="mb-3 valid">
+                                            <label class="form-label" for="basicpill-vatno-input">Theory Total Marks</label>
+                                            <div class="form-check form-switch mb-3" dir="ltr">
+                                                <input type="checkbox" class="form-check-input" id="theory_switch" onchange="theoryChange(this)" name="is_theory" value="True" {% if data.is_theory %}checked{% endif %}>
+                                                <label class="form-check-label" for="theory_switch">Theory</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-3 valid" id="th_t" {% if not data.is_theory %}style="display:none"{% endif %}>
+                                            <label class="form-label" for="basicpill-vatno-input">Theory Total Marks</label>
+                                            <input type="text" {% if data.is_theory %}value='{{data.theory_total}}'{% else %}value='000'{% endif %} id="theory_total" name="theory_total" class="form-control input-mask" data-inputmask="'mask': '999'" placeholder="070">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-3 valid" id=th_p {% if not data.is_theory %}style="display:none"{% endif %}>
+                                            <label class="form-label" for="basicpill-vatno-input">Theory Passing Marks</label>
+                                            <input type="text" {% if data.is_theory %}value='{{data.theory_pass}}'{% else %}value='000'{% endif %} id="theory_pass" name="theory_pass" class="form-control input-mask" data-inputmask="'mask': '999'" placeholder="070">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <div class="mb-3 valid">
+                                            <label class="form-label" for="basicpill-vatno-input">practical Total Marks</label>
+                                            <div class="form-check form-switch mb-3" dir="ltr">
+                                                <input type="checkbox" class="form-check-input" id="practical_switch" onchange="praChange(this)" name="is_practical" value="True" {% if data.is_practical %}checked{% endif %}>
+                                                <label class="form-check-label" for="practical_switch">practical</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-3 valid" id="pr_t" {% if not data.is_practical %}style="display:none"{% endif %}>
+                                            <label class="form-label" for="basicpill-vatno-input">practical Total Marks</label>
+                                            <input type="text" {% if data.is_practical %}value='{{data.practical_total}}'{% else %}value='000'{% endif %} id="practical_total" name="practical_total" class="form-control input-mask" data-inputmask="'mask': '999'" placeholder="070">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-3 valid" id=pr_p {% if not data.is_practical %}style="display:none"{% endif %}>
+                                            <label class="form-label" for="basicpill-vatno-input">practical Passing Marks</label>
+                                            <input type="text" {% if data.is_practical %}value='{{data.practical_pass}}'{% else %}value='000'{% endif %} id="practical_pass" name="practical_pass" class="form-control input-mask" data-inputmask="'mask': '999'" placeholder="070">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <div class="mb-3 valid">
+                                            <label class="form-label" for="basicpill-vatno-input">mid Total Marks</label>
+                                            <div class="form-check form-switch mb-3" dir="ltr">
+                                                <input type="checkbox" class="form-check-input" id="mid_switch" onchange="midChange(this)" name="is_mid" value="True" {% if data.is_mid %}checked{% endif %}>
+                                                <label class="form-check-label" for="mid_switch">mid</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-3 valid" id="mid_t" {% if not data.is_mid %}style="display:none"{% endif %}>
+                                            <label class="form-label" for="basicpill-vatno-input">mid Total Marks</label>
+                                            <input type="text" {% if data.is_mid %}value='{{data.mid_total}}'{% else %}value='000'{% endif %} id="mid_total" name="mid_total" class="form-control input-mask" data-inputmask="'mask': '999'" placeholder="070">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-3 valid" id=mid_p {% if not data.is_mid %}style="display:none"{% endif %}>
+                                            <label class="form-label" for="basicpill-vatno-input">mid Passing Marks</label>
+                                            <input type="text" {% if data.is_mid %}value='{{data.mid_pass}}'{% else %}value='000'{% endif %} id="mid_pass" name="mid_pass" class="form-control input-mask" data-inputmask="'mask': '999'" placeholder="070">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                
+
+                                <ul class="pager wizard twitter-bs-wizard-pager-link">
+                                    <li id='onesubmit' class="float-end"><a href="javascript: void(0);">Submit</a></li>
+                                </ul>
+                            </form>
+
+                            
+                        </div>
+                        </div>
+             
+                    </div>
+                    <ul class="d-none pager wizard twitter-bs-wizard-pager-link">
+                        <li class="previous" id="prevclick"><a href="javascript: void(0);">Previous</a></li>
+                        <li class="next" id="nextclick"><a href="javascript: void(0);">Next</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="{% static 'assets/js/plugins.bundle.js'%}"></script>
+
+{% endblock body %}
+
+
+
+
+
+

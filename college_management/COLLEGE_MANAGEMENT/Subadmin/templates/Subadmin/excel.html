@@ -1,0 +1,233 @@
+{% extends 'SubadminPartials/layout.html' %}
+{% load static %}
+{% block page_title %}
+  {{ page_title }}
+{% endblock page_title %}
+
+{% block HeaderCss %}
+<link href="{%static 'assets/libs/admin-resources/rwd-table/rwd-table.min.css'%}" rel="stylesheet" type="text/css" />
+<link href="{%static '/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css'%}" rel="stylesheet" type="text/css" />
+<link href="{%static '/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css'%}" rel="stylesheet" type="text/css" />
+<link href="{%static '/assets/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css'%}" rel="stylesheet" type="text/css" />
+<link href="{%static '/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css'%}" rel="stylesheet" type="text/css" /> 
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+{% endblock HeaderCss %}
+
+{% block BottomJs %}
+
+{% endblock BottomJs %}
+
+
+{% block breadcrumb %}
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0">Verify Excel</a></h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Subadmin</a></li>
+                    <li class="breadcrumb-item active">All student</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock breadcrumb %}
+
+
+{% block body %}
+<div class="row">
+
+
+  <div class="row">
+      <div class="col-lg-2">
+          <div class="mb-3 valid">
+              <label class="form-label" for="year">Year</label>
+              <input type="text" name="year" class="form-control" id="year">
+          </div>
+      </div>
+
+      <div class="col-lg-2">
+          <div class="mb-3 valid">
+              <label class="form-label" for="branch">Branch Code</label>
+              <input type="text" name="branch" value="{{course.branch}}" disabled class="form-control" id="branch">
+          </div>
+      </div>
+
+      <div class="col-lg-2">
+          <div class="mb-3 valid">
+              <label class="form-label" for="year">Total Year</label>
+              <input type="text" name="lname" value="{{course.year}}" disabled class="form-control" id="cyear">
+          </div>
+      </div>
+
+      <div class="col-lg-2">
+          <div class="mb-3 valid">
+              <label class="form-label" for="course">Course Code</label>
+              <input type="text" name="lname" value="{{course.code}}" disabled class="form-control" id="course">
+          </div>
+      </div>
+
+      <div class="col-lg-2">
+          <div class="mb-3 valid">
+              <label class="form-label" for="sem">Total Sem</label>
+              <input type="text" name="lname" value="{{course.sem}}" disabled class="form-control" id="sem">
+          </div>
+      </div>
+  </div>
+
+
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <table id="datatable-buttons" class="mt-lg-5 table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0;margin-top:40px; width: 100%;">
+                    <thead class="mt-5">
+                    <tr>
+                        <th>Enrollment</th>
+                        <th>Roll</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Div</th>
+                        <th>Email</th>
+                        <th>Gender</th>
+                        <th>Aadhar</th>
+                        <th>Phone</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in data %}
+                          <tr>
+                            <td><input type="text" disabled value="" name="enrollment" style="width: 150px;"></td>
+                            <td><input type="text" disabled value="{{ forloop.counter|stringformat:'03d' }}" name="roll" style="width: 40px;"></td>
+                            <td><input type="text" disabled value="{{item.fname}}" name="fname"></td>
+                            <td><input type="text" disabled value="{{item.lname}}" name="lname"></td>
+                            <td><input type="text" disabled value="{{item.div|upper}}" name="div" style="width: 40px;"></td>
+                            <td><input type="text" disabled value="{{item.email}}" name="email"></td>
+                            <td><input type="text" disabled value="{{item.gender}}" name="gender" style="width: 40px;"></td>
+                            <td><input type="text" disabled value="{{item.aadhar}}" name="aadhar"  style="width: 120px;"></td>
+                            <td><input type="text" disabled value="{{item.phone}}" name="phone"  style="width: 100px;"></td>
+                          </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<center>
+  <button class="btn btn-primary" id="validate">Validate</button>
+  <button class="btn btn-success" id="submit" disabled>Submit</button>
+</center>
+
+<script>
+
+let validate=true
+
+ $(document).ready(function() {
+    $("#validate").click(function() {
+      console.log("Clicked")
+      var dataArray = [];
+      $("#datatable-buttons tbody tr").each(function() {
+        console.log(validate)
+
+        if($("#year").val()==""){
+          alert("Please Enter Year")
+          validate=false
+          return
+        }else{
+          // validate=true 
+        }
+
+        $(this).find('input[name="enrollment"]').val($("#year").val()+$("#branch").val()+parseInt($("#cyear").val())+$("#course").val()+$("#sem").val()+$(this).find('input[name="roll"]').val())
+
+        fetch(`/verify_aadhar?id=${$(this).find('input[name="aadhar"]').val()}`).then(response => {return response.json()})
+        .then(data => {
+          if(data.status){
+            $(this).find('td:eq(7)').css("border", "solid red");
+            validate=false
+            return
+          }
+        })
+
+        fetch(`/verify_email?id=${$(this).find('input[name="email"]').val()}`).then(response => {return response.json()})
+        .then(data => {
+          if(data.status){
+            $(this).find('td:eq(5)').css("border", "solid red");
+            validate=false
+            console.log(validate)
+            return
+          }
+        })
+
+        fetch(`/verify_enroll?id=${$(this).find('input[name="enrollment"]').val()}`).then(response => {return response.json()})
+        .then(data => {
+          if(data.status){
+            $(this).find('td:eq(0)').css("border", "solid red");
+            validate=false
+            return
+          }
+        })
+
+      });
+
+      if(validate==true){
+        document.getElementById('submit').removeAttribute('disabled');
+      }
+    });
+
+
+
+    $("#submit").click(function() {
+      console.log("Clicked")
+      var dataArray = [];
+      $("#datatable-buttons tbody tr").each(function() {
+        var dataItem = {
+          enrollment:$(this).find('input[name="enrollment"]').val(),
+          roll:$(this).find('input[name="roll"]').val(),
+          fname:$(this).find('input[name="fname"]').val(),
+          lname:$(this).find('input[name="lname"]').val(),
+          div:$(this).find('input[name="div"]').val(),
+          email:$(this).find('input[name="email"]').val(),
+          gender:$(this).find('input[name="gender"]').val(),
+          aadhar:$(this).find('input[name="aadhar"]').val(),
+          phone:$(this).find('input[name="phone"]').val(),
+          start_year:$("#year").val(),
+          end_year:parseInt($("#year").val())+parseInt($("#cyear").val()),
+          branch:$("#branch").val(),
+          total_year:$("#cyear").val(),
+          course:$("#course").val(),
+          total_sem:$("#sem").val(),
+        };
+        $.ajax({
+            type: "POST",
+            url: "/add_student_POST/",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(dataItem) ,
+            success: function (response) {
+            },
+            error: function (error) {
+                return
+            }
+        });
+      });
+
+      location.replace("/Subadmin-student")
+
+
+    });
+  });
+</script>
+
+{% endblock body %}
+
+
+
+
+
+

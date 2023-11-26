@@ -4,6 +4,8 @@ import json
 from bson import json_util
 from bson import ObjectId
 from django.contrib.sessions.models import Session
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 
 
 mongo_uri = "mongodb+srv://ljexam:LjExam@ljexam.vysc2ku.mongodb.net/"
@@ -133,6 +135,15 @@ def subjects_POST(request):
      "branch": request.session.get("branch"),
      "course": data['course'],
      "is_mark": False,
+     "is_theory": False,
+     "is_practical": False,
+     "is_mid": False,
+     "theory_total": 0,
+     "practical_total": 0,
+     "mid_total": 0,
+     "theory_pass": 0,
+     "practical_pass": 0,
+     "mid_pass": 0,
      "sem": data['sem'],
   }
   result = collection.insert_one(data_to_insert)
@@ -185,20 +196,36 @@ def marks(request):
   return render(request,f'{uname}/marks.html',{'title':'marks','data':data})
 
 def marks_GET(request):
-  return render(request,f'{uname}/add-marks.html',{'title':'marks'})
+  collection = db["subjects"]
+  results = collection.find({'_id':ObjectId(request.GET['id'])})
+  data={}
+  for document in results:
+    document['id']=str(document['_id'])
+    data=document
+  print(data)
 
+  # return render(request,f'{uname}/edit-exam.html',{'title':'exam'})
+  return render(request,f'{uname}/add-marks.html',{'title':'marks','data':data})
+
+@csrf_exempt
 def marks_POST(request):
-  data=(request.POST)
-  collection = db["marks"]
-  data_to_insert = {
-     "code": data['code'],
-     "name": data['name'],
-     "email": data['email'],
-     "phone": data['phone'],
-     "address": data['address'],
-  }
-  result = collection.insert_one(data_to_insert)
-  return redirect('/Admins-marks/')
+  data = json.loads(request.body.decode('utf-8'))
+  collection = db["subjects"]
+  data_to_insert = {"$set":{
+     "is_mark": True,
+     "is_theory":data['is_theory'],
+     "is_practical":data['is_practical'],
+     "is_mid":data['is_mid'],
+     "theory_total":data['theory_total'],
+     "practical_total":data['practical_total'],
+     "mid_total":data['mid_total'],
+     "theory_pass":data['theory_pass'],
+     "practical_pass":data['practical_pass'],
+     "mid_pass":data['mid_pass'],
+  }}
+  result = collection.update_one({"_id":ObjectId(data['id'])}, data_to_insert) 
+ 
+  return JsonResponse({'status': True})
 
 def marks_edit_GET(request):
   collection = db["marks"]

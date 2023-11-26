@@ -74,8 +74,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
     # My Middleware
-    # 'Superadmin.middleware.LoginCheckMiddleWare',
-    # 'Admins.middleware.LoginCheckMiddleWare',
+    'Superadmin.middleware.LoginCheckMiddleWare',
 ]
 
 ROOT_URLCONF = 'COLLEGE_MANAGEMENT.urls'

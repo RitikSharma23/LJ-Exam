@@ -1,4 +1,4 @@
-{% extends 'AdminPartials/layout.html' %}
+{% extends 'SubadminPartials/layout.html' %}
 {% load static %}
 {% block page_title %}
   {{ page_title }}
@@ -32,18 +32,28 @@
 {% endblock BottomJs %}
 
 
-
 {% block breadcrumb %}
 
 <div class="row">
     <div class="col-12">
         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-            <h4 class="mb-sm-0">Marking Scheme </h4>
+            <h4 class="mb-sm-0">
+
+                    <form method="post" enctype="multipart/form-data" action="{% url 'upload_file' %}" id="uploadForm">
+                        Student <a href="{% url 'Subadmin-add-student' %}" class="btn btn-success">Add New student</a>
+                        {% csrf_token %}
+                        <label for="fileInput" style="cursor: pointer;">
+                            <span  class="btn btn-success">Upload Excel</span>
+                            <input type="file" name="file_uploaded" id="fileInput" style="display: none;" onchange="uploadFile()">
+                        </label>
+                    </form>
+            
+            </h4>
 
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="javascript: void(0);">Subjects</a></li>
-                    <li class="breadcrumb-item active">Marking Scheme</li>
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Subadmin</a></li>
+                    <li class="breadcrumb-item active">All student</li>
                 </ol>
             </div>
         </div>
@@ -62,26 +72,28 @@
                 <table id="datatable-buttons" class="mt-lg-5 table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0;margin-top:40px; width: 100%;">
                     <thead class="mt-5">
                     <tr>
-                        <th>subject Code</th>
-                        <th>Name</th>
-                        <th>Phone</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
                         <th>Email</th>
-                        <th>Address</th>
+                        <th>Phone</th>
+                        <th>Branch</th>
+                        <th>Course</th>
                         <th>Action</th>
                     </tr>
                     </thead>
 
 
                     <tbody>
-                        
-                      {% for key, d in data.items %}
+
+                    {% for key, d in data.items %}
 
                          <tr>
-                            <td><strong>{{ d.branch }}</strong></td>
+                            <td><strong>{{ d.fname }}</strong></td>
+                            <td>{{ d.lname }}</td>
+                            <td>{{ d.email }}</td>
+                            <td>{{ d.phone }}</td>
+                            <td>{{ d.branch }}</td>
                             <td>{{ d.course }}</td>
-                            <td>{{ d.name }}</td>
-                            <td>{{ d.code }}</td>
-                            <td>{{ d.sem }}</td>
                             <td>
                                 <div class="btn-group mr-1 mt-2">
                                     <button class="btn btn-info btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -89,7 +101,8 @@
                                         <i class="mdi mdi-chevron-down"></i>
                                     </button>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="/Admins-add-marks?id={{key}}">Edit</a>
+                                        <a class="dropdown-item" href="/Subadmin-edit-student?id={{key}}">Edit</a>
+                                        <a class="dropdown-item" href="/Subadmin-delete-student?id={{key}}">Delete</a>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="#">View Logs</a> 
                                     </div>
@@ -102,12 +115,19 @@
                 </table>
             </div>
         </div>
-    </div> <!-- end col -->
+    </div>
 </div> 
 
-
+<script>
+function uploadFile() {
+    document.getElementById('uploadForm').submit();
+}
+</script>
 
 {% endblock body %}
+
+
+
 
 
 
