@@ -39,16 +39,6 @@ def profile_edit_GET(request):
   return render(request,f'{uname}/edit-profile.html',{'title':'edit-profile'})
 
 
-
-def faculty(request):
-  collection = db["users"]
-  results = collection.find({'role': 'Faculty'})
-  data={}
-  for document in results:
-    document['id']=str(document['_id'])
-    data[str(document['_id'])]=document
-  return render(request,f'{uname}/faculty.html',{'title':'faculty','data':data})
-
 def getbranch():
   collection = db["branch"]
   results = collection.find()
@@ -58,6 +48,16 @@ def getbranch():
     data[str(document['_id'])]=document
   return data
 
+
+
+def faculty(request):
+  collection = db["users"]
+  results = collection.find({'role': 'Faculty'})
+  data={}
+  for document in results:
+    document['id']=str(document['_id'])
+    data[str(document['_id'])]=document
+  return render(request,f'{uname}/faculty.html',{'title':'faculty','data':data})
 
 def addfaculty_GET(request):
   branch=getbranch()
@@ -153,9 +153,6 @@ def addstudent_edit_POST(request):
 def addstudent_delete_POST(request):
   pass
 
-
-
-
 def upload_file(request):
     if request.method == 'POST' and request.FILES['file_uploaded']:
         file_uploaded = request.FILES['file_uploaded']
@@ -227,8 +224,6 @@ def verify_enroll(request):
   else:
     return JsonResponse({'status': False}) 
 
-
-
 @csrf_exempt
 def add_student_POST(request):
   data = json.loads(request.body.decode('utf-8'))
@@ -257,4 +252,126 @@ def add_student_POST(request):
     return JsonResponse({'status': True})
   except:
     return JsonResponse({'status': False})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def exam(request):
+  collection = db["exams"]
+  results = collection.find()
+  data={}
+  for document in results:
+    document['id']=str(document['_id'])
+    data[str(document['_id'])]=document
+    
+  return render(request,f'{uname}/exam.html',{'title':'exam','data':data})
+
+def addexam_GET(request):
+    collection = db["subjects"]
+    results = collection.find()
+    sems = set()
+
+    for document in results:
+        sem_value = document.get('sem')
+        if sem_value:
+            sems.add(sem_value)
+
+    return render(request, f'{uname}/add-exam.html', {'title': 'exam', 'branch': list(sems)})
+
+
+def selectexam_GET(request):
+    collection = db["students"]
+    results = collection.find()
+    batch = set()
+
+    for document in results:
+        sem_value = document.get('start_year')
+        if sem_value:
+            batch.add(sem_value)
+    print(batch)
+    return render(request, f'{uname}/select-exam.html', {'title': 'exam', 'branch': list(batch),'sem':request.POST['sem']})
+
+def selectsubject_GET(request):
+    collection = db["students"]
+    results = collection.find()
+    batch = set()
+
+    for document in results:
+        sem_value = document.get('start_year')
+        if sem_value:
+            batch.add(sem_value)
+    print(batch)
+    return render(request, f'{uname}/select-subject.html', {'title': 'exam', 'branch': list(batch),'sem':request.POST['sem']})
+
+
+def addexam_POST(request):
+  data=(request.POST)
+  collection = db["users"]
+  data_to_insert = {
+     "fname": data['fname'],
+     "lname": data['lname'],
+     "address": data['address'],
+     "branch": data['branch'],
+     "course": '002',
+     "email": data['email'],
+     "phone": data['phone'],
+     "password": data['phone'],
+     "role": 'exam',
+     "profile_pic":'https://static.vecteezy.com/system/resources/thumbnails/009/734/564/small/default-avatar-profile-icon-of-social-media-user-vector.jpg',
+  }
+  result = collection.insert_one(data_to_insert)
+  return redirect(f'/{uname}-exam/')
+
+
+
+def addexam_edit_GET(request):
+  collection = db["users"]
+  results = collection.find({'_id':ObjectId(request.GET['id'])})
+  data={}
+  for document in results:
+    document['id']=str(document['_id'])
+    data=document
+  branch=getbranch()
+  return render(request,f'{uname}/edit-exam.html',{'title':'exam','data':data,'branch':branch})
+
+
+def addexam_edit_POST(request):
+  data=(request.POST)
+  collection = db["users"]
+  data_to_insert = {"$set":{
+     "fname": data['fname'],
+     "lname": data['lname'],
+     "address": data['address'],
+     "email": data['email'],
+     "phone": data['phone'],
+     "branch": data['branch'],
+
+  }}
+  result = collection.update_one({"_id":ObjectId(request.POST['id'])}, data_to_insert) 
+  return redirect(f'/{uname}-exam/')
+
+
+def addexam_delete_POST(request):
+  collection = db["users"]
+  result = collection.delete_one({"_id":ObjectId(request.GET['id'])})
+  print("Deleted Count:", result.deleted_count)
+  return redirect(f'/{uname}-exam/')
+
+
 
