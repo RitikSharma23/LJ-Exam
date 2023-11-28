@@ -308,16 +308,79 @@ def selectexam_GET(request):
     return render(request, f'{uname}/select-exam.html', {'title': 'exam', 'branch': list(batch),'sem':request.POST['sem']})
 
 def selectsubject_GET(request):
-    collection = db["students"]
-    results = collection.find()
+    collection = db["subjects"]
+    results = collection.find({'branch':request.session.get("branch"),'course':request.session.get("course")})
     batch = set()
+    return render(request, f'{uname}/select-subject.html', {'title': 'exam', 'subject': results,'sem':request.POST['sem'],'batch':request.POST['batch'],'type':request.POST['type'],'season':request.POST['season']})
 
-    for document in results:
-        sem_value = document.get('start_year')
-        if sem_value:
-            batch.add(sem_value)
-    print(batch)
-    return render(request, f'{uname}/select-subject.html', {'title': 'exam', 'branch': list(batch),'sem':request.POST['sem']})
+from datetime import datetime
+@csrf_exempt
+def insert_exam_POST(request):
+  data = json.loads(request.body.decode('utf-8'))
+
+  collection = db["students"]
+  results = collection.find({'branch': int(request.session.get("branch")),
+                              'course': int(request.session.get("course")),
+                              'start_year': int(data['batch'])})
+  stdata = {}
+
+  for document in results:
+      subjects_list = list(data['subjects'])  # Convert subjects to a list
+
+      for i in subjects_list:
+          print("first Time", i['type'])
+
+          d = {}
+          document['id'] = str(document['_id'])
+          d['enrollment'] = document['enrollment']
+          d['fname'] = document['fname']
+          d['div'] = document['div']
+          d['branch'] = str(document['branch']).zfill(3)
+          d['course'] = str(document['course']).zfill(3)
+          d['seat'] = (
+              data['season'] + (datetime.now().strftime("%Y")[-2:]) +
+              str(document['total_year']) + d['course'] +
+              str(document['roll']).zfill(3)
+          )
+          d['subject'] = i['code']
+          d['name'] = i['name']
+          d['type'] = i['type']
+          d['date'] = str(datetime.strptime(i['date'], "%Y-%m-%dT%H:%M").date())
+          d['time'] = str(datetime.strptime(i['date'], "%Y-%m-%dT%H:%M").time())
+          d['price'] = i['price']
+          d['is_paid'] = False
+          d['marks'] = 0
+          d['is_pass'] = False
+          stdata[document['enrollment'] + i['type']] = d
+
+  
+  collection = db["exams"]
+  data_to_insert = {
+     "is_approved":False,
+     "is_marks":False,
+     "is_assigned":False,
+     "assigned_to":"",
+     "is_completed":False,
+     "batch":data['batch'],
+     "type":data['type'],
+     "season":data['season'],
+     "student_data":stdata
+  }
+  result = collection.insert_one(data_to_insert)
+  
+  try:
+    return JsonResponse({'status': True})
+  except:
+    return JsonResponse({'status': False})
+
+
+
+
+
+
+
+
+
 
 
 def addexam_POST(request):
@@ -361,7 +424,6 @@ def addexam_edit_POST(request):
      "email": data['email'],
      "phone": data['phone'],
      "branch": data['branch'],
-
   }}
   result = collection.update_one({"_id":ObjectId(request.POST['id'])}, data_to_insert) 
   return redirect(f'/{uname}-exam/')

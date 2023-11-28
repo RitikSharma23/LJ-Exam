@@ -5,20 +5,15 @@
 {% endblock page_title %}
 
 {% block HeaderCss %}
-    <link rel="stylesheet" href="{% static 'assets/libs/twitter-bootstrap-wizard/prettify.css'%}">
-    <link rel="stylesheet" href="{% static 'assets/js/plugins.bundle.css'%}">
+<link href="{%static 'assets/libs/admin-resources/rwd-table/rwd-table.min.css'%}" rel="stylesheet" type="text/css" />
+<link href="{%static '/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css'%}" rel="stylesheet" type="text/css" />
+<link href="{%static '/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css'%}" rel="stylesheet" type="text/css" />
+<link href="{%static '/assets/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css'%}" rel="stylesheet" type="text/css" />
+<link href="{%static '/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css'%}" rel="stylesheet" type="text/css" /> 
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 {% endblock HeaderCss %}
 
 {% block BottomJs %}
-<script src="{%static 'assets/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js'%}"></script>
-<script src="{%static 'assets/libs/twitter-bootstrap-wizard/prettify.js'%}"></script>
-<script src="{%static 'assets/js/pages/form-wizard.init.js'%}"></script>
-
-<script src="{%static 'assets/libs/inputmask/jquery.inputmask.min.js'%}"></script>
-<script src="{%static 'assets/js/pages/form-mask.init.js'%}"></script>
-<script src="{%static 'assets/js/scripts.bundle.js'%}"></script>
-
-
 
 {% endblock BottomJs %}
 
@@ -28,12 +23,12 @@
 <div class="row">
     <div class="col-12">
         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-            <h4 class="mb-sm-0">add new Faculty</h4>
+            <h4 class="mb-sm-0">Verify Excel</a></h4>
 
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="javascript: void(0);">Faculty</a></li>
-                    <li class="breadcrumb-item active">New Faculty</li>
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Subadmin</a></li>
+                    <li class="breadcrumb-item active">All student</li>
                 </ol>
             </div>
         </div>
@@ -44,90 +39,187 @@
 
 
 {% block body %}
-
-
 <div class="row">
 
-    <div class="col-lg-12">
+
+  <div class="row">
+      <div class="col-lg-2">
+          <div class="mb-3 valid">
+              <label class="form-label" for="year">Sem</label>
+              <input type="text" name="sem" value="{{sem}}" disabled class="form-control" id="sem">
+          </div>
+      </div>
+
+      <div class="col-lg-2">
+          <div class="mb-3 valid">
+              <label class="form-label" for="branch">Batch</label>
+              <input type="text" name="batch" value="{{batch}}" disabled class="form-control" id="batch">
+          </div>
+      </div>
+
+      <div class="col-lg-2">
+          <div class="mb-3 valid">
+              <label class="form-label" for="year">Type</label>
+              <input type="text" name="type" value="{{type}}" disabled class="form-control" id="type">
+          </div>
+      </div>
+
+      <div class="col-lg-2">
+          <div class="mb-3 valid">
+              <label class="form-label" for="course">Season</label>
+              <input type="text" name="season" value="{{season}}" disabled class="form-control" id="season">
+          </div>
+      </div>
+
+  </div>
+
+
+
+    <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title mb-4">Add New Faculty</h4>
-                <div id="basic-pills-wizard" class="twitter-bs-wizard">
-                    <ul class="twitter-bs-wizard-nav">
-                    <li class="nav-item">
-                        <a href="#seller-details" id="step1" class="nav-link" data-toggle="tab">
-                            <span class="step-number">03</span>
-                            <span class="step-title">Select Subject</span>
-                        </a>
-                    </li>
-                </ul>
+                <table id="datatable-buttons" class="mt-lg-5 table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0;margin-top:40px; width: 100%;">
+                    <thead class="mt-5">
+                    <tr>
+                        <th>Select</th>
+                        <th>Type</th>
+                        <th>Total Marks</th>
+                        <th>Passing Marks</th>
+                        <th>Code</th>
+                        <th>Subject Name</th>
+                        <th>Date</th>
+                        <th>Price</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in subject %}
+                            {% if item.is_theory %}
+                                <tr>
+                                    <td><input type="checkbox" value="{{ item.code }}" name="code" style="width: 40px;"></td>
+                                    <td><input type="text" value="theory" name="code" disabled style="width: 100px;"></td>
 
-                    <div class="tab-content twitter-bs-wizard-tab-content">
-                        <div class="tab-pane justify-content-center" id="seller-details">
-                            <form action="Subadmin-select-exam" method="POST">
-                                <div class="row justify-content-center">
-                                    <div class="col-lg-6">
-                                        <div class="text-center">
-                                            <div>
-                                                <h5>Select Batch</h5>
-                                                <div class="mb-3 valid">
-                                                    <select class="form-select" name="branch">
-                                                       {% for sem in branch %}
-                                                            <option value="{{ sem }}">{{ sem }}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="text-center">
-                                            <div>
-                                                <h5>Select Exam Type</h5>
-                                                <div class="mb-3 valid">
-                                                    <select class="form-select" name="type">
-                                                            <option value="regular">Regular</option>
-                                                            <option value="remedial">Remedial</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="text-center">
-                                            <div>
-                                                <h5>Select Exam Season</h5>
-                                                <div class="mb-3 valid">
-                                                    <select class="form-select" name="season">
-                                                            <option value="S">Summer</option>
-                                                            <option value="W">Winter</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <ul class="pager wizard twitter-bs-wizard-pager-link">
-                                    <li type='submit' class="float-end"><button type="submit" class="btn btn-primary">Next</button></li>
-                                </ul>
-                            </form>                                
+                                    <td>{{ item.theory_total }}</td>
+                                    <td>{{ item.theory_pass }}</td>
+                                    <td>{{ item.code }}</td>
+                                    <td>{{ item.name }}</td>
+                                    <td><input type="datetime-local" name="date" style="width: 160px;"></td>
+                                    <td><input type="number" name="price" style="width: 100px;" disabled></td>
+                                </tr>
+                            {% endif %}
+                            {% if item.is_practical %}
+                                <tr>
+                                    <td><input type="checkbox" value="{{ item.code }}" name="code" style="width: 40px;"></td>
+                                    <td><input type="text" value="practical" name="code" disabled style="width: 100px;"></td>
 
-                        </div>                        
-                    </div>
-                    <ul class="d-none pager wizard twitter-bs-wizard-pager-link">
-                        <li class="previous" id="prevclick"><a href="javascript: void(0);">Previous</a></li>
-                        <li class="next" id="nextclick"><a href="javascript: void(0);">Next</a></li>
-                    </ul>
-                </div>
+                                    <td>{{ item.theory_total }}</td>
+                                    <td>{{ item.theory_pass }}</td>
+                                    <td>{{ item.code }}</td>
+                                    <td>{{ item.name }}</td>
+                                    <td><input type="datetime-local" name="date" style="width: 160px;"></td>
+                                    <td><input type="number" name="price" style="width: 100px;" disabled></td>
+                                </tr>
+                            {% endif %}
+                            {% if item.is_mid %}
+                                <tr>
+                                    <td><input type="checkbox" value="{{ item.code }}" name="code" style="width: 40px;"></td>
+                                    <td><input type="text" value="mid" name="code" disabled style="width: 100px;"></td>
+
+                                    <td>{{ item.theory_total }}</td>
+                                    <td>{{ item.theory_pass }}</td>
+                                    <td>{{ item.code }}</td>
+                                    <td>{{ item.name }}</td>
+                                    <td><input type="datetime-local" name="date" style="width: 160px;"></td>
+                                    <td><input type="number" name="price" style="width: 100px;" disabled></td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 
+
 </div>
 
 
-<script src="{% static 'assets/js/plugins.bundle.js'%}"></script>
+<center>
+  <button class="btn btn-success" id="submit" onClick="submitData()" >Submit</button>
+</center>
+
+
+
+
+
+<script>
+    $(document).ready(function() {
+        $('input[type="checkbox"]').change(function() {
+            var isChecked = $(this).prop("checked");
+            var inputField = $(this).closest('tr').find('input[name="price"]');
+            
+            inputField.prop('disabled', !isChecked);
+            
+            if (!isChecked) {
+                inputField.val('');
+            }
+        });
+    });
+
+      function submitData() {
+            var table = document.getElementById('datatable-buttons');
+            var data = [];
+
+            for (var i = 1; i < table.rows.length; i++) {
+                var row = table.rows[i];
+                var checkbox = row.cells[0].querySelector('input[type="checkbox"]');
+                var codeType = row.cells[1].querySelector('input[type="text"]').value;
+                var total = row.cells[2].innerText;
+                var pass = row.cells[3].innerText;
+                var code = row.cells[4].innerText;
+                var name = row.cells[5].innerText;
+                var date = row.cells[6].querySelector('input[type="datetime-local"]').value;
+                var price = row.cells[7].querySelector('input[type="number"]').value;
+
+                if (checkbox.checked) {
+                    data.push({
+                        type: codeType,
+                        total:total,
+                        pass:pass,
+                        code: code,
+                        name: name,
+                        date: date,
+                        price: price
+                    });
+                }
+            }
+
+
+            finaldata={
+                sem:$("#sem").val(),
+                batch:$("#batch").val(),
+                type:$("#type").val(),
+                season:$("#season").val(),
+                subjects:data
+            }
+            console.log(finaldata);
+
+        $.ajax({
+            type: "POST",
+            url: "/insert_exam_POST/",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(finaldata) ,
+            success: function (response) {
+                if(response.status==true){
+                    location.replace("/Subadmin-exam/")
+                }
+            },
+            error: function (error) {
+                return
+            }
+        });
+        }
+</script>
+
 
 {% endblock body %}
-
-
-
-
-
-
