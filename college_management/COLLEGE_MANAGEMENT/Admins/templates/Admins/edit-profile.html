@@ -1,4 +1,4 @@
-{% extends 'Partials/layout.html' %}
+{% extends 'AdminPartials/layout.html' %}
 {% load static %}
 {% block page_title %}
   {{ page_title }}
@@ -47,7 +47,7 @@
 
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="javascript: void(0);">Superadmin</a></li>
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Admin</a></li>
                     <li class="breadcrumb-item active">Edit-profile </li>
                 </ol>
             </div>
@@ -86,7 +86,7 @@
                            
                         </div>
                         <h6 class="text-right">Edit Profile</h6>
-                    <form action="/Superadmin-edit-profile-post/" method="POST">
+                    <form action="/Admins-edit-profile-post/" method="POST">
                         {% csrf_token %}
                     </div>
                     <div class="row mt-2">

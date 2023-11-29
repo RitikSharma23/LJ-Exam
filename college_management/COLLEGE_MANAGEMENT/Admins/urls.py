@@ -10,6 +10,10 @@ urlpatterns = [
     path(f"{u}-calendar/", calendar, name=f"{u}-calendar"),
     path(f"{u}-email/", email, name=f"{u}-email"),
     
+    path(f"{u}-profile/", profile, name=f"{u}-profile"),
+    path(f"{u}-edit-profile/", profile_edit_GET, name=f"{u}-edit-profile"),
+    path(f"{u}-edit-profile-post/", profile_edit_POST, name=f"{u}-edit-profile-post"),
+    
     path(f"{u}-subadmins/", subadmins, name=f"{u}-subadmins"),
     path(f"{u}-add-subadmins/", subadmins_GET, name=f"{u}-add-subadmins"),
     path(f"{u}-add-subadmins-post/", subadmins_POST, name=f"{u}-subadmins-post"),

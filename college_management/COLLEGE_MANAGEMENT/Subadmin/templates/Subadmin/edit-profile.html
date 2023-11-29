@@ -86,25 +86,31 @@
                            
                         </div>
                         <h6 class="text-right">Edit Profile</h6>
+                    <form action="/Subadmin-edit-profile-post/" method="POST">
+                        {% csrf_token %}
                     </div>
                     <div class="row mt-2">
-                        <div class="col-md-6"><input type="text" class="form-control" placeholder="first name" value="John"></div>
-                        <div class="col-md-6"><input type="text" class="form-control" value="Doe" placeholder="Doe"></div>
+                        <input type="hidden" name="id" value="{{data.id}}">
+                        <div class="col-md-6"><input type="text" class="form-control" name="fname" placeholder="first name" value="{{data.fname}}"></div>
+                        <div class="col-md-6"><input type="text" class="form-control" name="lname" value="{{data.lname}}" placeholder="Last name"></div>
                     </div>
 
                    
 
                     <div class="row mt-3">
-                        <div class="col-md-6"><input type="text" class="form-control" placeholder="Email" value="john_doe12@bbb.com"></div>
-                        <div class="col-md-6"><input type="text" class="form-control" value="+19685969668" placeholder="Phone number"></div>
+                        <input type="hidden" name="email" value="{{data.email}}">
+                        <div class="col-md-6"><input type="text" disabled class="form-control"  placeholder="Email" value="{{data.email}}"></div>
+                       
+                        <div class="col-md-6"><input type="text" class="form-control" name="phone" value="{{data.phone}}" placeholder="Phone number"></div>
                     </div>
                     <div class="row mt-3">
-                        <div class="col-md-12"><input type="text" class="form-control"  placeholder="address" value="D-113, right avenue block, sarkhej, Ahmedabad "></div>
+                        <div class="col-md-12"><input type="text" class="form-control" name="address" placeholder="address" value="{{data.address}}"></div>
                         
                     </div>
                    
-                    <div class="mt-5 text-right"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>
+                    <div class="mt-5 text-right"><button class="btn btn-primary profile-button" type="submit">Save Profile</button></div>
                 </div>
+            </form>
             </div>
         </div>
     </div>
