@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'Subadmin',
     'Home',
     'Faculty',
+    
 
     # My Apps
     # 'Superadmin.apps.MainAppConfig'
