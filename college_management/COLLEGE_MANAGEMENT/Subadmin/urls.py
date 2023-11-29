@@ -37,6 +37,9 @@ urlpatterns = [
     path(f"{u}-select-subject/", selectsubject_GET, name=f"{u}-select-subject"),
     path(f"{u}-add-exam-post/", addexam_POST, name=f"{u}-add-exam-post"),
     path(f"{u}-edit-exam/", addexam_edit_GET, name=f"{u}-edit-exam"),
+    path(f"{u}-view-exam/", viewexam_edit_GET, name=f"{u}-view-exam"),
+    path(f"{u}-close-exam/", closeexam_edit_GET, name=f"{u}-close-exam"),
+    path(f"{u}-assign-exam/", assignexam_edit_GET, name=f"{u}-assign-exam"),
     path(f"{u}-edit-exam-post/", addexam_edit_POST, name=f"{u}-edit-exam-post"),
     path(f"{u}-delete-exam/", addexam_delete_POST, name=f"{u}-delete-exam"),
 

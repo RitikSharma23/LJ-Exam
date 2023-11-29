@@ -269,7 +269,7 @@ def marks_delete_POST(request):
 
 
 def exam(request):
-  collection = db["exam"]
+  collection = db["exams"]
   results = collection.find()
   data={}
   for document in results:
@@ -323,6 +323,37 @@ def exam_delete_POST(request):
   result = collection.delete_one({"_id":ObjectId(request.GET['id'])})
   print("Deleted Count:", result.deleted_count)
   return redirect('/Admins-exam/')
+
+
+
+def viewexam_edit_GET(request):
+  collection = db["exams"]
+  results = collection.find({'_id':ObjectId(request.GET['id'])})
+  data={}
+  for document in results:
+    document['id']=str(document['_id'])
+    data=document
+  return render(request,f'{uname}/view-exam.html',{'title':'exam','data':data})
+
+
+def rejectexam_edit_GET(request):
+  data=(request.POST)
+  collection = db["exams"]
+  data_to_insert = {"$set":{
+     "is_approved": False,
+     "comment": data['comment'],
+  }}
+  result = collection.update_one({"_id":ObjectId(request.POST['id'])}, data_to_insert) 
+  return redirect(f'/{uname}-exam/')
+
+def approveexam_edit_GET(request):
+  data=(request.POST)
+  collection = db["exams"]
+  data_to_insert = {"$set":{
+     "is_approved": True,
+  }}
+  result = collection.update_one({"_id":ObjectId(request.POST['id'])}, data_to_insert) 
+  return redirect(f'/{uname}-exam/')
 
 
 

@@ -361,6 +361,8 @@ def insert_exam_POST(request):
      "is_assigned":False,
      "assigned_to":"",
      "is_completed":False,
+     'branch': request.session.get("branch"),
+     'course': request.session.get("course"),
      "batch":data['batch'],
      "type":data['type'],
      "season":data['season'],
@@ -436,4 +438,40 @@ def addexam_delete_POST(request):
   return redirect(f'/{uname}-exam/')
 
 
+
+def viewexam_edit_GET(request):
+  collection = db["exams"]
+  results = collection.find({'_id':ObjectId(request.GET['id'])})
+  data={}
+  for document in results:
+    document['id']=str(document['_id'])
+    data=document
+  
+  collection = db["users"]
+  results = collection.find({'role': 'Faculty'})
+  data1={}
+  for document in results:
+    document['id']=str(document['_id'])
+    data1[str(document['_id'])]=document
+  return render(request,f'{uname}/view-exam.html',{'title':'exam','data':data,'faculty':data1})
+
+
+def closeexam_edit_GET(request):
+  data=(request.POST)
+  collection = db["exams"]
+  data_to_insert = {"$set":{
+     "is_completed": True,
+  }}
+  result = collection.update_one({"_id":ObjectId(request.POST['id'])}, data_to_insert) 
+  return redirect(f'/{uname}-exam/')
+
+def assignexam_edit_GET(request):
+  data=(request.POST)
+  collection = db["exams"]
+  data_to_insert = {"$set":{
+     "is_assigned": True,
+     "assigned_to":data['faculty']
+  }}
+  result = collection.update_one({"_id":ObjectId(request.POST['id'])}, data_to_insert) 
+  return redirect(f'/{uname}-exam/')
 

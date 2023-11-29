@@ -1,0 +1,177 @@
+{% extends 'SubadminPartials/layout.html' %}
+{% load static %}
+{% block page_title %}
+  {{ page_title }}
+{% endblock page_title %}
+
+{% block HeaderCss %}
+<link href="{%static 'assets/libs/admin-resources/rwd-table/rwd-table.min.css'%}" rel="stylesheet" type="text/css" />
+<link href="{%static '/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css'%}" rel="stylesheet" type="text/css" />
+<link href="{%static '/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css'%}" rel="stylesheet" type="text/css" />
+<link href="{%static '/assets/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css'%}" rel="stylesheet" type="text/css" />
+<link href="{%static '/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css'%}" rel="stylesheet" type="text/css" /> 
+
+{% endblock HeaderCss %}
+
+{% block BottomJs %}
+<script src="{%static 'assets/libs/datatables.net/js/jquery.dataTables.min.js'%}"></script>
+<script src="{%static 'assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js'%}"></script>
+<script src="{%static 'assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js'%}"></script>
+<script src="{%static 'assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js'%}"></script>
+<script src="{%static 'assets/libs/jszip/jszip.min.js'%}"></script>
+<script src="{%static 'assets/libs/pdfmake/build/pdfmake.min.js'%}"></script>
+<script src="{%static 'assets/libs/pdfmake/build/vfs_fonts.js'%}"></script>
+<script src="{%static 'assets/libs/datatables.net-buttons/js/buttons.html5.min.js'%}"></script>
+<script src="{%static 'assets/libs/datatables.net-buttons/js/buttons.print.min.js'%}"></script>
+<script src="{%static 'assets/libs/datatables.net-buttons/js/buttons.colVis.min.js'%}"></script>
+<script src="{%static 'assets/libs/datatables.net-keytable/js/dataTables.keyTable.min.js'%}"></script>
+<script src="{%static 'assets/libs/datatables.net-select/js/dataTables.select.min.js'%}"></script>
+<script src="{%static 'assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js'%}"></script>
+<script src="{%static 'assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js'%}"></script>
+<script src="{%static 'assets/js/pages/datatables.init.js'%}"></script>
+{% endblock BottomJs %}
+
+
+{% block breadcrumb %}
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0">View Exam</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Subadmin</a></li>
+                    <li class="breadcrumb-item active">All Exam</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock breadcrumb %}
+
+
+{% block body %}
+
+{{faculty}}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <table id="datatable-buttons" class="mt-lg-5 table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0;margin-top:40px; width: 100%;">
+                    <thead class="mt-5">
+                    <tr>
+                        <th>Batch</th>
+                        <th>Subject Code</th>
+                        <th>Subject Name</th>
+                        <th>Type</th>
+                        <th>Enrollment</th>
+                        <th>Seat</th>
+                        <th>Payment Status</th>
+                        <!-- <th>Action</th> -->
+
+                        
+                    </tr>
+                    </thead>
+
+
+                    <tbody>
+
+                    {% for key, d in data.student_data.items %}
+
+                         <tr>
+                            <td>{{ d.fname }}</td>
+                            <td>{{ d.subject }}</td>
+                            <td>{{ d.name }}</td>
+                            <td>{{ d.type }}</td>
+                            <td>{{ d.enrollment }}</td>
+                            <td>{{ d.seat }}</td>
+
+                            {% if d.is_paid %}
+                            <td>Completed</td>
+                            {% else %}
+                            <td>Pending</td>
+                            {% endif %}
+
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+
+                                
+                {% if not data.is_completed %}
+
+
+                <center>
+                    <form action="/Subadmin-close-exam/" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="id" value="{{data.id}}">
+                        <!-- <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal">Reject Exam</a> -->
+                        <button type="submit" class="btn btn-success">Close Exam</button>
+                    </form>
+                </center>
+
+                {% endif %}
+                                
+                {% if not data.is_completed %}
+                <center>
+                    <form action="/Subadmin-close-exam/" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="id" value="{{data.id}}">
+                        <!-- <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal">Reject Exam</a> -->
+                        <button type="submit" class="btn btn-success">Close Exam</button>
+                    </form>
+                </center>
+                {% else %}
+                <center>
+                    <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal">Assign For Marks</a>
+
+
+                    
+                    <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title mt-0" id="myModalLabel">Reject Exam</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form action="/Subadmin-assign-exam/" method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="id" value="{{data.id}}">
+                                    <div class="modal-body">
+                                        <h5>Please Assign To Faculty</h5>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3 valid">
+                                                <select name="faculty" class="form-control" >
+                                                    {% for key, d in faculty.items %}
+                                                        <option value="{{d.id}}">{{d.fname}} {{d.lname}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a type="button" class="btn btn-light waves-effect" data-bs-dismiss="modal">Close</a>
+                                        <button type="submit" class="btn btn-primary waves-effect waves-light">Assign</button>
+                                    </div>
+                                </form>
+
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div>
+                </center>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div> 
+
+{% endblock body %}
+
+
+
+
+
+

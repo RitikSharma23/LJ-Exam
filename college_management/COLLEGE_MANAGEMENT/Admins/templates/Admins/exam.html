@@ -1,4 +1,4 @@
-{% extends 'SubadminPartials/layout.html' %}
+{% extends 'AdminPartials/layout.html' %}
 {% load static %}
 {% block page_title %}
   {{ page_title }}
@@ -37,11 +37,11 @@
 <div class="row">
     <div class="col-12">
         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-            <h4 class="mb-sm-0">Exam <a href="{% url 'Subadmin-add-exam' %}" class="btn btn-success">Add New Exam</a></h4>
+            <h4 class="mb-sm-0">Exam >Add New Exam</a></h4>
 
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="javascript: void(0);">Subadmin</a></li>
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Admin</a></li>
                     <li class="breadcrumb-item active">All Exam</li>
                 </ol>
             </div>
@@ -95,13 +95,14 @@
                             {% endif %}
 
                             <td>
-                                <a class="btn btn-info btn-sm dropdown-toggle" href="/Subadmin-view-exam?id={{d.id}}">View</a>
+                                <a class="btn btn-info btn-sm dropdown-toggle" href="/Admins-view-exam?id={{d.id}}">View</a>
                             </td>
                         </tr>
                     {% endfor %}
 
                     </tbody>
                 </table>
+
             </div>
         </div>
     </div>

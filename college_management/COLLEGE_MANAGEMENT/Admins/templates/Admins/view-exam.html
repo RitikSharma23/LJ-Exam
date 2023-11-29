@@ -37,7 +37,7 @@
 <div class="row">
     <div class="col-12">
         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-            <h4 class="mb-sm-0">Exam <a href="{% url 'Subadmin-add-exam' %}" class="btn btn-success">Add New Exam</a></h4>
+            <h4 class="mb-sm-0">View Exam</h4>
 
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
@@ -62,46 +62,81 @@
                     <thead class="mt-5">
                     <tr>
                         <th>Batch</th>
+                        <th>Subject Code</th>
+                        <th>Subject Name</th>
                         <th>Type</th>
-                        <th>Season</th>
-                        <th>Approved</th>
-                        <th>Exam Status</th>
-                        <th>Action</th>
-
-                        
+                        <th>Enrollment</th>
+                        <th>Seat</th>
+                        <th>Payment Status</th>                        
                     </tr>
                     </thead>
 
 
                     <tbody>
 
-                    {% for key, d in data.items %}
+                    {% for key, d in data.student_data.items %}
 
                          <tr>
-                            <td>{{ d.batch }}</td>
+                            <td>{{ d.fname }}</td>
+                            <td>{{ d.subject }}</td>
+                            <td>{{ d.name }}</td>
                             <td>{{ d.type }}</td>
-                            <td>{{ d.season }}</td>
+                            <td>{{ d.enrollment }}</td>
+                            <td>{{ d.seat }}</td>
 
-                            {% if d.is_approved %}
-                            <td>Approved</td>
-                            {% else %}
-                            <td>Pending</td>
-                            {% endif %}
-
-                            {% if d.is_completed %}
+                            {% if d.is_paid %}
                             <td>Completed</td>
                             {% else %}
                             <td>Pending</td>
                             {% endif %}
-
-                            <td>
-                                <a class="btn btn-info btn-sm dropdown-toggle" href="/Subadmin-view-exam?id={{d.id}}">View</a>
-                            </td>
                         </tr>
                     {% endfor %}
 
                     </tbody>
                 </table>
+                
+                {% if not data.is_approved %}
+
+
+                <center>
+                    <form action="/Admins-approve-exam/" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="id" value="{{data.id}}">
+                        <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal">Reject Exam</a>
+                        <button type="submit" class="btn btn-success">Approve Exam</button>
+                    </form>
+                </center>
+
+                {% endif %}
+
+                <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title mt-0" id="myModalLabel">Reject Exam</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form action="/Admins-reject-exam/" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="id" value="{{data.id}}">
+                                <div class="modal-body">
+                                    <h5>Please Enter Reason For Rejection</h5>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3 valid">
+                                            <input type="text" name="comment" class="form-control" placeholder="Reason">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light waves-effect" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary waves-effect waves-light">Reject Exam</button>
+                                </div>
+                            </form>
+
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div>
+                 
             </div>
         </div>
     </div>
