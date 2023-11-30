@@ -3,8 +3,9 @@ from django.contrib import admin
 from django.urls import path,include
 from .views import *
 
-uname='Student'
+u='Student'
 
 urlpatterns = [
-    path(f"{uname}-Dashboard/", dashboard, name=f"{uname}-Dashboard"),
+    path(f"{u}-dashboard/", dashboard, name=f"{u}-dashboard"),
+    path(f"{u}-profile/", profile, name=f"{u}-profile"),
 ]

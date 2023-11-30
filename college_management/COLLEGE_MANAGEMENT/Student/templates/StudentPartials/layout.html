@@ -7,10 +7,7 @@
   <title>{{ title }} | LJ University</title>
 
   <link rel="shortcut icon" href="https://www.ljku.edu.in/web/image/res.company/1/institute_meta_image">
-  {% include 'Partials/HeaderStyle.html' %}
-
-
- 
+  {% include 'StudentPartials/HeaderStyle.html' %}
 
 </head>
 
@@ -18,8 +15,8 @@
 
   <div id="layout-wrapper">
 
-    {% include 'Partials/Header.html' %}
-    {% include 'Partials/Sidebar.html' %}
+    {% include 'StudentPartials/Header.html' %}
+    {% include 'StudentPartials/Sidebar.html' %}
 
     <div class="main-content">
       <div class="page-content">
@@ -30,8 +27,8 @@
 
 
            {% block HeaderCss %}
-aszxc
-  {% endblock %}
+
+           {% endblock %}
 
           {% block body %}
 
@@ -39,14 +36,14 @@ aszxc
           {% endblock %}
         </div>
       </div>
-      {% include 'Partials/Footer.html' %}
+      {% include 'StudentPartials/Footer.html' %}
     </div>
   </div>
 
   
 
-  {% include 'Partials/Rightbar.html' %}
-  {% include 'Partials/VendorScript.html' %}
+  {% include 'StudentPartials/Rightbar.html' %}
+  {% include 'StudentPartials/VendorScript.html' %}
 
   {% block FooterJs %}
 
