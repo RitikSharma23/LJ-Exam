@@ -1,0 +1,212 @@
+{% extends 'FacultyPartials/layout.html' %}
+{% load static %}
+{% block page_title %}
+  {{ page_title }}
+{% endblock page_title %}
+
+{% block HeaderCss %}
+<link href="{%static 'assets/libs/admin-resources/rwd-table/rwd-table.min.css'%}" rel="stylesheet" type="text/css" />
+<link href="{%static '/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css'%}" rel="stylesheet" type="text/css" />
+<link href="{%static '/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css'%}" rel="stylesheet" type="text/css" />
+<link href="{%static '/assets/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css'%}" rel="stylesheet" type="text/css" />
+<link href="{%static '/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css'%}" rel="stylesheet" type="text/css" /> 
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+{% endblock HeaderCss %}
+
+{% block BottomJs %}
+
+{% endblock BottomJs %}
+
+
+{% block breadcrumb %}
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0">Verify Excel</a></h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Subadmin</a></li>
+                    <li class="breadcrumb-item active">All student</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock breadcrumb %}
+
+
+{% block body %}
+<div class="row">
+
+
+  <div class="row">
+      <div class="col-lg-2">
+          <div class="mb-3 valid">
+              <label class="form-label" for="year">Sem</label>
+              <input type="text" name="sem" value="{{data.sem}}" disabled class="form-control" id="sem">
+          </div>
+      </div>
+
+      <div class="col-lg-2">
+          <div class="mb-3 valid">
+              <label class="form-label" for="branch">Batch</label>
+              <input type="text" name="batch" value="{{data.batch}}" disabled class="form-control" id="batch">
+          </div>
+      </div>
+
+      <div class="col-lg-2">
+          <div class="mb-3 valid">
+              <label class="form-label" for="year">Type</label>
+              <input type="text" name="type" value="{{data.type}}" disabled class="form-control" id="type">
+          </div>
+      </div>
+
+      <div class="col-lg-2">
+          <div class="mb-3 valid">
+              <label class="form-label" for="course">Season</label>
+              <input type="text" name="season" value="{{data.season}}" disabled class="form-control" id="season">
+          </div>
+      </div>
+
+  </div>
+
+
+        
+
+
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="post" action="{% url 'update_marks' document_id=data.id %}">
+                {% csrf_token %}    
+                <table id="datatable-buttons" class="mt-lg-5 table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0;margin-top:40px; width: 100%;">
+                    <thead class="mt-5">
+                    <tr>
+                        <th>Seat</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Div</th>
+                        <th>Total Marks</th>
+                        <th>Obtained Marks</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for enrollment, d in data.student_data.items %}
+                            <tr>
+                                <td>{{ d.seat }}</td>
+                                <td>{{ d.fname }}</td>
+                                <td>{{ d.type }}</td>
+                                <td>{{ d.div }}</td>
+                                <td>{{ d.total }}</td>
+                                <td><input type="number" value="{{d.marks}}" name="marks" style="width: 100px;" min="0" max="{{ d.total }}" oninput="validateNumber(this)"></td>
+                            </tr>
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+                <input type="submit" value="Update Marks">
+            </form>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<center>
+  <button class="btn btn-success" id="submit" onClick="submitData()" >Submit</button>
+</center>
+
+
+
+
+
+<script>
+    function validateNumber(input) {
+        var min = parseInt(input.min);
+        var max = parseInt(input.max);
+        var value = parseInt(input.value);
+
+        if (value < min || isNaN(value)) {
+            input.value = min;
+        } else if (value > max) {
+            input.value = max;
+        }
+    }
+
+
+    $(document).ready(function() {
+        $('input[type="checkbox"]').change(function() {
+            var isChecked = $(this).prop("checked");
+            var inputField = $(this).closest('tr').find('input[name="price"]');
+            
+            inputField.prop('disabled', !isChecked);
+            
+            if (!isChecked) {
+                inputField.val('');
+            }
+        });
+    });
+
+      function submitData() {
+            var table = document.getElementById('datatable-buttons');
+            var data = [];
+
+            for (var i = 1; i < table.rows.length; i++) {
+                var row = table.rows[i];
+                var checkbox = row.cells[0].querySelector('input[type="checkbox"]');
+                var codeType = row.cells[1].querySelector('input[type="text"]').value;
+                var total = row.cells[2].innerText;
+                var pass = row.cells[3].innerText;
+                var code = row.cells[4].innerText;
+                var name = row.cells[5].innerText;
+                var date = row.cells[6].querySelector('input[type="datetime-local"]').value;
+                var price = row.cells[7].querySelector('input[type="number"]').value;
+
+                if (checkbox.checked) {
+                    data.push({
+                        type: codeType,
+                        total:total,
+                        pass:pass,
+                        code: code,
+                        name: name,
+                        date: date,
+                        price: price
+                    });
+                }
+            }
+
+
+            finaldata={
+                sem:$("#sem").val(),
+                batch:$("#batch").val(),
+                type:$("#type").val(),
+                season:$("#season").val(),
+                subjects:data
+            }
+            console.log(finaldata);
+
+        $.ajax({
+            type: "POST",
+            url: "/insert_exam_POST/",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(finaldata) ,
+            success: function (response) {
+                if(response.status==true){
+                    location.replace("/Subadmin-exam/")
+                }
+            },
+            error: function (error) {
+                return
+            }
+        });
+        }
+</script>
+
+
+{% endblock body %}

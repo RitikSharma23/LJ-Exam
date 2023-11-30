@@ -44,7 +44,7 @@ urlpatterns = [
     path(f"{u}-add-exam-post/", exam_POST, name=f"{u}-exam-post"),
     path(f"{u}-view-exam/", viewexam_edit_GET, name=f"{u}-view-exam"),
     path(f"{u}-reject-exam/", rejectexam_edit_GET, name=f"{u}-reject-exam"),
-    path(f"{u}-reject-exam/", rejectexam_edit_GET, name=f"{u}-reject-exam"),
+    path(f"{u}-approve-exam/", approveexam_edit_GET, name=f"{u}-approve-exam"),
 
     
     path(f"{u}-edit-exam/", exam_edit_GET, name=f"{u}-edit-exam"),

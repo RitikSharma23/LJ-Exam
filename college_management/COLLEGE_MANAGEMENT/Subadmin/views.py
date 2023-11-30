@@ -347,7 +347,9 @@ def insert_exam_POST(request):
           d['type'] = i['type']
           d['date'] = str(datetime.strptime(i['date'], "%Y-%m-%dT%H:%M").date())
           d['time'] = str(datetime.strptime(i['date'], "%Y-%m-%dT%H:%M").time())
-          d['price'] = i['price']
+          d['price'] = i['price'] 
+          d['total'] = i['total'] 
+          d['pass'] = i['pass'] 
           d['is_paid'] = False
           d['marks'] = 0
           d['is_pass'] = False

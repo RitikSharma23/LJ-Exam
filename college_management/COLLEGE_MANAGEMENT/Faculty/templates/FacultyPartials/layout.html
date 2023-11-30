@@ -1,0 +1,59 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>{{ title }} | LJ University</title>
+
+  <link rel="shortcut icon" href="https://www.ljku.edu.in/web/image/res.company/1/institute_meta_image">
+  {% include 'FacultyPartials/HeaderStyle.html' %}
+
+</head>
+
+<body data-sidebar="dark">
+
+  <div id="layout-wrapper">
+
+    {% include 'FacultyPartials/Header.html' %}
+    {% include 'FacultyPartials/Sidebar.html' %}
+
+    <div class="main-content">
+      <div class="page-content">
+        <div class="container-fluid">
+          {% block breadcrumb %}
+
+          {% endblock %}
+
+
+           {% block HeaderCss %}
+
+           {% endblock %}
+
+          {% block body %}
+
+
+          {% endblock %}
+        </div>
+      </div>
+      {% include 'FacultyPartials/Footer.html' %}
+    </div>
+  </div>
+
+  
+
+  {% include 'FacultyPartials/Rightbar.html' %}
+  {% include 'FacultyPartials/VendorScript.html' %}
+
+  {% block FooterJs %}
+
+  {% endblock %}
+
+  <script src="{% static 'assets/js/app.js' %}"></script>
+
+  {% block BottomJs %}
+
+  {% endblock %}
+</body>
+
+</html>

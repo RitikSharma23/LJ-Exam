@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'Superadmin',
     'Admins',
     'Subadmin',
+    'Faculty',
     'Home',
 
     # My Apps
