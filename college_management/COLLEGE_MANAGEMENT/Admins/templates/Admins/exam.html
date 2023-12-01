@@ -90,13 +90,19 @@
 
                             {% if d.is_completed %}
                             <td>Completed</td>
+
+                            <td>
+                                <a class="btn btn-info btn-sm dropdown-toggle" href="/Admins-enter-marks?id={{d.id}}">View</a>
+                            </td>
+
                             {% else %}
                             <td>Pending</td>
-                            {% endif %}
 
                             <td>
                                 <a class="btn btn-info btn-sm dropdown-toggle" href="/Admins-view-exam?id={{d.id}}">View</a>
                             </td>
+                            {% endif %}
+
                         </tr>
                     {% endfor %}
 

@@ -78,6 +78,8 @@
 
                     {% for key, d in data.items %}
 
+                        {% if not d.is_marks %}
+
                          <tr>
                             <td>{{ d.batch }}</td>
                             <td>{{ d.type }}</td>
@@ -92,6 +94,9 @@
                             </td>
 
                         </tr>
+
+                        {% endif %}
+
                     {% endfor %}
 
                     </tbody>

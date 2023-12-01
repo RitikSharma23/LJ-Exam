@@ -74,15 +74,12 @@
   </div>
 
 
-        
-
-
-
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <form method="post" action="{% url 'update_marks' document_id=data.id %}">
+                <form method="post" action="/Admins-approve-marks/">
                 {% csrf_token %}    
+                <input type="hidden" name="id" value="{{data.id}}">
                 <table id="datatable-buttons" class="mt-lg-5 table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0;margin-top:40px; width: 100%;">
                     <thead class="mt-5">
                     <tr>
@@ -109,7 +106,7 @@
                     </tbody>
                 </table>
                 <center>
-                    <input class="btn btn-success" type="submit" value="Update Marks">
+                    <input class="btn btn-success" type="submit" value="Approve Marks">
                 </center>
             </form>
             </div>
@@ -139,73 +136,6 @@
         }
     }
 
-
-    $(document).ready(function() {
-        $('input[type="checkbox"]').change(function() {
-            var isChecked = $(this).prop("checked");
-            var inputField = $(this).closest('tr').find('input[name="price"]');
-            
-            inputField.prop('disabled', !isChecked);
-            
-            if (!isChecked) {
-                inputField.val('');
-            }
-        });
-    });
-
-      function submitData() {
-            var table = document.getElementById('datatable-buttons');
-            var data = [];
-
-            for (var i = 1; i < table.rows.length; i++) {
-                var row = table.rows[i];
-                var checkbox = row.cells[0].querySelector('input[type="checkbox"]');
-                var codeType = row.cells[1].querySelector('input[type="text"]').value;
-                var total = row.cells[2].innerText;
-                var pass = row.cells[3].innerText;
-                var code = row.cells[4].innerText;
-                var name = row.cells[5].innerText;
-                var date = row.cells[6].querySelector('input[type="datetime-local"]').value;
-                var price = row.cells[7].querySelector('input[type="number"]').value;
-
-                if (checkbox.checked) {
-                    data.push({
-                        type: codeType,
-                        total:total,
-                        pass:pass,
-                        code: code,
-                        name: name,
-                        date: date,
-                        price: price
-                    });
-                }
-            }
-
-
-            finaldata={
-                sem:$("#sem").val(),
-                batch:$("#batch").val(),
-                type:$("#type").val(),
-                season:$("#season").val(),
-                subjects:data
-            }
-            console.log(finaldata);
-
-        $.ajax({
-            type: "POST",
-            url: "/insert_exam_POST/",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(finaldata) ,
-            success: function (response) {
-                if(response.status==true){
-                    location.replace("/Subadmin-exam/")
-                }
-            },
-            error: function (error) {
-                return
-            }
-        });
-        }
 </script>
 
 

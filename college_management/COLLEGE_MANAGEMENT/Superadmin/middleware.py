@@ -6,12 +6,12 @@ from django.shortcuts import redirect
 class LoginCheckMiddleWare(MiddlewareMixin):
     def process_view(self, request, view_func, view_args, view_kwargs):
         modulename = view_func.__module__
-        # print("=========================",modulename)
+        print("=========================",modulename)
         user = {}
 
         for key, value in request.session.items():
             user[key] = value
-        # print(user)
+        print(user)
         
         try:
             if user['is_authenticated']:

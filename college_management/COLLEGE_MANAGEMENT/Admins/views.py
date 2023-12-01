@@ -207,6 +207,8 @@ def marks_GET(request):
   # return render(request,f'{uname}/edit-exam.html',{'title':'exam'})
   return render(request,f'{uname}/add-marks.html',{'title':'marks','data':data})
 
+
+
 @csrf_exempt
 def marks_POST(request):
   data = json.loads(request.body.decode('utf-8'))
@@ -336,6 +338,16 @@ def viewexam_edit_GET(request):
   return render(request,f'{uname}/view-exam.html',{'title':'exam','data':data})
 
 
+def entermarks_GET(request):
+  collection = db["exams"]
+  results = collection.find({'_id':ObjectId(request.GET['id'])})
+  data={}
+  for document in results:
+    document['id']=str(document['_id'])
+    data[str(document['_id'])]=document
+  return render(request,f'{uname}/enter-marks.html',{'title':'marksentry','data':data[request.GET['id']]})
+
+
 def rejectexam_edit_GET(request):
   data=(request.POST)
   collection = db["exams"]
@@ -351,6 +363,15 @@ def approveexam_edit_GET(request):
   collection = db["exams"]
   data_to_insert = {"$set":{
      "is_approved": True,
+  }}
+  result = collection.update_one({"_id":ObjectId(request.POST['id'])}, data_to_insert) 
+  return redirect(f'/{uname}-exam/')
+
+def approvemarks_edit_GET(request):
+  data=(request.POST)
+  collection = db["exams"]
+  data_to_insert = {"$set":{
+     "is_marks": True,
   }}
   result = collection.update_one({"_id":ObjectId(request.POST['id'])}, data_to_insert) 
   return redirect(f'/{uname}-exam/')
