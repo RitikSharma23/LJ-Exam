@@ -31,6 +31,51 @@ def getbranch(branch):
 def dashboard(request):
   return render(request,f'{uname}/dashboard.html',{'title':'Dashboard'})
 
+
+
+
+def profile(request):
+  collection = db["users"]
+  results = collection.find({'email':request.session.get("email")})
+  data={}
+  for document in results:
+    document['id']=str(document['_id'])
+    data=document
+  return render(request,f'{uname}/profile.html',{'title':'profile','data':data})
+
+
+
+
+
+def profile_edit_GET(request):
+  
+  collection = db["users"]
+  results = collection.find({'email':request.session.get("email")})
+  data={}
+  for document in results:
+    document['id']=str(document['_id'])
+    data=document
+
+
+  return render(request,f'{uname}/edit-profile.html',{'title':'edit-profile','data':data})
+
+
+def profile_edit_POST(request):
+  
+  data=(request.POST)
+  collection = db["users"]
+  data_to_insert = {"$set":{
+     "fname": data['fname'],
+     "lname": data['lname'],
+     "address": data['address'],
+     "email": data['email'],
+     "phone": data['phone'],
+     
+  }}
+  result = collection.update_one({"_id":ObjectId(request.POST['id'])}, data_to_insert) 
+  return redirect('/Admins-profile/')
+
+
 def subadmins(request):
   collection = db["users"]
   results = collection.find({'role': 'Subadmin'})

@@ -41,7 +41,7 @@
     }
 
     function disableAllSteps() {
-        document.getElementById("step1").classList.add("disabled");
+        // document.getElementById("step1").classList.add("disabled");
         document.getElementById("step2").classList.add("disabled");
         document.getElementById("step3").classList.add("disabled");
     }
@@ -60,51 +60,51 @@
         disableAllSteps();
     }
 
-    var KTModalCustomersAdd = function () {
-        var t, e, o, n, r, i;
-        return {
-            init: function () {
-                r = document.querySelector("#oneform");
-                t = r.querySelector("#onesubmit");
-                n = FormValidation.formValidation(r, {
-                    fields: {
-                        branch: {
-                            validators: {
-                                notEmpty: {
-                                    message: "Please Select Branch"
-                                }
-                            }
-                        },
-                    },
-                    plugins: {
-                        trigger: new FormValidation.plugins.Trigger(),
-                        bootstrap: new FormValidation.plugins.Bootstrap5({
-                            rowSelector: ".valid",
-                            eleInvalidClass: "",
-                            eleValidClass: ""
-                        })
-                    }
-                });
-                t.addEventListener("click", function (e) {
-                    e.preventDefault();
-                    n &&
-                        n.validate().then(function (e) {
-                            console.log("validated!");
-                            if (e === "Valid") {
-                                //t.setAttribute("data-kt-indicator", "on");
-                                //t.disabled = true;
-                                setTimeout(function () {
-                                    $('#step2').removeClass("disabled");
-                                    $('#nextclick').click()
-                                }, 0);
-                            } else {
-                                erroralert("Please Fill All The Required Details");
-                            }
-                        });
-                });
-            }
-        };
-    }();
+    // var KTModalCustomersAdd = function () {
+    //     var t, e, o, n, r, i;
+    //     return {
+    //         init: function () {
+    //             r = document.querySelector("#oneform");
+    //             t = r.querySelector("#onesubmit");
+    //             n = FormValidation.formValidation(r, {
+    //                 fields: {
+    //                     branch: {
+    //                         validators: {
+    //                             notEmpty: {
+    //                                 message: "Please Select Branch"
+    //                             }
+    //                         }
+    //                     },
+    //                 },
+    //                 plugins: {
+    //                     trigger: new FormValidation.plugins.Trigger(),
+    //                     bootstrap: new FormValidation.plugins.Bootstrap5({
+    //                         rowSelector: ".valid",
+    //                         eleInvalidClass: "",
+    //                         eleValidClass: ""
+    //                     })
+    //                 }
+    //             });
+    //             t.addEventListener("click", function (e) {
+    //                 e.preventDefault();
+    //                 n &&
+    //                     n.validate().then(function (e) {
+    //                         console.log("validated!");
+    //                         if (e === "Valid") {
+    //                             //t.setAttribute("data-kt-indicator", "on");
+    //                             //t.disabled = true;
+    //                             setTimeout(function () {
+    //                                 $('#step2').removeClass("disabled");
+    //                                 $('#nextclick').click()
+    //                             }, 0);
+    //                         } else {
+    //                             erroralert("Please Fill All The Required Details");
+    //                         }
+    //                     });
+    //             });
+    //         }
+    //     };
+    // }();
 
     var KTModalCustomersAdd2 = function () {
         var t, e, o, n, r, i;
@@ -245,7 +245,7 @@
     }();
 
     KTUtil.onDOMContentLoaded(function () {
-        KTModalCustomersAdd.init();
+        // KTModalCustomersAdd.init();
         KTModalCustomersAdd2.init();
         KTModalCustomersAdd3.init();
     });
@@ -292,52 +292,28 @@
                 <h4 class="card-title mb-4">Add New Faculty</h4>
                 <div id="basic-pills-wizard" class="twitter-bs-wizard">
                     <ul class="twitter-bs-wizard-nav">
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a href="#seller-details" id="step1" class="nav-link" data-toggle="tab">
                             <span class="step-number">01</span>
                             <span class="step-title">Branch Details</span>
                         </a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
-                        <a href="#company-document" id="step2" class="nav-link disabled" data-toggle="tab">
-                            <span class="step-number">02</span>
+                        <a href="#company-document" id="step2" class="nav-link " data-toggle="tab">
+                            <span class="step-number">01</span>
                             <span class="step-title">Profile Details</span>
                         </a>
                     </li>                        
                     <li class="nav-item">
                         <a href="#address-detail" id="step3" class="nav-link disabled" data-toggle="tab">
-                            <span class="step-number">03</span>
+                            <span class="step-number">02</span>
                             <span class="step-title">Address Details</span>
                         </a>
                     </li>
                 </ul>
 
                     <div class="tab-content twitter-bs-wizard-tab-content">
-                        <div class="tab-pane justify-content-center" id="seller-details">
-                            <form  id="oneform">
-                                <div class="row justify-content-center">
-                                    <div class="col-lg-6">
-                                        <div class="text-center">
-                                            <div>
-                                                <h5>Select Branch</h5>
-                                                <div class="mb-3 valid">
-                                                    <select class="form-select" name="branch">
-                                                        <option value="">Select Branch</option>
-                                                        {% for key, d in branch.items %}
-                                                            <option value="{{d.code}}">{{d.name}}</option>                       
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <ul class="pager wizard twitter-bs-wizard-pager-link">
-                                    <li id='onesubmit' class="float-end"><a href="javascript: void(0);">Next</a></li>
-                                </ul>
-                            </form>                                
-
-                        </div>
+        
                         <div class="tab-pane" id="company-document">
                         <div>
                             <form id="twoform">
@@ -372,7 +348,7 @@
                                     </div>
                                 </div>
                                     <ul class="pager wizard twitter-bs-wizard-pager-link">
-                                        <li class="previous" onclick="prev('step1')"><a href="javascript: void(0);">Previous</a></li>
+                                        <!-- <li class="previous" onclick="prev('step1')"><a href="javascript: void(0);">Previous</a></li> -->
                                         <li id='twosubmit' class="float-end"><a href="javascript: void(0);">Next</a></li>
                                     </ul>
                             </form>

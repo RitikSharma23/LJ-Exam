@@ -103,12 +103,45 @@ def email(request):
   return render(request,f'{uname}/email.html',{'title':'email'})
 
 def profile(request):
-  return render(request,f'{uname}/profile.html',{'title':'profile'})
+  collection = db["users"]
+  results = collection.find({'email':request.session.get("email")})
+  data={}
+  for document in results:
+    document['id']=str(document['_id'])
+    data=document
+  return render(request,f'{uname}/profile.html',{'title':'profile','data':data})
+
+
+
 
 
 def profile_edit_GET(request):
   
-  return render(request,f'{uname}/edit-profile.html',{'title':'edit-profile'})
+  collection = db["users"]
+  results = collection.find({'email':request.session.get("email")})
+  data={}
+  for document in results:
+    document['id']=str(document['_id'])
+    data=document
+
+
+  return render(request,f'{uname}/edit-profile.html',{'title':'edit-profile','data':data})
+
+
+def profile_edit_POST(request):
+  
+  data=(request.POST)
+  collection = db["users"]
+  data_to_insert = {"$set":{
+     "fname": data['fname'],
+     "lname": data['lname'],
+     "address": data['address'],
+     "email": data['email'],
+     "phone": data['phone'],
+     
+  }}
+  result = collection.update_one({"_id":ObjectId(request.POST['id'])}, data_to_insert) 
+  return redirect('/Superadmin-profile/')
 
 
 
@@ -278,3 +311,22 @@ def logout(request):
      
   return redirect('/') 
 
+
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+
+
+@csrf_exempt
+def upload_image(request):
+  print(request.GET['url'])
+
+  collection = db["users"]
+  data_to_insert = {"$set":{
+     "profile_pic": request.GET['url'],
+  }}
+  results = collection.update_one({"email":request.session.get("email")}, data_to_insert)
+  request.session['profile_pic'] = request.GET['url']
+  if results:
+    return JsonResponse({'status': True})
+  else:
+    return JsonResponse({'status': False}) 

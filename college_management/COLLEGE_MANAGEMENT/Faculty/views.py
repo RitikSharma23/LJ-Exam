@@ -29,8 +29,18 @@ def dashboard(request):
   return render(request,f'{uname}/dashboard.html',{'title':'Dashboard'})
 
 
+
 def profile(request):
-  return render(request,f'{uname}/profile.html',{'title':'profile'})
+  collection = db["users"]
+  results = collection.find({'email':request.session.get("email")})
+  data={}
+  for document in results:
+    document['id']=str(document['_id'])
+    data=document
+  return render(request,f'{uname}/profile.html',{'title':'profile','data':data})
+
+
+
 
 
 def profile_edit_GET(request):

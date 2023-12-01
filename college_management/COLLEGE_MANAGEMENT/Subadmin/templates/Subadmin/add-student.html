@@ -1,0 +1,173 @@
+{% extends 'SubadminPartials/layout.html' %}
+{% load static %}
+{% block page_title %}
+  {{ page_title }}
+{% endblock page_title %}
+
+{% block HeaderCss %}
+    <link rel="stylesheet" href="{% static 'assets/libs/twitter-bootstrap-wizard/prettify.css'%}">
+    <link rel="stylesheet" href="{% static 'assets/js/plugins.bundle.css'%}">
+{% endblock HeaderCss %}
+
+{% block BottomJs %}
+<script src="{%static 'assets/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js'%}"></script>
+<script src="{%static 'assets/libs/twitter-bootstrap-wizard/prettify.js'%}"></script>
+<script src="{%static 'assets/js/pages/form-wizard.init.js'%}"></script>
+
+<script src="{%static 'assets/libs/inputmask/jquery.inputmask.min.js'%}"></script>
+<script src="{%static 'assets/js/pages/form-mask.init.js'%}"></script>
+<script src="{%static 'assets/js/scripts.bundle.js'%}"></script>
+
+
+
+
+
+{% endblock BottomJs %}
+
+
+{% block breadcrumb %}
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0">add new Student</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Student</a></li>
+                    <li class="breadcrumb-item active">New Student</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock breadcrumb %}
+
+
+{% block body %}
+
+
+<div class="row">
+
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Add New Student</h4>
+                <div id="basic-pills-wizard" class="twitter-bs-wizard">
+                    <ul class="twitter-bs-wizard-nav">
+                   
+                    <li class="nav-item">
+                        <a href="#company-document" id="step2" class="nav-link" data-toggle="tab">
+                            <span class="step-number">01</span>
+                            <span class="step-title">Profile Details</span>
+                        </a>
+                    </li>                        
+                    
+                </ul>
+
+                    <div class="tab-content twitter-bs-wizard-tab-content">
+                     
+                        <div class="tab-pane" id="company-document">
+                        <div>
+                            <form id="twoform"  action="/Subadmin-add-student-post/" method="POST">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3 valid">
+                                            <label class="form-label" for="basicpill-pancard-input">First Name</label>
+                                            <input type="text" name="fname" class="form-control" id="basicpill-pancard-input">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="mb-3 valid">
+                                            <label class="form-label" for="basicpill-vatno-input">Last Name</label>
+                                            <input type="text" name="lname" class="form-control" id="basicpill-vatno-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3 valid">
+                                            <label class="form-label" for="basicpill-cstno-input">Gender</label>
+                                            <select class="form-select" name="gender">
+                                                <option value="">--Select Gender--</option>
+                                                
+                                                    <option value="Male">Male</option>                       
+                                                    <option value="Female">Female</option>                       
+                                                    <option value="Other">Other</option>                       
+                                                
+                                            </select>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3 valid">
+                                            <label class="form-label" for="basicpill-cstno-input">Email</label>
+                                            <input type="text" name="email" class="form-control input-mask" data-inputmask="'alias': 'email'" id="basicpill-cstno-input">
+                                        </div>
+                                    </div>
+
+                                    
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3 valid">
+                                            <label class="form-label" for="basicpill-servicetax-input">Phone</label>
+                                            <input type="text" name="phone" class="form-control input-mask" data-inputmask="'mask': '9999999999'" id="basicpill-servicetax-input">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="mb-3 valid">
+                                            <label class="form-label" for="basicpill-cstno-input">Aadhar</label>
+                                            <input type="text" name="aadhar" class="form-control input-mask" data-inputmask="'mask': '999999999999'" id="basicpill-cstno-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3 valid">
+                                            <label class="form-label" for="basicpill-cstno-input">Division</label>
+                                            <input type="text" name="div" class="form-control input-mask" data-inputmask="'mask': 'A'" id="basicpill-cstno-input">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="mb-3 valid">
+                                            <label class="form-label" for="basicpill-servicetax-input">Batch Year</label>
+                                            <input type="text" name="start_year" class="form-control input-mask" data-inputmask="'mask': '9999'" id="basicpill-servicetax-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                    <ul class="pager wizard twitter-bs-wizard-pager-link">
+                                       
+                                        <center><button  type="submit" class="btn btn-success">Submit</button>
+                                        </ul></center> 
+                            </form>
+
+                            
+                        </div>
+                        </div>
+                      
+                        
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="{% static 'assets/js/plugins.bundle.js'%}"></script>
+
+{% endblock body %}
+
+
+
+
+
+
