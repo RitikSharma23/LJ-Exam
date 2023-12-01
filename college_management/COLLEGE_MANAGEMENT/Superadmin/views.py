@@ -311,3 +311,22 @@ def logout(request):
      
   return redirect('/') 
 
+
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+
+
+@csrf_exempt
+def upload_image(request):
+  print(request.GET['url'])
+
+  collection = db["users"]
+  data_to_insert = {"$set":{
+     "profile_pic": request.GET['url'],
+  }}
+  results = collection.update_one({"email":request.session.get("email")}, data_to_insert)
+  request.session['profile_pic'] = request.GET['url']
+  if results:
+    return JsonResponse({'status': True})
+  else:
+    return JsonResponse({'status': False}) 

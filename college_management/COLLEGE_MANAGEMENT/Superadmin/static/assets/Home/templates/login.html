@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+    <title>Log In | CRPS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Themesbrand" name="author" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="public/assets/images/favicon.ico">
+
+    {% include 'Partials/HeaderStyle.html' %}
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.17/dist/sweetalert2.min.css">
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+
+
+</head>
+
+<body class="authentication-bg" style="background-image:url('/static/images/banner/1.webp')">
+
+    <div class="home-btn d-none d-sm-block">
+        <a href="/" class="text-dark"><i class="mdi mdi-home-variant h2"></i></a>
+    </div>
+    <div class="account-pages my-5 pt-sm-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="text-center">
+                        <a href="/" class="mb-5 a-block auth-logo">
+                            <img src="/static/images/branding/aa.png" alt="" height="72" class="logo logo-dark">
+                            <img src="/static/images/branding/logo.png" alt="" height="72" class="logo logo-light">
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row align-items-center justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-5">
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <div class="text-center mt-2">
+                                <h5 class="text-primary">Welcome To Lj University !</h5>
+                                <p class="text-muted">Sign in to continue.</p>
+                            </div>
+                            <div class="p-2 mt-4">
+                              <form action="/post-login/" method="post">
+
+                                {% csrf_token %}
+                    
+                                    <div class="mb-3">
+                                        <label class="form-label" for="username">Email</label>
+                                        <input type="text" class="form-control" id="username" name="email"
+                                            placeholder="Enter email" >
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <div class="float-end">
+                                            <a href="/forgot-password-page" class="text-muted">Forgot password?</a>
+                                        </div>
+                                        <label class="form-label" for="userpassword">Password</label>
+                                        <input type="password" class="form-control" id="userpassword" name="password"
+                                            placeholder="Enter password" >
+                                    </div>
+
+                                    <div class="mt-3 text-end">
+                                        <button class="btn btn-primary w-sm waves-effect waves-light" id="loginbtn" type="submit">Log
+                                            In</button>
+                                    </div>
+<!-- 
+                                    <div class="mt-4 text-center">
+                                        <div class="signin-other-title">
+                                            <h5 class="font-size-14 mb-3 title">Sign in with</h5>
+                                        </div>
+
+                                        <ul class="list-inline">
+                                            <li class="list-inline-item">
+                                                <a href="javascript:void()"
+                                                    class="social-list-item bg-danger text-white border-danger">
+                                                    <i class="mdi mdi-google"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div> -->
+                                  </form>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </div>
+
+
+    {% include 'Partials/VendorScript.html' %}
+
+    <script src="/static/public/assets/js/app.js"></script>
+    <script src="/static/js/alert.js"></script>
+
+        {% if messages %}
+            {% for message in messages %}
+                <script>
+                    erroralert('{{ message }}')
+                </script>
+            {% endfor %}
+        {% endif %}
+
+
+</body>
+
+</html>

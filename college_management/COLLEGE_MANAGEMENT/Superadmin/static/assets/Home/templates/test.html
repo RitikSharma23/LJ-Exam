@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Upload</title>
+</head>
+<body>
+    <h1>Upload a File</h1>
+    <form method="post" enctype="multipart/form-data" action="{% url 'upload_file' %}" id="uploadForm">
+        {% csrf_token %}
+        <label for="fileInput" style="cursor: pointer;">
+            <span>Click here to upload a file</span>
+            <input type="file" name="file_uploaded" id="fileInput" style="display: none;" onchange="uploadFile()">
+        </label>
+    </form>
+
+    <script>
+        function uploadFile() {
+            // Trigger form submission
+            document.getElementById('uploadForm').submit();
+        }
+    </script>
+</body>
+</html>

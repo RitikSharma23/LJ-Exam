@@ -13,6 +13,7 @@ urlpatterns = [
 
      path(f"{u}-edit-profile/", profile_edit_GET, name=f"{u}-edit-profile"),
      path(f"{u}-edit-profile-post/", profile_edit_POST, name=f"{u}-edit-profile-post"),
+     path(f"upload_image/", upload_image, name=f"upload_image"),
     
     
     path(f"{u}-admins/", admins, name=f"{u}-admins"),

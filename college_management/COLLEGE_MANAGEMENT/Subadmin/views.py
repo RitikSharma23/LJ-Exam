@@ -152,7 +152,7 @@ def addfaculty_edit_POST(request):
      "address": data['address'],
      "email": data['email'],
      "phone": data['phone'],
-     "branch": data['branch'],
+     "branch": request.session.get("branch"),
 
   }}
   result = collection.update_one({"_id":ObjectId(request.POST['id'])}, data_to_insert) 
@@ -173,7 +173,7 @@ def student(request):
   for document in results:
     document['id']=str(document['_id'])
     data[str(document['_id'])]=document
-  return render(request,f'{uname}/student.html',{'title':'faculty','data':data})
+  return render(request,f'{uname}/student.html',{'title':'Student','data':data})
 
 
 
@@ -183,59 +183,159 @@ def addstudent_GET(request):
   
   return render(request,f'{uname}/add-student.html',{'title':'student','branch':branch})
 
+# def indaddstudent_POST(request):
+#   data=(request.POST)
+#   collection = db["students"]
+#   collection3 = db["students"]
+#   results_d = collection3.find({'branch': request.session.get("branch"), 
+#                                 'course': request.session.get("course"), 
+#                                 'start_year': int(data['start_year']).sort("enrollment", pymongo.DESCENDING).limit(1)})
+  
+#   li = []
+#   print(results_d[0])
+#   for i in results_d:      
+#       enrollment_value = i.get('enrollment', None)
+#       if enrollment_value and enrollment_value.isdigit():
+#           li.append(int(enrollment_value))  
+#   oe = str(max(li) + 1)
+#   collection2 = db["course"]
+#   results_c = collection2.find({'branch':request.session.get("branch"),'code':request.session.get("course")})
+#   data_c={}
+#   for document in results_c:
+#     document['id']=str(document['_id'])
+#     data_c=document
+
+#   data_to_insert = {
+#       'enrollment':oe,
+#       'fname':data['fname'],
+#       'lname':data['lname'],
+#       'div':data['div'],
+#       'email':data['email'],
+#       'gender':data['gender'],
+#       'aadhar':data['aadhar'],
+#       'phone':data['phone'],
+#       'start_year':int(data['start_year']),
+#       'end_year':int(data_c['year'])+int(data['start_year']),
+#       'branch':int(request.session.get("branch")),
+#       'total_year':int(data_c['year']),
+#       'course':int(request.session.get("course")),
+#       'total_sem':int(data_c['sem']),
+
+#      "profile_pic":'https://static.vecteezy.com/system/resources/thumbnails/009/734/564/small/default-avatar-profile-icon-of-social-media-user-vector.jpg',
+#   }
+#   result = collection.insert_one(data_to_insert)
+#   return redirect(f'/{uname}-student/')  
+
+import pymongo
+
+import pymongo
+
 def indaddstudent_POST(request):
-  data=(request.POST)
-  
-  collection = db["students"]
-  collection3 = db["students"]
-  results_d = collection3.find({'branch': request.session.get("branch"), 
-                                'course': request.session.get("course"), 
-                                'start_year': int(data['start_year'])})
-  
- 
-  li = []
+    data = request.POST
+    collection = db["students"]
+    collection3 = db["students"]
 
-  for i in results_d:
-      
-      enrollment_value = i.get('enrollment', None)
-      if enrollment_value and enrollment_value.isdigit():
-          li.append(int(enrollment_value))
-          
-  
-  oe = str(max(li) + 1)
+    filter={
+    'branch': 4, 
+    'course': 2,
+    
+    'start_year': int(data['start_year'])
+
+    }
+    project={
+        'enrollment': 1
+    }
+    sort=list({
+        'enrollment': -1
+    }.items())
+    limit=1
+
+    result = client['LJKU']['students'].find(
+    filter=filter,
+    projection=project,
+    sort=sort,
+    limit=limit
+    )
+
+    new_enroll=(int(result[0]['enrollment'])+1)
+
+    collection2 = db["course"]
+    results_c = collection2.find({
+        'branch': request.session.get("branch"),
+        'code': request.session.get("course")
+    })
+
+    data_c = {}
+
+    for document in results_c:
+        document['id'] = str(document['_id'])
+        data_c = document
+
+    data_to_insert = {
+        'enrollment': str(new_enroll),
+        'fname': data['fname'],
+        'lname': data['lname'],
+        'div': data['div'],
+        'email': data['email'],
+        'gender': data['gender'],
+        'aadhar': data['aadhar'],
+        'phone': data['phone'],
+        'start_year': int(data['start_year']),
+        'end_year': int(data_c['year']) + int(data['start_year']),
+        'branch': int(request.session.get("branch")),
+        'total_year': int(data_c['year']),
+        'course': int(request.session.get("course")),
+        'total_sem': int(data_c['sem']),
+        'address':'Ahmedabad',
+        "profile_pic": 'https://static.vecteezy.com/system/resources/thumbnails/009/734/564/small/default-avatar-profile-icon-of-social-media-user-vector.jpg',
+    }
+
+    result = collection.insert_one(data_to_insert)
+    return redirect(f'/{uname}-student/')
 
 
 
-  collection2 = db["course"]
-  results_c = collection2.find({'branch':request.session.get("branch"),'code':request.session.get("course")})
-  data_c={}
-  for document in results_c:
-    document['id']=str(document['_id'])
-    data_c=document
 
-  data_to_insert = {
-      'enrollment':oe,
-      'fname':data['fname'],
-      'lname':data['lname'],
-      'div':data['div'],
-      'email':data['email'],
-      'gender':data['gender'],
-      'aadhar':data['aadhar'],
-      'phone':data['phone'],
-      'start_year':int(data['start_year']),
-      'end_year':int(data_c['year'])+int(data['start_year']),
-      'branch':int(request.session.get("branch")),
-      'total_year':int(data_c['year']),
-      'course':int(request.session.get("course")),
-      'total_sem':int(data_c['sem']),
 
-     "profile_pic":'https://static.vecteezy.com/system/resources/thumbnails/009/734/564/small/default-avatar-profile-icon-of-social-media-user-vector.jpg',
-  }
-  result = collection.insert_one(data_to_insert)
-  return redirect(f'/{uname}-student/')  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def addstudent_edit_GET(request):
-  pass
+  collection = db["students"]
+  results = collection.find({'_id':ObjectId(request.GET['id'])})
+  data={}
+  for document in results:
+    document['id']=str(document['_id'])
+    data=document
+  
+  return render(request,f'{uname}/edit-student.html',{'title':'student','data':data})
+
+
+
+
+
+
 
 def addstudent_edit_POST(request):
   pass
@@ -351,30 +451,3 @@ def add_student_POST(request):
   except:
     return JsonResponse({'status': False})
 
-
-
-
-# collection3 = db["students"]
-# results_d = collection3.find({'branch':4,'course':2,'start_year':2021})
-# li=[]
-# for i in results_d:
-#   li.append(i['enrollment'])
-# print(li)
-# oe=max(li)+1
-
-# print(oe)
-
-
-
-# collection3 = db["students"]
-# results_d = collection3.find({'branch':(4), 
-#                               'course':(2), 
-#                               'start_year':(2021)})
-# li = []
-# for i in results_d:
-#     enrollment_value = i.get('enrollment', None)
-#     if enrollment_value and enrollment_value.isdigit():
-#         li.append(int(enrollment_value))
-
-# oe = str(max(li) + 1)
-# print(oe)

@@ -100,7 +100,7 @@
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="rounded-circle header-profile-user" src="{{request.session.profile_pic}}"
                         alt="Header Avatar">
-                    <span class="d-none d-xl-inline-block ms-1">{{data.fname}} {{data.lname}}</span>
+                    <span class="d-none d-xl-inline-block ms-1">{{request.session.fname}}</span>
                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">
